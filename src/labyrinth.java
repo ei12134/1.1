@@ -10,6 +10,8 @@ public class labyrinth {
 	// }
 
 	private static int posheroi = 11;
+	private static int posespada = 81;
+	static String[] heroeChar = { " H " };
 	static String[] labirinto = new String[100]; // Static char a[][]=....
 
 	public static void main(String[] args) {
@@ -65,6 +67,9 @@ public class labyrinth {
 		// Posição da Saida
 		labirinto[59] = " S ";
 
+		// Posicao da Espada
+		labirinto[posespada] = " E ";
+
 		DisplayLabyrinth();
 		HeroeMove();
 		DisplayLabyrinth();
@@ -94,40 +99,73 @@ public class labyrinth {
 			String right = "d";
 			if (input.equals(right) && (labirinto[posheroi + 1] != " X ")) {
 
-				if (labirinto[posheroi + 1] == " S ") {
-					input = quit;
+				if ((labirinto[posheroi + 1] == " S ")
+						&& (heroeChar[0] != " A ")) {
+					System.out.println("Sword missing!");
+
+				} else {
+					if (labirinto[posheroi + 1] == " E ") {
+						heroeChar[0] = " A ";
+					} else if (labirinto[posheroi + 1] == " S ") {
+						input = quit;
+					}
+
+					labirinto[posheroi] = "   ";
+					labirinto[posheroi + 1] = heroeChar[0];
+					posheroi++;
 				}
-				labirinto[posheroi] = "   ";
-				labirinto[posheroi + 1] = " H ";
-				posheroi++;
 
 			} else if (input.equals("a") && (labirinto[posheroi - 1] != " X ")) {
-				if (labirinto[posheroi - 1] == " S ") {
-					input = quit;
-				}
+				if ((labirinto[posheroi - 1] == " S ")
+						&& (heroeChar[0] == " A ")) {
+					System.out.println("Sword missing!");
+				} else {
+					if (labirinto[posheroi - 1] == " E ") {
 
-				labirinto[posheroi] = "   ";
-				labirinto[posheroi - 1] = " H ";
-				posheroi--;
+						heroeChar[0] = " A ";
+					} else if (labirinto[posheroi - 1] == " S ") {
+						input = quit;
+					}
+
+					labirinto[posheroi] = "   ";
+					labirinto[posheroi - 1] = heroeChar[0];
+					posheroi--;
+				}
 
 			} else if (input.equals("s") && (labirinto[posheroi + 10] != " X ")) {
 
-				if (labirinto[posheroi + 10] == " S ") {
-					input = quit;
+				if ((labirinto[posheroi + 10] == " S ")
+						&& (heroeChar[0] == " A ")) {
+					System.out.println("Sword missing!");
+				} else {
+					if (labirinto[posheroi + 10] == " E ") {
+						heroeChar[0] = " A ";
+					} else if (labirinto[posheroi + 10] == " S ") {
+						input = quit;
+
+					}
+					labirinto[posheroi] = "   ";
+					labirinto[posheroi + 10] = heroeChar[0];
+					posheroi += 10;
 				}
-				labirinto[posheroi] = "   ";
-				labirinto[posheroi + 10] = " H ";
-				posheroi += 10;
 
 			} else if (input.equals("w") && (labirinto[posheroi - 10] != " X ")) {
 
-				if (labirinto[posheroi - 10] == " S ") {
-					input = quit;
-				}
-				labirinto[posheroi] = "   ";
-				labirinto[posheroi - 10] = " H ";
-				posheroi -= 10;
+				if ((labirinto[posheroi - 10] == " S ")
+						&& (heroeChar[0] == " A ")) {
+					System.out.println("Sword missing!");
+				} else {
+					if (labirinto[posheroi - 10] == " E ") {
+						heroeChar[0] = " A ";
+					} else if (labirinto[posheroi - 10] == " S ") {
+						input = quit;
 
+					}
+					labirinto[posheroi] = "   ";
+					labirinto[posheroi - 10] = heroeChar[0];
+					posheroi -= 10;
+
+				}
 			}
 			DisplayLabyrinth();
 
