@@ -181,5 +181,4 @@ public class labyrinth {
 		// input=sc.nextLine();
 		return a;
 	}
-
 }
