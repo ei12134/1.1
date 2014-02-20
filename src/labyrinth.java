@@ -2,7 +2,8 @@ import java.util.Scanner;
 import java.util.Random;
 
 public class labyrinth {
-
+	private static int size = 10;
+	private static int sizeSquare = size*size;
 	private static int posHero = 11;
 	private static int posSword = 81;
 	private static int posDragon = 31;
@@ -11,24 +12,24 @@ public class labyrinth {
 	static String[] dragonChar = { " D " };
 	static String[] exitChar = { " S " };
 	static String[] swordChar = { " E " };
-	static String[] labyrinth = new String[100];
+	static String[] labyrinth = new String[sizeSquare];
 
 	public static void main(String[] args) {
 
 		// fill with spaces
-		for (int i = 0; i < 100; i++)
+		for (int i = 0; i < sizeSquare; i++)
 			labyrinth[i] = "   ";
 
-		// upper and lower labyrinth wall limits
-		for (int i = 0; i < 10; i++)
+		// upper and lower labyrinth border limits
+		for (int i = 0; i < size; i++)
 			labyrinth[i] = " X ";
-		for (int i = 90; i < 100; i++)
+		for (int i = sizeSquare-size; i < sizeSquare; i++)
 			labyrinth[i] = " X ";
 
-		// left and right labyrinth wall limits
-		for (int i = 10; i < 90; i += 10)
+		// left and right labyrinth border limits
+		for (int i = size; i < sizeSquare-size; i += 10)
 			labyrinth[i] = " X ";
-		for (int i = 19; i < 90; i += 10)
+		for (int i = size*2-1; i < sizeSquare-size; i += 10)
 			labyrinth[i] = " X ";
 
 		labyrinth[22] = " X ";
@@ -77,7 +78,7 @@ public class labyrinth {
 
 	public static void DisplayLabyrinth() {
 		for (int i = 0; i < labyrinth.length; i++) {
-			if ((i + 1) % 10 != 0)
+			if ((i + 1) % size != 0)
 				System.out.print(labyrinth[i]);
 			else
 				System.out.println(labyrinth[i]);
@@ -126,40 +127,40 @@ public class labyrinth {
 					posHero--;
 				}
 
-			} else if (input.equals("s") && (labyrinth[posHero + 10] != " X ")) {
+			} else if (input.equals("s") && (labyrinth[posHero + size] != " X ")) {
 
-				if ((labyrinth[posHero + 10] == " S ")
+				if ((labyrinth[posHero + size] == " S ")
 						&& (heroChar[0] == " A ")) {
 					message = "Sword missing!";
 				} else {
-					if (labyrinth[posHero + 10] == " E ") {
+					if (labyrinth[posHero + size] == " E ") {
 						heroChar[0] = " A ";
-					} else if (labyrinth[posHero + 10] == " S ") {
+					} else if (labyrinth[posHero + size] == " S ") {
 						input = quit;
 						message = "Level Cleared! Congratulations!";
 
 					}
 					labyrinth[posHero] = "   ";
-					labyrinth[posHero + 10] = heroChar[0];
-					posHero += 10;
+					labyrinth[posHero + size] = heroChar[0];
+					posHero += size;
 				}
 
-			} else if (input.equals("w") && (labyrinth[posHero - 10] != " X ")) {
+			} else if (input.equals("w") && (labyrinth[posHero - size] != " X ")) {
 
-				if ((labyrinth[posHero - 10] == " S ")
+				if ((labyrinth[posHero - size] == " S ")
 						&& (heroChar[0] == " A ")) {
 					message = "Sword's missing. Go get it first.";
 				} else {
-					if (labyrinth[posHero - 10] == " E ") {
+					if (labyrinth[posHero - size] == " E ") {
 						heroChar[0] = " A ";
-					} else if (labyrinth[posHero - 10] == " S ") {
+					} else if (labyrinth[posHero - size] == " S ") {
 						input = quit;
 						message = "Level Cleared! Congratulations!";
 
 					}
 					labyrinth[posHero] = "   ";
-					labyrinth[posHero - 10] = heroChar[0];
-					posHero -= 10;
+					labyrinth[posHero - size] = heroChar[0];
+					posHero -= size;
 
 				}
 			} else if (input.equals("q"))
@@ -168,8 +169,8 @@ public class labyrinth {
 			// check for possible adjacent dragon
 			if (((labyrinth[posHero + 1] == labyrinth[posDragon])
 					|| (labyrinth[posHero - 1] == labyrinth[posDragon])
-					|| (labyrinth[posHero + 10] == labyrinth[posDragon])
-					|| (labyrinth[posHero - 10] == labyrinth[posDragon])
+					|| (labyrinth[posHero + size] == labyrinth[posDragon])
+					|| (labyrinth[posHero - size] == labyrinth[posDragon])
 					|| (labyrinth[posHero + 9] == labyrinth[posDragon])
 					|| (labyrinth[posHero + 11] == labyrinth[posDragon])
 					|| (labyrinth[posHero - 9] == labyrinth[posDragon]) || (labyrinth[posHero - 11] == labyrinth[posDragon]))
@@ -234,32 +235,32 @@ public class labyrinth {
 			}
 			break;
 		case 2:
-			if (labyrinth[posDragon + 10] != " X ") {
+			if (labyrinth[posDragon + size] != " X ") {
 
 				if (dragonChar[0] == " F ") {
 					dragonChar[0] = " D ";
 					labyrinth[posSword] = " E ";
-				} else if (posDragon + 10 == posSword) {
+				} else if (posDragon + size == posSword) {
 					dragonChar[0] = " F ";
 					labyrinth[posDragon] = "   ";
 				} else {
 					labyrinth[posDragon] = "   ";
 				}
-				posDragon += 10;
+				posDragon += size;
 			}
 			break;
 		case 3:
-			if (labyrinth[posDragon - 10] != " X ") {
+			if (labyrinth[posDragon - size] != " X ") {
 				if (dragonChar[0] == " F ") {
 					dragonChar[0] = " D ";
 					labyrinth[posSword] = " E ";
-				} else if (posDragon - 10 == posSword) {
+				} else if (posDragon - size == posSword) {
 					dragonChar[0] = " B ";
 					labyrinth[posDragon] = "   ";
 				} else {
 					labyrinth[posDragon] = "   ";
 				}
-				posDragon -= 10;
+				posDragon -= size;
 			}
 			break;
 		default:
