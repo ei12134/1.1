@@ -66,17 +66,19 @@ public class Labyrinth {
 		Hero hero = new Hero(new Position(1,1, Piece.heroChar), Status.alive);
 		labyrinth.get(hero.GetPosition().GetX()).get(hero.GetPosition().GetY()).SetId(Piece.heroChar);
 		
-		labyrinth.get(hero.GetPosition().GetX()).get(hero.GetPosition().GetY()).SetId(Piece.emptyChar);
-		hero.SetPosition(labyrinth.get(1).get(2));
-		labyrinth.get(hero.GetPosition().GetX()).get(hero.GetPosition().GetY()).SetId(Piece.heroChar);
-		
+//		labyrinth.get(hero.GetPosition().GetX()).get(hero.GetPosition().GetY()).SetId(Piece.emptyChar);
+//		hero.SetPosition(labyrinth.get(1).get(2));
+//		labyrinth.get(hero.GetPosition().GetX()).get(hero.GetPosition().GetY()).SetId(Piece.heroChar);
+//		
 		
 		//		
-//		 // dragon position
+//		 // dragon positio
+		Dragon dragon = new Dragon(new Position(1,3, Piece.dragonChar), Status.alive);
+		labyrinth.get(dragon.GetPosition().GetX()).get(dragon.GetPosition().GetY()).SetId(Piece.dragonChar);
 //		 labyrinth.set(posDragon, dragonChar[0]);
 //		
 //		 // exit position
-//		 labyrinth.set(posExit, exitChar[0]);
+		//labyrinth.get(7).get(7).SetId(Piece.exitChar);
 //		
 //		 // sword position
 //		 labyrinth.set(posSword, swordChar[0]);
