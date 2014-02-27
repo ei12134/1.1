@@ -13,7 +13,15 @@ public class Hero {
 		return position;
 	}
 	
+	public String[] GetStatus() {
+		return status;
+	}
+	
 	public void SetPosition(Position position) {
 		this.position = position;
+	}
+	
+	public void SetStatus(String[] status) {
+		this.status = status;
 	}
 }

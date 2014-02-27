@@ -5,6 +5,6 @@ public class Main {
 		Labyrinth standard = new Labyrinth();
 		standard.BuildLabyrinth();
 		standard.DisplayLabyrinth();
-		// HeroMove();
+		standard.HeroMove();
 	}
 }

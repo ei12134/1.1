@@ -21,8 +21,7 @@ public class Position {
 		return id;
 	}
 	
-	// set methods
-	
+	// set methods	
 	public void SetX(int x) {
 		this.x=x;
 	}
