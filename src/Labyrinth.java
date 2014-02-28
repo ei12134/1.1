@@ -6,17 +6,16 @@ public class Labyrinth {
 	private int size;
 	private Hero hero;
 	private Dragon dragon;
-
-	static ArrayList<ArrayList<Position>> labyrinth = new ArrayList<ArrayList<Position>>();
+	static ArrayList<ArrayList<Position>> labyrinth;
 
 	public Labyrinth() {
 
-	}
+	};
 
-	public void BuildLabyrinth() {
-		System.out.print("Enter labyrinth size: ");
-		Scanner scan = new Scanner(System.in);
-		size = scan.nextInt();
+	public void StandardLabyrinth() {
+
+		labyrinth = new ArrayList<ArrayList<Position>>();
+		size = 10;
 
 		// fill with spaces
 		for (int i = 0; i < size; i++) {
@@ -83,6 +82,11 @@ public class Labyrinth {
 
 		// sword position
 		labyrinth.get(1).get(8).SetId(Piece.swordChar);
+
+		// starts the game
+
+		DisplayLabyrinth();
+		HeroMove();
 
 	}
 
@@ -234,31 +238,41 @@ public class Labyrinth {
 				message = "Game aborted.";
 
 			// check for possible adjacent dragon
-			if ((dragon.GetStatus() == Status.alive || dragon.GetStatus() == Status.guarding)
+			if ((dragon.GetStatus() == Status.alive
+					|| dragon.GetStatus() == Status.guarding || dragon
+					.GetStatus() == Status.asleep)
 					&& (hero.GetStatus() != Status.cleared)) {
-				if ((labyrinth.get(hero.GetPosition().GetX() + 1)
-						.get(hero.GetPosition().GetY()).GetId() == Piece.dragonChar)
-						|| (labyrinth.get(hero.GetPosition().GetX() - 1)
-								.get(hero.GetPosition().GetY()).GetId() == Piece.dragonChar)
-						|| (labyrinth.get(hero.GetPosition().GetX())
-								.get(hero.GetPosition().GetY() + 1).GetId() == Piece.dragonChar)
-						|| (labyrinth.get(hero.GetPosition().GetX())
-								.get(hero.GetPosition().GetY() - 1).GetId() == Piece.dragonChar)
-						|| (labyrinth.get(hero.GetPosition().GetX() - 1)
-								.get(hero.GetPosition().GetY() + 1).GetId() == Piece.dragonChar)
-						|| (labyrinth.get(hero.GetPosition().GetX() + 1)
-								.get(hero.GetPosition().GetY() + 1).GetId() == Piece.dragonChar)
-						|| (labyrinth.get(hero.GetPosition().GetX() + 1)
-								.get(hero.GetPosition().GetY() - 1).GetId() == Piece.dragonChar)
-						|| (labyrinth.get(hero.GetPosition().GetX() - 1)
-								.get(hero.GetPosition().GetY() - 1).GetId() == Piece.dragonChar)) {
+				if ((labyrinth.get(hero.GetPosition().GetX() + 1).get(
+						hero.GetPosition().GetY()) == labyrinth.get(dragon.GetPosition().GetX()).get(
+								dragon.GetPosition().GetY()))
+						|| (labyrinth.get(hero.GetPosition().GetX() - 1).get(
+								hero.GetPosition().GetY()) == labyrinth.get(dragon.GetPosition().GetX()).get(
+										dragon.GetPosition().GetY()))
+						|| (labyrinth.get(hero.GetPosition().GetX()).get(
+								hero.GetPosition().GetY() + 1) == labyrinth.get(dragon.GetPosition().GetX()).get(
+										dragon.GetPosition().GetY()))
+						|| (labyrinth.get(hero.GetPosition().GetX()).get(
+								hero.GetPosition().GetY() - 1) == labyrinth.get(dragon.GetPosition().GetX()).get(
+										dragon.GetPosition().GetY()))
+						|| (labyrinth.get(hero.GetPosition().GetX() - 1).get(
+								hero.GetPosition().GetY() + 1) == labyrinth.get(dragon.GetPosition().GetX()).get(
+										dragon.GetPosition().GetY()))
+						|| (labyrinth.get(hero.GetPosition().GetX() + 1).get(
+								hero.GetPosition().GetY() + 1) == labyrinth.get(dragon.GetPosition().GetX()).get(
+										dragon.GetPosition().GetY()))
+						|| (labyrinth.get(hero.GetPosition().GetX() + 1).get(
+								hero.GetPosition().GetY() - 1) == labyrinth.get(dragon.GetPosition().GetX()).get(
+										dragon.GetPosition().GetY()))
+						|| (labyrinth.get(hero.GetPosition().GetX() - 1).get(
+								hero.GetPosition().GetY() - 1) == labyrinth.get(dragon.GetPosition().GetX()).get(
+										dragon.GetPosition().GetY()))){
 					if (hero.GetStatus() == Status.armed) {
 						dragon.SetStatus(Status.dead);
 						labyrinth.get(dragon.GetPosition().GetX())
 								.get(dragon.GetPosition().GetY())
 								.SetId(Piece.emptyChar);
 						message = "Dragon slayed!";
-					} else {
+					} else if (dragon.status != Status.asleep) {
 						hero.SetStatus(Status.dead);
 						labyrinth.get(hero.GetPosition().GetX())
 								.get(hero.GetPosition().GetY())
@@ -268,7 +282,8 @@ public class Labyrinth {
 					}
 				}
 			}
-			DragonMove();
+			if (dragon.GetStatus() != Status.dead )
+				DragonMove(5);
 			DisplayLabyrinth();
 
 			// prints game messages if any
@@ -279,15 +294,23 @@ public class Labyrinth {
 		}
 	}
 
-	public void DragonMove() {
+	public void DragonMove(int strategy) {
 
-		// generate random move from 0 to 4
+		// generate random move from 0 to 5
 		Random r = new Random();
-		int randomNum = r.nextInt(4);
+		int randomNum = r.nextInt(strategy);
 		switch (randomNum) {
 		case 0:
+			break;
+		case 1:
 			if (labyrinth.get(dragon.GetPosition().GetX() + 1)
 					.get(dragon.GetPosition().GetY()).GetId() != Piece.wallChar) {
+
+				if (dragon.GetStatus() == Status.asleep) {
+					dragon.SetStatus(Status.alive);
+					dragon.SetPiece(Piece.dragonChar);
+				}
+
 				if (dragon.GetStatus() == Status.guarding) {
 					dragon.SetStatus(Status.alive);
 					dragon.SetPiece(Piece.dragonChar);
@@ -312,9 +335,15 @@ public class Labyrinth {
 				dragon.GetPosition().SetX(dragon.GetPosition().GetX() + 1);
 			}
 			break;
-		case 1:
+		case 2:
 			if (labyrinth.get(dragon.GetPosition().GetX() - 1)
 					.get(dragon.GetPosition().GetY()).GetId() != Piece.wallChar) {
+				
+				if (dragon.GetStatus() == Status.asleep) {
+					dragon.SetStatus(Status.alive);
+					dragon.SetPiece(Piece.dragonChar);
+				}
+
 				if (dragon.GetStatus() == Status.guarding) {
 					dragon.SetStatus(Status.alive);
 					dragon.SetPiece(Piece.dragonChar);
@@ -339,9 +368,15 @@ public class Labyrinth {
 				dragon.GetPosition().SetX(dragon.GetPosition().GetX() - 1);
 			}
 			break;
-		case 2:
+		case 3:
 			if (labyrinth.get(dragon.GetPosition().GetX())
 					.get(dragon.GetPosition().GetY() + 1).GetId() != Piece.wallChar) {
+				
+				if (dragon.GetStatus() == Status.asleep) {
+					dragon.SetStatus(Status.alive);
+					dragon.SetPiece(Piece.dragonChar);
+				}
+
 				if (dragon.GetStatus() == Status.guarding) {
 					dragon.SetStatus(Status.alive);
 					dragon.SetPiece(Piece.dragonChar);
@@ -366,9 +401,15 @@ public class Labyrinth {
 				dragon.GetPosition().SetY(dragon.GetPosition().GetY() + 1);
 			}
 			break;
-		case 3:
+		case 4:
 			if (labyrinth.get(dragon.GetPosition().GetX())
 					.get(dragon.GetPosition().GetY() - 1).GetId() != Piece.wallChar) {
+				
+				if (dragon.GetStatus() == Status.asleep) {
+					dragon.SetStatus(Status.alive);
+					dragon.SetPiece(Piece.dragonChar);
+				}
+
 				if (dragon.GetStatus() == Status.guarding) {
 					dragon.SetStatus(Status.alive);
 					dragon.SetPiece(Piece.dragonChar);
@@ -392,6 +433,12 @@ public class Labyrinth {
 				}
 				dragon.GetPosition().SetY(dragon.GetPosition().GetY() - 1);
 			}
+			break;
+
+		case 5:
+
+			dragon.SetStatus(Status.asleep);
+			dragon.SetPiece(Piece.asleepChar);
 			break;
 		default:
 			break;
