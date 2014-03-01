@@ -58,14 +58,14 @@ public class Labyrinth {
 		// boolean completedl = false;
 		// boolean completedu = false;
 		// boolean comp,letedd = false;
-		int numberiterations = 30;
+		int numberiterations = 99250;
 		do {
 			Random r = new Random();
 			int randomNum = r.nextInt(4);
 
 			switch (randomNum) {
 			case 0:
-
+				if(randomNumline + 2 < size){
 				if ((randomNumline + 2 < size)
 						&& (labyrinth.get(randomNumline + 2)
 								.get(randomNumcolum).GetId() == Piece.wallChar)) {
@@ -73,28 +73,30 @@ public class Labyrinth {
 							.SetId(Piece.emptyChar);
 					labyrinth.get(randomNumline + 2).get(randomNumcolum)
 							.SetId(Piece.emptyChar);
-					//numberiterations--;
-
+					numberiterations--;
 				}
-				if ((labyrinth.get(randomNumline + 2).get(randomNumcolum)
+
+				if ((labyrinth.get(randomNumline - 1).get(randomNumcolum)
 						.GetId() == Piece.emptyChar)
-						&& (labyrinth.get(randomNumline - 2)
-								.get(randomNumcolum).GetId() == Piece.emptyChar)
-						&& (labyrinth.get(randomNumcolum + 2)
-								.get(randomNumcolum).GetId() == Piece.emptyChar)
-						&& (labyrinth.get(randomNumcolum - 2)
-								.get(randomNumcolum).GetId() == Piece.emptyChar))
+						&& (labyrinth.get(randomNumline + 1)
+							.get(randomNumcolum).GetId() == Piece.emptyChar)
+					&& (labyrinth.get(randomNumline )
+							.get(randomNumcolum +1 ).GetId() == Piece.emptyChar)
+					&& (labyrinth.get(randomNumline )
+							.get(randomNumcolum -1).GetId() == Piece.emptyChar))
 
 				{
 					randomNumline += 2;
-					//numberiterations--;
+					numberiterations--;
+				}
+				
 				}
 				numberiterations--;
 				break;
 
 			case 1:
-
-				if ((randomNumline - 2 >= 0)
+				if(randomNumline - 2 > 0){
+				if ((randomNumline - 2 > 0)
 						&& (labyrinth.get(randomNumline - 2)
 								.get(randomNumcolum).GetId() == Piece.wallChar)) {
 					labyrinth.get(randomNumline - 1).get(randomNumcolum)
@@ -103,22 +105,24 @@ public class Labyrinth {
 							.SetId(Piece.emptyChar);
 
 				}
-				if ((labyrinth.get(randomNumline + 2).get(randomNumcolum)
+				if ((labyrinth.get(randomNumline - 1).get(randomNumcolum)
 						.GetId() == Piece.emptyChar)
-						&& (labyrinth.get(randomNumline - 2)
-								.get(randomNumcolum).GetId() == Piece.emptyChar)
-						&& (labyrinth.get(randomNumcolum + 2)
-								.get(randomNumcolum).GetId() == Piece.emptyChar)
-						&& (labyrinth.get(randomNumcolum - 2)
-								.get(randomNumcolum).GetId() == Piece.emptyChar)) {
+						&& (labyrinth.get(randomNumline + 1)
+							.get(randomNumcolum).GetId() == Piece.emptyChar)
+					&& (labyrinth.get(randomNumline )
+							.get(randomNumcolum +1 ).GetId() == Piece.emptyChar)
+					&& (labyrinth.get(randomNumline )
+							.get(randomNumcolum -1).GetId() == Piece.emptyChar))
+					{
 					randomNumline -= 2;
+					numberiterations--;
+				}
 				
-
 				}
 				numberiterations--;
 				break;
 			case 2:
-
+				if(randomNumcolum + 2 < size){
 				if ((randomNumcolum + 2 < size)
 						&& (labyrinth.get(randomNumline)
 								.get(randomNumcolum + 2).GetId() == Piece.wallChar)) {
@@ -127,23 +131,25 @@ public class Labyrinth {
 					labyrinth.get(randomNumline).get(randomNumcolum + 2)
 							.SetId(Piece.emptyChar);
 				}
-				if ((labyrinth.get(randomNumline + 2).get(randomNumcolum)
+				if ((labyrinth.get(randomNumline - 1).get(randomNumcolum)
 						.GetId() == Piece.emptyChar)
-						&& (labyrinth.get(randomNumline - 2)
-								.get(randomNumcolum).GetId() == Piece.emptyChar)
-						&& (labyrinth.get(randomNumcolum + 2)
-								.get(randomNumcolum).GetId() == Piece.emptyChar)
-						&& (labyrinth.get(randomNumcolum - 2)
-								.get(randomNumcolum).GetId() == Piece.emptyChar)) {
+						&& (labyrinth.get(randomNumline + 1)
+							.get(randomNumcolum).GetId() == Piece.emptyChar)
+					&& (labyrinth.get(randomNumline )
+							.get(randomNumcolum +1 ).GetId() == Piece.emptyChar)
+					&& (labyrinth.get(randomNumline )
+							.get(randomNumcolum -1).GetId() == Piece.emptyChar))
+				{
 					randomNumcolum += 2;
-					
-
+					numberiterations--;
+				}
+				
 				}
 				numberiterations--;
 				break;
 			case 3:
-
-				if ((randomNumcolum - 2 >= 0)
+				if(randomNumcolum - 2 > 0){
+				if ((randomNumcolum - 2 > 0)
 						&& (labyrinth.get(randomNumline)).get(
 								randomNumcolum - 2).GetId() == Piece.wallChar) {
 					labyrinth.get(randomNumline).get(randomNumcolum - 1)
@@ -151,17 +157,17 @@ public class Labyrinth {
 					labyrinth.get(randomNumline).get(randomNumcolum - 2)
 							.SetId(Piece.emptyChar);
 				}
-				if ((labyrinth.get(randomNumline + 2).get(randomNumcolum)
+				if ((labyrinth.get(randomNumline - 1).get(randomNumcolum)
 						.GetId() == Piece.emptyChar)
-						&& (labyrinth.get(randomNumline - 2)
-								.get(randomNumcolum).GetId() == Piece.emptyChar)
-						&& (labyrinth.get(randomNumcolum + 2)
-								.get(randomNumcolum).GetId() == Piece.emptyChar)
-						&& (labyrinth.get(randomNumcolum - 2)
-								.get(randomNumcolum).GetId() == Piece.emptyChar)) {
+						&& (labyrinth.get(randomNumline + 1)
+							.get(randomNumcolum).GetId() == Piece.emptyChar)
+					&& (labyrinth.get(randomNumline )
+							.get(randomNumcolum +1 ).GetId() == Piece.emptyChar)
+					&& (labyrinth.get(randomNumline )
+							.get(randomNumcolum -1).GetId() == Piece.emptyChar)) {
 					randomNumcolum -= 2;
-				
-
+					numberiterations--;
+				}
 				}
 				numberiterations--;
 				break;
