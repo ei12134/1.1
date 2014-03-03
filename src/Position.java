@@ -7,32 +7,30 @@ public class Position {
 		this.y = y;
 		this.id = id;
 	}
-	
+
 	// get methods
 	public int GetX() {
 		return x;
 	}
-	
+
 	public int GetY() {
 		return y;
 	}
-		
+
 	public String[] GetId() {
 		return id;
 	}
-	
-	// set methods	
+
+	// set methods
 	public void SetX(int x) {
-		this.x=x;
+		this.x = x;
 	}
-	
+
 	public void SetY(int y) {
-		this.y=y;
+		this.y = y;
 	}
-		
+
 	public void SetId(String[] id) {
-		this.id=id;
+		this.id = id;
 	}
-	
-	
 }

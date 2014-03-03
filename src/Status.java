@@ -1,4 +1,3 @@
-
 public class Status {
 
 	static String[] alive = { "alive" };

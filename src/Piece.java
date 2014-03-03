@@ -1,4 +1,3 @@
-
 public class Piece {
 
 	static String[] heroChar = { " H " };
@@ -10,5 +9,4 @@ public class Piece {
 	static String[] swordChar = { " E " };
 	static String[] wallChar = { " X " };
 	static String[] emptyChar = { "   " };
-
 }
