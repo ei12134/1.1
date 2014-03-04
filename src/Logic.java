@@ -5,6 +5,7 @@ public class Logic {
 
 	protected Cli cli;
 	protected Hero hero;
+	protected Eagle eagle;
 	protected ArrayList<ArrayList<Position>> maze;
 	protected ArrayList<Dragon> dragons;
 	protected ArrayList<String> nearDragon;
@@ -31,7 +32,7 @@ public class Logic {
 		nearDragon.add(Piece.dragonChar);
 		nearDragon.add(Piece.guardingChar);
 		nearDragon.add(Piece.asleepChar);
-		
+
 		badNearPiece = new ArrayList<String>();
 		badNearPiece.add(Piece.wallChar);
 		badNearPiece.add(Piece.dragonChar);
@@ -76,7 +77,8 @@ public class Logic {
 					hero.getPosition().setX(hero.getPosition().getX() + 1);
 
 					maze.get(hero.getPosition().getX())
-							.get(hero.getPosition().getY()).setId(hero.getPiece());
+							.get(hero.getPosition().getY())
+							.setId(hero.getPiece());
 
 				}
 
@@ -106,7 +108,8 @@ public class Logic {
 					hero.getPosition().setX(hero.getPosition().getX() - 1);
 
 					maze.get(hero.getPosition().getX())
-							.get(hero.getPosition().getY()).setId(hero.getPiece());
+							.get(hero.getPosition().getY())
+							.setId(hero.getPiece());
 				}
 			} else if (input.equals("s")
 					&& (maze.get(hero.getPosition().getX())
@@ -134,7 +137,8 @@ public class Logic {
 					hero.getPosition().setY(hero.getPosition().getY() + 1);
 
 					maze.get(hero.getPosition().getX())
-							.get(hero.getPosition().getY()).setId(hero.getPiece());
+							.get(hero.getPosition().getY())
+							.setId(hero.getPiece());
 				}
 
 			} else if (input.equals("w")
@@ -163,7 +167,8 @@ public class Logic {
 					hero.getPosition().setY(hero.getPosition().getY() - 1);
 
 					maze.get(hero.getPosition().getX())
-							.get(hero.getPosition().getY()).setId(hero.getPiece());
+							.get(hero.getPosition().getY())
+							.setId(hero.getPiece());
 				}
 			} else if (input.equals("q")) {
 				cli.gameMessages("Game aborted.");
@@ -228,6 +233,9 @@ public class Logic {
 					dragonMove(dragon);
 				}
 			}
+
+			eagleMove();
+
 			// Prints the maze and game messages if needed
 			cli.displayMaze(size, maze);
 			if (message != null) {
@@ -247,8 +255,9 @@ public class Logic {
 		case 0:
 			break;
 		case 1:
-			if (! nearPieces(maze.get(dragon.getPosition().getX() + 1)
-					.get(dragon.getPosition().getY()), badNearPiece)) {
+			if (!nearPieces(
+					maze.get(dragon.getPosition().getX() + 1).get(
+							dragon.getPosition().getY()), badNearPiece)) {
 				if (dragon.getStatus() == Status.asleep) {
 					dragon.setStatus(Status.alive);
 					dragon.setPiece(Piece.dragonChar);
@@ -279,8 +288,9 @@ public class Logic {
 			}
 			break;
 		case 2:
-			if (! nearPieces(maze.get(dragon.getPosition().getX() - 1)
-					.get(dragon.getPosition().getY()), badNearPiece)) {
+			if (!nearPieces(
+					maze.get(dragon.getPosition().getX() - 1).get(
+							dragon.getPosition().getY()), badNearPiece)) {
 
 				if (dragon.getStatus() == Status.asleep) {
 					dragon.setStatus(Status.alive);
@@ -312,8 +322,9 @@ public class Logic {
 			}
 			break;
 		case 3:
-			if (! nearPieces(maze.get(dragon.getPosition().getX())
-					.get(dragon.getPosition().getY() + 1), badNearPiece)) {
+			if (!nearPieces(
+					maze.get(dragon.getPosition().getX()).get(
+							dragon.getPosition().getY() + 1), badNearPiece)) {
 
 				if (dragon.getStatus() == Status.asleep) {
 					dragon.setStatus(Status.alive);
@@ -345,8 +356,9 @@ public class Logic {
 			}
 			break;
 		case 4:
-			if (! nearPieces(maze.get(dragon.getPosition().getX())
-					.get(dragon.getPosition().getY() - 1), badNearPiece)) {
+			if (!nearPieces(
+					maze.get(dragon.getPosition().getX()).get(
+							dragon.getPosition().getY() - 1), badNearPiece)) {
 
 				if (dragon.getStatus() == Status.asleep) {
 					dragon.setStatus(Status.alive);
@@ -396,6 +408,18 @@ public class Logic {
 				return true;
 
 		return false;
+	}
+
+	public void eagleMove() {
+
+		if (eagle.status == Status.alive && hero.status != Status.dead) {
+			eagle.setPosition(hero.getPosition());
+			String customEaglePiece = hero.piece.substring(0, 2)
+					+ Piece.eagleChar;
+			hero.setPiece(customEaglePiece);
+			maze.get(hero.getPosition().getX()).get(hero.getPosition().getY())
+					.setId(hero.getPiece());
+		}
 	}
 
 	Position getAvailableMazePosition() {

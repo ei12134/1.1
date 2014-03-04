@@ -50,8 +50,12 @@ public class Builder extends Logic {
 //		System.out.println(newName);
 		
 		hero = new Hero(maze.get(1).get(1), Status.alive, Piece.heroChar);
+		
+		eagle = new Eagle(hero.getPosition(), Status.alive, Piece.eagleChar);
+		eagleMove();
+		
 		maze.get(hero.getPosition().getX()).get(hero.getPosition().getY())
-				.setId(Piece.heroChar);
+		.setId(hero.getPiece());
 
 		// Dragon position
 		dragons.add(new Dragon(maze.get(1).get(3), Status.alive,
