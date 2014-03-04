@@ -1,10 +1,10 @@
-public class Dragon {
 
+public class Eagle {
 	Position position;
 	String status;
 	String piece;
 
-	Dragon(Position position, String status, String piece) {
+	Eagle(Position position, String status, String piece) {
 		this.position = position;
 		this.status = status;
 		this.piece = piece;

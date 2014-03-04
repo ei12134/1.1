@@ -1,6 +1,6 @@
 public class Position {
 	private int x, y;
-	private String[] id;
+	private String id;
 
 	public Position() {
 		this.x = 0;
@@ -8,7 +8,7 @@ public class Position {
 		this.id = Piece.emptyChar;
 	}
 
-	public Position(int x, int y, String[] id) {
+	public Position(int x, int y, String id) {
 		this.x = x;
 		this.y = y;
 		this.id = id;
@@ -22,7 +22,7 @@ public class Position {
 		return y;
 	}
 
-	public String[] getId() {
+	public String getId() {
 		return id;
 	}
 
@@ -34,7 +34,7 @@ public class Position {
 		this.y = y;
 	}
 
-	public void setId(String[] id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 }

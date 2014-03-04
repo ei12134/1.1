@@ -68,9 +68,9 @@ public class Cli {
 		for (int i = 0; i < size; i++) {
 			for (int z = 0; z < size; z++) {
 				if ((z + 1) % size != 0)
-					System.out.print(labyrinth.get(z).get(i).getId()[0]);
+					System.out.print(labyrinth.get(z).get(i).getId());
 				else
-					System.out.println(labyrinth.get(z).get(i).getId()[0]);
+					System.out.println(labyrinth.get(z).get(i).getId());
 			}
 		}
 	}

@@ -44,8 +44,12 @@ public class Builder extends Logic {
 		maze.get(7).get(6).setId(Piece.wallChar);
 		maze.get(7).get(7).setId(Piece.wallChar);
 
-		// Hero position
-		hero = new Hero(maze.get(1).get(1), Status.alive);
+		// Hero position		
+//		String myName = " H ";
+//		String newName = myName.substring(0,2)+'G';
+//		System.out.println(newName);
+		
+		hero = new Hero(maze.get(1).get(1), Status.alive, Piece.heroChar);
 		maze.get(hero.getPosition().getX()).get(hero.getPosition().getY())
 				.setId(Piece.heroChar);
 

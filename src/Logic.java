@@ -7,8 +7,8 @@ public class Logic {
 	protected Hero hero;
 	protected ArrayList<ArrayList<Position>> maze;
 	protected ArrayList<Dragon> dragons;
-	ArrayList<String[]> nearDragon;
-	ArrayList<String[]> badNearPiece;
+	protected ArrayList<String> nearDragon;
+	protected ArrayList<String> badNearPiece;
 	protected int size;
 	protected int dragonMode;
 
@@ -27,12 +27,12 @@ public class Logic {
 			maze.add(mazeLine);
 		}
 
-		nearDragon = new ArrayList<String[]>();
+		nearDragon = new ArrayList<String>();
 		nearDragon.add(Piece.dragonChar);
 		nearDragon.add(Piece.guardingChar);
 		nearDragon.add(Piece.asleepChar);
 		
-		badNearPiece = new ArrayList<String[]>();
+		badNearPiece = new ArrayList<String>();
 		badNearPiece.add(Piece.wallChar);
 		badNearPiece.add(Piece.dragonChar);
 		badNearPiece.add(Piece.guardingChar);
@@ -43,8 +43,6 @@ public class Logic {
 	public void heroMove() {
 		String message = null;
 		String input;
-
-		String[] heroPiece = Piece.heroChar;
 		boolean done = false;
 		cli.displayMaze(size, maze);
 
@@ -63,7 +61,7 @@ public class Logic {
 				} else {
 					if (maze.get(hero.getPosition().getX() + 1)
 							.get(hero.getPosition().getY()).getId() == Piece.swordChar) {
-						heroPiece = Piece.armedChar;
+						hero.setPiece(Piece.armedChar);
 						hero.setStatus(Status.armed);
 					} else if (maze.get(hero.getPosition().getX() + 1)
 							.get(hero.getPosition().getY()).getId() == Piece.exitChar) {
@@ -78,7 +76,7 @@ public class Logic {
 					hero.getPosition().setX(hero.getPosition().getX() + 1);
 
 					maze.get(hero.getPosition().getX())
-							.get(hero.getPosition().getY()).setId(heroPiece);
+							.get(hero.getPosition().getY()).setId(hero.getPiece());
 
 				}
 
@@ -92,7 +90,7 @@ public class Logic {
 				} else {
 					if (maze.get(hero.getPosition().getX() - 1)
 							.get(hero.getPosition().getY()).getId() == Piece.swordChar) {
-						heroPiece = Piece.armedChar;
+						hero.setPiece(Piece.armedChar);
 						hero.setStatus(Status.armed);
 					} else if (maze.get(hero.getPosition().getX() - 1)
 							.get(hero.getPosition().getY()).getId() == Piece.exitChar) {
@@ -108,7 +106,7 @@ public class Logic {
 					hero.getPosition().setX(hero.getPosition().getX() - 1);
 
 					maze.get(hero.getPosition().getX())
-							.get(hero.getPosition().getY()).setId(heroPiece);
+							.get(hero.getPosition().getY()).setId(hero.getPiece());
 				}
 			} else if (input.equals("s")
 					&& (maze.get(hero.getPosition().getX())
@@ -120,7 +118,7 @@ public class Logic {
 				} else {
 					if (maze.get(hero.getPosition().getX())
 							.get(hero.getPosition().getY() + 1).getId() == Piece.swordChar) {
-						heroPiece = Piece.armedChar;
+						hero.setPiece(Piece.armedChar);
 						hero.setStatus(Status.armed);
 					} else if (maze.get(hero.getPosition().getX())
 							.get(hero.getPosition().getY() + 1).getId() == Piece.exitChar) {
@@ -136,7 +134,7 @@ public class Logic {
 					hero.getPosition().setY(hero.getPosition().getY() + 1);
 
 					maze.get(hero.getPosition().getX())
-							.get(hero.getPosition().getY()).setId(heroPiece);
+							.get(hero.getPosition().getY()).setId(hero.getPiece());
 				}
 
 			} else if (input.equals("w")
@@ -149,7 +147,7 @@ public class Logic {
 				} else {
 					if (maze.get(hero.getPosition().getX())
 							.get(hero.getPosition().getY() - 1).getId() == Piece.swordChar) {
-						heroPiece = Piece.armedChar;
+						hero.setPiece(Piece.armedChar);
 						hero.setStatus(Status.armed);
 					} else if (maze.get(hero.getPosition().getX())
 							.get(hero.getPosition().getY() - 1).getId() == Piece.exitChar) {
@@ -165,11 +163,11 @@ public class Logic {
 					hero.getPosition().setY(hero.getPosition().getY() - 1);
 
 					maze.get(hero.getPosition().getX())
-							.get(hero.getPosition().getY()).setId(heroPiece);
+							.get(hero.getPosition().getY()).setId(hero.getPiece());
 				}
 			} else if (input.equals("q")) {
-				message = "Game aborted.";
-				done = true;
+				cli.gameMessages("Game aborted.");
+				break;
 			}
 
 			for (int i = 0; i < dragons.size(); i++) {
@@ -391,7 +389,7 @@ public class Logic {
 				.setId(dragon.getPiece());
 	}
 
-	boolean nearPieces(Position position, ArrayList<String[]> pieces) {
+	boolean nearPieces(Position position, ArrayList<String> pieces) {
 
 		for (int i = 0; i < pieces.size(); i++)
 			if (position.getId().equals(pieces.get(i)))
