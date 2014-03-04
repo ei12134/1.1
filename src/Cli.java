@@ -3,6 +3,30 @@ import java.util.Scanner;
 
 public class Cli {
 
+	public boolean mainMenu() {
+
+		Scanner scan = new Scanner(System.in);
+		int input;
+		// scan.close();
+
+		do {
+			System.out.print("\n\tMaze Game\n\n * Type 0 to play\n * Type 1 to exit\n > ");
+			while (!scan.hasNextInt()) {
+				System.out.print("\n\tMaze Game\n\n * 0 to play\n * 1 to exit\n > ");
+				scan.next();
+			}
+			input = scan.nextInt();
+		} while (input < 0 || input > 1 );
+		
+		if (input == 0)
+		{
+			Builder start = new Builder();
+			start.mazeSelector();
+			return false;
+		}
+		return true;
+	}
+	
 	public int setMazeSize() {
 
 		Scanner scan = new Scanner(System.in);
@@ -10,16 +34,15 @@ public class Cli {
 		// scan.close();
 
 		do {
-			System.out.print("Enter labyrinth size (0 standard maze)> ");
+			System.out.print("\n\tEnter maze size\n\n * Type 0 to select standard maze\n * Odd (>= 7) maze sizes only\n > ");
 			while (!scan.hasNextInt()) {
-				System.out.print("Enter labyrinth size (0 standard maze)> ");
-				scan.next(); // this is important!
+				System.out.print("\n\tEnter maze size\n\n * Type 0 to select standard maze\n * Odd (>= 7) maze sizes only\n > ");
+				scan.next();
 			}
 			size = scan.nextInt();
-		} while (size <= 0);
-
-		if (size == 0)
-			size = 10;
+			if (size == 0)
+				return 10;
+		} while (size <= 6 || size % 2 == 0);
 
 		return size;
 	}
@@ -33,11 +56,11 @@ public class Cli {
 
 			Scanner scan = new Scanner(System.in);
 			System.out
-					.print("\nEnter dragon mode\n\t0 - Idle\n\t1 - Random move\n\t2 - Sleeping dragon\n> ");
+					.print("\n\tEnter dragon mode\n\n * 0 - Idle\n * 1 - Random move\n * 2 - Sleeping dragon\n\n> ");
 			while (!scan.hasNextInt()) {
 				System.out.print("\nInvalid input!\n");
 				System.out
-						.print("\nEnter dragon mode\n\t0 - Idle\n\t1 - Random move\n\t2 - Sleeping dragon\n> ");
+				.print("\n\tEnter dragon mode\n\n * 0 - Idle\n * 1 - Random move\n * 2 - Sleeping dragon\n\n > ");
 				scan.next(); // this is important!
 			}
 			mode = scan.nextInt();
@@ -76,7 +99,7 @@ public class Cli {
 	}
 
 	public String getKey() {
-		System.out.print("(w/a/s/d) to move (q) to abort> ");
+		System.out.print("(w/a/s/d) to move (q) to abort > ");
 		Scanner scan = new Scanner(System.in);
 		String input = scan.nextLine();
 		// scan.close();

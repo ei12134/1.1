@@ -1,10 +1,16 @@
+import java.io.IOException;
+
 public class Main {
 
 	public static void main(String[] args) {
 
+		boolean exit = false;
 		// Start the game
-		Builder start = new Builder();
-		start.defaultMaze(); //start.generateMaze();
-		start.heroMove();
+		while (!exit)
+		{
+			Cli start = new Cli();
+			exit = start.mainMenu();
+			start = null;//start.generateMaze();
+		}
 	}
 }

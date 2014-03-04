@@ -1,16 +1,16 @@
 public class Sword {
 	
-	Position position;
+	private Position position;
 
 	Sword(Position position) {
 		this.position = position;
 	}
 
-	public Position GetPosition() {
+	public Position getPosition() {
 		return position;
 	}
 
-	public void SetPosition(Position position) {
+	public void setPosition(Position position) {
 		this.position = position;
 	}
 }

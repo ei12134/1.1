@@ -1,3 +1,4 @@
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -6,6 +7,7 @@ public class Logic {
 	protected Cli cli;
 	protected Hero hero;
 	protected Eagle eagle;
+	protected Sword sword;
 	protected ArrayList<ArrayList<Position>> maze;
 	protected ArrayList<Dragon> dragons;
 	protected ArrayList<String> nearDragon;
@@ -20,14 +22,6 @@ public class Logic {
 		size = cli.setMazeSize();
 		dragonMode = cli.setDragonMode();
 
-		// Fill with spaces
-		for (int i = 0; i < size; i++) {
-			ArrayList<Position> mazeLine = new ArrayList<Position>();
-			for (int z = 0; z < size; z++)
-				mazeLine.add(new Position(i, z, Piece.emptyChar));
-			maze.add(mazeLine);
-		}
-
 		nearDragon = new ArrayList<String>();
 		nearDragon.add(Piece.dragonChar);
 		nearDragon.add(Piece.guardingChar);
@@ -38,6 +32,7 @@ public class Logic {
 		badNearPiece.add(Piece.dragonChar);
 		badNearPiece.add(Piece.guardingChar);
 		badNearPiece.add(Piece.asleepChar);
+		badNearPiece.add(Piece.exitChar);
 
 	};
 
@@ -177,12 +172,9 @@ public class Logic {
 
 			for (int i = 0; i < dragons.size(); i++) {
 				// Check for adjacent dragon
-				Dragon dragon;
-				dragon = dragons.get(i);
+				Dragon dragon = dragons.get(i);
 
-				if ((dragon.getStatus() == Status.alive
-						|| dragon.getStatus() == Status.guarding || dragon
-						.getStatus() == Status.asleep)
+				if ((dragon.getStatus() != Status.dead)
 						&& (hero.getStatus() != Status.cleared)) {
 					if ((nearPieces(maze.get(hero.getPosition().getX() + 1)
 							.get(hero.getPosition().getY()), nearDragon))
@@ -233,7 +225,6 @@ public class Logic {
 					dragonMove(dragon);
 				}
 			}
-
 			eagleMove();
 
 			// Prints the maze and game messages if needed
@@ -389,7 +380,6 @@ public class Logic {
 				dragon.getPosition().setY(dragon.getPosition().getY() - 1);
 			}
 			break;
-
 		case 5:
 			dragon.setStatus(Status.asleep);
 			dragon.setPiece(Piece.asleepChar);
