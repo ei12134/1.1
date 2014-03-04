@@ -8,19 +8,19 @@ public class Hero {
 		this.status = status;
 	}
 
-	public Position GetPosition() {
+	public Position getPosition() {
 		return position;
 	}
 
-	public String[] GetStatus() {
+	public String[] getStatus() {
 		return status;
 	}
 
-	public void SetPosition(Position position) {
+	public void setPosition(Position position) {
 		this.position = position;
 	}
 
-	public void SetStatus(String[] status) {
+	public void setStatus(String[] status) {
 		this.status = status;
 	}
 }

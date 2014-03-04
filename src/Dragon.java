@@ -10,27 +10,27 @@ public class Dragon {
 		this.piece = piece;
 	}
 
-	public Position GetPosition() {
+	public Position getPosition() {
 		return position;
 	}
 
-	public String[] GetStatus() {
+	public String[] getStatus() {
 		return status;
 	}
 
-	public String[] GetPiece() {
+	public String[] getPiece() {
 		return piece;
 	}
 
-	public void SetPosition(Position position) {
+	public void setPosition(Position position) {
 		this.position = position;
 	}
 
-	public void SetStatus(String[] status) {
+	public void setStatus(String[] status) {
 		this.status = status;
 	}
 
-	public void SetPiece(String[] piece) {
+	public void setPiece(String[] piece) {
 		this.piece = piece;
 	}
 }

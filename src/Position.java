@@ -2,35 +2,39 @@ public class Position {
 	private int x, y;
 	private String[] id;
 
+	public Position() {
+		this.x = 0;
+		this.y = 0;
+		this.id = Piece.emptyChar;
+	}
+
 	public Position(int x, int y, String[] id) {
 		this.x = x;
 		this.y = y;
 		this.id = id;
 	}
 
-	// get methods
-	public int GetX() {
+	public int getX() {
 		return x;
 	}
 
-	public int GetY() {
+	public int getY() {
 		return y;
 	}
 
-	public String[] GetId() {
+	public String[] getId() {
 		return id;
 	}
 
-	// set methods
-	public void SetX(int x) {
+	public void setX(int x) {
 		this.x = x;
 	}
 
-	public void SetY(int y) {
+	public void setY(int y) {
 		this.y = y;
 	}
 
-	public void SetId(String[] id) {
+	public void setId(String[] id) {
 		this.id = id;
 	}
 }

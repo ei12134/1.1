@@ -4,7 +4,7 @@ public class Main {
 
 		// Start the game
 		Builder start = new Builder();
-		start.generateMaze();
-		//start.heroMove();
+		start.defaultMaze(); //start.generateMaze();
+		start.heroMove();
 	}
 }
