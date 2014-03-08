@@ -1,4 +1,3 @@
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -39,139 +38,168 @@ public class Logic {
 	public void heroMove() {
 		String message = null;
 		String input;
+		String nearPiece;
 		boolean done = false;
+		boolean move = false;
 		cli.displayMaze(size, maze);
 
 		while (!done) {
 			input = cli.getKey();
-			String right = "d";
+			move = false;
 
-			if (input.equals(right)
-					&& (maze.get(hero.getPosition().getX() + 1)
-							.get(hero.getPosition().getY()).getId() != Piece.wallChar)) {
+			switch (input) {
 
-				if ((maze.get(hero.getPosition().getX() + 1)
-						.get(hero.getPosition().getY()).getId() == Piece.exitChar)
-						&& (hero.getStatus() != Status.armed)) {
+			case "d":
+
+				nearPiece = maze.get(hero.getPosition().getX() + 1)
+						.get(hero.getPosition().getY()).getId();
+
+				if (nearPiece == Piece.emptyChar)
+					move = true;
+				else if (nearPiece == Piece.swordChar) {
+					hero.setPiece(Piece.armedChar);
+					hero.setStatus(Status.armed);
+					move = true;
+				} else if (nearPiece == Piece.exitChar
+						&& hero.getStatus() != Status.armed)
 					message = "Sword missing!";
-				} else {
-					if (maze.get(hero.getPosition().getX() + 1)
-							.get(hero.getPosition().getY()).getId() == Piece.swordChar) {
-						hero.setPiece(Piece.armedChar);
-						hero.setStatus(Status.armed);
-					} else if (maze.get(hero.getPosition().getX() + 1)
-							.get(hero.getPosition().getY()).getId() == Piece.exitChar) {
-						done = true;
-						hero.setStatus(Status.cleared);
-						message = "Level Cleared! Congratulations!";
-					}
+				else if (nearPiece == Piece.exitChar) {
+					done = true;
+					move = true;
+					hero.setStatus(Status.cleared);
+					message = "Level Cleared! Congratulations!";
+				}
+				if (move) {
 					maze.get(hero.getPosition().getX())
 							.get(hero.getPosition().getY())
 							.setId(Piece.emptyChar);
-
 					hero.getPosition().setX(hero.getPosition().getX() + 1);
-
 					maze.get(hero.getPosition().getX())
 							.get(hero.getPosition().getY())
 							.setId(hero.getPiece());
-
 				}
+				break;
 
-			} else if (input.equals("a")
-					&& (maze.get(hero.getPosition().getX() - 1)
-							.get(hero.getPosition().getY()).getId() != Piece.wallChar)) {
-				if ((maze.get(hero.getPosition().getX() - 1)
-						.get(hero.getPosition().getY()).getId() == Piece.exitChar)
-						&& (hero.getStatus() != Status.armed)) {
+			case "a":
+
+				nearPiece = maze.get(hero.getPosition().getX() - 1)
+						.get(hero.getPosition().getY()).getId();
+
+				if (nearPiece == Piece.emptyChar)
+					move = true;
+				else if (nearPiece == Piece.swordChar) {
+					hero.setPiece(Piece.armedChar);
+					hero.setStatus(Status.armed);
+					move = true;
+				} else if (nearPiece == Piece.exitChar
+						&& hero.getStatus() != Status.armed)
 					message = "Sword missing!";
-				} else {
-					if (maze.get(hero.getPosition().getX() - 1)
-							.get(hero.getPosition().getY()).getId() == Piece.swordChar) {
-						hero.setPiece(Piece.armedChar);
-						hero.setStatus(Status.armed);
-					} else if (maze.get(hero.getPosition().getX() - 1)
-							.get(hero.getPosition().getY()).getId() == Piece.exitChar) {
-						hero.setStatus(Status.cleared);
-						done = true;
-						message = "Level Cleared! Congratulations!";
-					}
-
+				else if (nearPiece == Piece.exitChar) {
+					done = true;
+					move = true;
+					hero.setStatus(Status.cleared);
+					message = "Level Cleared! Congratulations!";
+				}
+				if (move) {
 					maze.get(hero.getPosition().getX())
 							.get(hero.getPosition().getY())
 							.setId(Piece.emptyChar);
-
 					hero.getPosition().setX(hero.getPosition().getX() - 1);
-
 					maze.get(hero.getPosition().getX())
 							.get(hero.getPosition().getY())
 							.setId(hero.getPiece());
 				}
-			} else if (input.equals("s")
-					&& (maze.get(hero.getPosition().getX())
-							.get(hero.getPosition().getY() + 1).getId() != Piece.wallChar)) {
-				if ((maze.get(hero.getPosition().getX())
-						.get(hero.getPosition().getY() + 1).getId() == Piece.exitChar)
-						&& (hero.getStatus() != Status.armed)) {
-					message = "Sword missing!";
-				} else {
-					if (maze.get(hero.getPosition().getX())
-							.get(hero.getPosition().getY() + 1).getId() == Piece.swordChar) {
-						hero.setPiece(Piece.armedChar);
-						hero.setStatus(Status.armed);
-					} else if (maze.get(hero.getPosition().getX())
-							.get(hero.getPosition().getY() + 1).getId() == Piece.exitChar) {
-						hero.setStatus(Status.cleared);
-						done = true;
-						message = "Level Cleared! Congratulations!";
-					}
+				break;
 
+			case "s":
+
+				nearPiece = maze.get(hero.getPosition().getX())
+						.get(hero.getPosition().getY() + 1).getId();
+
+				if (nearPiece == Piece.emptyChar)
+					move = true;
+				else if (nearPiece == Piece.swordChar) {
+					hero.setPiece(Piece.armedChar);
+					hero.setStatus(Status.armed);
+					move = true;
+				} else if (nearPiece == Piece.exitChar
+						&& hero.getStatus() != Status.armed)
+					message = "Sword missing!";
+				else if (nearPiece == Piece.exitChar) {
+					done = true;
+					move = true;
+					hero.setStatus(Status.cleared);
+					message = "Level Cleared! Congratulations!";
+				}
+				if (move) {
 					maze.get(hero.getPosition().getX())
 							.get(hero.getPosition().getY())
 							.setId(Piece.emptyChar);
-
 					hero.getPosition().setY(hero.getPosition().getY() + 1);
-
 					maze.get(hero.getPosition().getX())
 							.get(hero.getPosition().getY())
 							.setId(hero.getPiece());
 				}
+				break;
 
-			} else if (input.equals("w")
-					&& (maze.get(hero.getPosition().getX())
-							.get(hero.getPosition().getY() - 1).getId() != Piece.wallChar)) {
-				if ((maze.get(hero.getPosition().getX())
-						.get(hero.getPosition().getY() - 1).getId() == Piece.exitChar)
-						&& (hero.getStatus() != Status.armed)) {
+			case "w":
+
+				nearPiece = maze.get(hero.getPosition().getX())
+						.get(hero.getPosition().getY() - 1).getId();
+
+				if (nearPiece == Piece.emptyChar)
+					move = true;
+				else if (nearPiece == Piece.swordChar) {
+					hero.setPiece(Piece.armedChar);
+					hero.setStatus(Status.armed);
+					move = true;
+				} else if (nearPiece == Piece.exitChar
+						&& hero.getStatus() != Status.armed)
 					message = "Sword missing!";
-				} else {
-					if (maze.get(hero.getPosition().getX())
-							.get(hero.getPosition().getY() - 1).getId() == Piece.swordChar) {
-						hero.setPiece(Piece.armedChar);
-						hero.setStatus(Status.armed);
-					} else if (maze.get(hero.getPosition().getX())
-							.get(hero.getPosition().getY() - 1).getId() == Piece.exitChar) {
-						hero.setStatus(Status.cleared);
-						done = true;
-						message = "Level Cleared! Congratulations!";
-					}
-
+				else if (nearPiece == Piece.exitChar) {
+					done = true;
+					move = true;
+					hero.setStatus(Status.cleared);
+					message = "Level Cleared! Congratulations!";
+				}
+				if (move) {
 					maze.get(hero.getPosition().getX())
 							.get(hero.getPosition().getY())
 							.setId(Piece.emptyChar);
-
 					hero.getPosition().setY(hero.getPosition().getY() - 1);
-
 					maze.get(hero.getPosition().getX())
 							.get(hero.getPosition().getY())
 							.setId(hero.getPiece());
 				}
-			} else if (input.equals("q")) {
+				break;
+
+			case "q":
 				cli.gameMessages("Game aborted.");
+				done = true;
+				break;
+
+			case "e":
+
+				if (eagle.getStatus() == Status.alive) {
+					eagle.setStatus(Status.pursuing);
+					eagle.setHeroPosition(new Position(hero.getPosition()
+							.getX(), hero.getPosition().getY(), " H "));
+					hero.setPiece(Piece.heroChar);
+					maze.get(hero.getPosition().getX())
+							.get(hero.getPosition().getY())
+							.setId(hero.getPiece());
+				}
+				break;
+
+			default:
 				break;
 			}
 
+			if (done)
+				break;
+
+			// Check for adjacent dragon
 			for (int i = 0; i < dragons.size(); i++) {
-				// Check for adjacent dragon
 				Dragon dragon = dragons.get(i);
 
 				if ((dragon.getStatus() != Status.dead)
@@ -225,7 +253,8 @@ public class Logic {
 					dragonMove(dragon);
 				}
 			}
-			eagleMove();
+			if (eagle.getStatus() != Status.dead)
+				eagleMove();
 
 			// Prints the maze and game messages if needed
 			cli.displayMaze(size, maze);
@@ -391,6 +420,266 @@ public class Logic {
 				.setId(dragon.getPiece());
 	}
 
+	public void eagleMove() {
+
+		String previousPiece;
+		String nextPiece;
+
+		switch (eagle.status) {
+
+		case Status.alive:
+			if (hero.status != Status.dead) {
+				eagle.getPosition().setX(hero.getPosition().getX());
+				eagle.getPosition().setY(hero.getPosition().getY());
+				String customPiece = hero.piece.substring(0, 2)
+						+ Piece.eagleChar;
+				hero.setPiece(customPiece);
+				maze.get(hero.getPosition().getX())
+						.get(hero.getPosition().getY()).setId(hero.getPiece());
+			}
+			break;
+		case Status.pursuing:
+			if (hero.status != Status.dead) {
+				int deltaX = sword.getPosition().getX()
+						- eagle.getPosition().getX();
+				int deltaY = sword.getPosition().getY()
+						- eagle.getPosition().getY();
+
+				// Descend at arrival to the sword position
+				if (deltaX == 0 && deltaY == 0) {
+					// if (maze.get(sword.getPosition().getX())
+					// .get(sword.getPosition().getY()).getId().substring(0, 2)
+					// != " E") {
+					// eagle.setStatus(Status.dead);
+					// } else {~
+					maze.get(eagle.getPosition().getX())
+							.get(eagle.getPosition().getY()).setId("E G");
+					eagle.setStatus(Status.returning);
+
+					// }
+				} // Eagle movement in pursuit of the sword
+				else if (Math.abs(deltaX) > Math.abs(deltaY)) {
+					if (deltaX < 0) {
+						previousPiece = maze.get(eagle.getPosition().getX())
+								.get(eagle.getPosition().getY()).getId()
+								.substring(0, 2)
+								+ " ";
+
+						nextPiece = maze.get(eagle.getPosition().getX() - 1)
+								.get(eagle.getPosition().getY()).getId()
+								.substring(0, 2)
+								+ Piece.eagleChar;
+
+						maze.get(eagle.getPosition().getX())
+								.get(eagle.getPosition().getY())
+								.setId(previousPiece);
+
+						eagle.getPosition()
+								.setX(eagle.getPosition().getX() - 1);
+
+						maze.get(eagle.getPosition().getX())
+								.get(eagle.getPosition().getY())
+								.setId(nextPiece);
+					} else {
+						previousPiece = maze.get(eagle.getPosition().getX())
+								.get(eagle.getPosition().getY()).getId()
+								.substring(0, 2)
+								+ " ";
+
+						nextPiece = maze.get(eagle.getPosition().getX() + 1)
+								.get(eagle.getPosition().getY()).getId()
+								.substring(0, 2)
+								+ Piece.eagleChar;
+
+						maze.get(eagle.getPosition().getX())
+								.get(eagle.getPosition().getY())
+								.setId(previousPiece);
+						eagle.getPosition()
+								.setX(eagle.getPosition().getX() + 1);
+						maze.get(eagle.getPosition().getX())
+								.get(eagle.getPosition().getY())
+								.setId(nextPiece);
+					}
+				} else {
+					if (deltaY < 0) {
+
+						previousPiece = maze.get(eagle.getPosition().getX())
+								.get(eagle.getPosition().getY()).getId()
+								.substring(0, 2)
+								+ " ";
+						nextPiece = maze.get(eagle.getPosition().getX())
+								.get(eagle.getPosition().getY() - 1).getId()
+								.substring(0, 2)
+								+ Piece.eagleChar;
+
+						maze.get(eagle.getPosition().getX())
+								.get(eagle.getPosition().getY())
+								.setId(previousPiece);
+
+						eagle.getPosition()
+								.setY(eagle.getPosition().getY() - 1);
+
+						maze.get(eagle.getPosition().getX())
+								.get(eagle.getPosition().getY())
+								.setId(nextPiece);
+					} else {
+						previousPiece = maze.get(eagle.getPosition().getX())
+								.get(eagle.getPosition().getY()).getId()
+								.substring(0, 2)
+								+ " ";
+						nextPiece = maze.get(eagle.getPosition().getX())
+								.get(eagle.getPosition().getY() + 1).getId()
+								.substring(0, 2)
+								+ Piece.eagleChar;
+						maze.get(eagle.getPosition().getX())
+								.get(eagle.getPosition().getY())
+								.setId(previousPiece);
+						eagle.getPosition()
+								.setY(eagle.getPosition().getY() + 1);
+						maze.get(eagle.getPosition().getX())
+								.get(eagle.getPosition().getY())
+								.setId(nextPiece);
+					}
+				}
+			}
+			break;
+		case Status.returning:
+			if (hero.status != Status.dead) {
+				int deltaX = eagle.getHeroPosition().getX()
+						- eagle.getPosition().getX();
+				int deltaY = eagle.getHeroPosition().getY()
+						- eagle.getPosition().getY();
+
+				// Descend at arrival to the hero position
+				if (deltaX == 0 && deltaY == 0) {
+					if (eagle.getHeroPosition().getX() != hero.getPosition()
+							.getX()
+							|| eagle.getHeroPosition().getY() != hero
+									.getPosition().getY()) {
+						maze.get(eagle.getPosition().getX())
+								.get(eagle.getPosition().getY())
+								.setId(Piece.swordChar);
+						hero.setPiece(" HG");
+					} else {
+						hero.setPiece(" AG");
+						hero.setStatus(Status.armed);
+					}
+
+					eagle.setStatus(Status.alive);
+
+				} // Eagle movement in pursuit of the hero
+				else if (Math.abs(deltaX) > Math.abs(deltaY)) {
+
+					if (deltaX < 0) {
+
+						previousPiece = " "
+								+ maze.get(eagle.getPosition().getX())
+										.get(eagle.getPosition().getY())
+										.getId().substring(1, 2) + " ";
+
+						nextPiece = "E"
+								+ maze.get(eagle.getPosition().getX() - 1)
+										.get(eagle.getPosition().getY())
+										.getId().substring(1, 2)
+								+ Piece.eagleChar;
+
+						maze.get(eagle.getPosition().getX())
+								.get(eagle.getPosition().getY())
+								.setId(previousPiece);
+
+						eagle.getPosition()
+								.setX(eagle.getPosition().getX() - 1);
+						sword.getPosition()
+								.setX(sword.getPosition().getX() - 1);
+
+						maze.get(eagle.getPosition().getX())
+								.get(eagle.getPosition().getY())
+								.setId(nextPiece);
+					} else {
+						previousPiece = " "
+								+ maze.get(eagle.getPosition().getX())
+										.get(eagle.getPosition().getY())
+										.getId().substring(1, 2) + " ";
+
+						nextPiece = "E"
+								+ maze.get(eagle.getPosition().getX() + 1)
+										.get(eagle.getPosition().getY())
+										.getId().substring(1, 2)
+								+ Piece.eagleChar;
+
+						maze.get(eagle.getPosition().getX())
+								.get(eagle.getPosition().getY())
+								.setId(previousPiece);
+
+						eagle.getPosition()
+								.setX(eagle.getPosition().getX() + 1);
+						sword.getPosition()
+								.setX(sword.getPosition().getX() + 1);
+
+						maze.get(eagle.getPosition().getX())
+								.get(eagle.getPosition().getY())
+								.setId(nextPiece);
+					}
+
+				} else {
+
+					if (deltaY < 0) {
+
+						previousPiece = " "
+								+ maze.get(eagle.getPosition().getX())
+										.get(eagle.getPosition().getY())
+										.getId().substring(1, 2) + " ";
+						nextPiece = "E"
+								+ maze.get(eagle.getPosition().getX())
+										.get(eagle.getPosition().getY() - 1)
+										.getId().substring(1, 2)
+								+ Piece.eagleChar;
+
+						maze.get(eagle.getPosition().getX())
+								.get(eagle.getPosition().getY())
+								.setId(previousPiece);
+
+						eagle.getPosition()
+								.setY(eagle.getPosition().getY() - 1);
+						sword.getPosition()
+								.setY(sword.getPosition().getY() - 1);
+
+						maze.get(eagle.getPosition().getX())
+								.get(eagle.getPosition().getY())
+								.setId(nextPiece);
+					} else {
+						previousPiece = " "
+								+ maze.get(eagle.getPosition().getX())
+										.get(eagle.getPosition().getY())
+										.getId().substring(1, 2) + " ";
+						nextPiece = "E"
+								+ maze.get(eagle.getPosition().getX())
+										.get(eagle.getPosition().getY() + 1)
+										.getId().substring(1, 2)
+								+ Piece.eagleChar;
+
+						maze.get(eagle.getPosition().getX())
+								.get(eagle.getPosition().getY())
+								.setId(previousPiece);
+
+						eagle.getPosition()
+								.setY(eagle.getPosition().getY() + 1);
+						sword.getPosition()
+								.setY(sword.getPosition().getY() + 1);
+
+						maze.get(eagle.getPosition().getX())
+								.get(eagle.getPosition().getY())
+								.setId(nextPiece);
+					}
+				}
+			}
+			break;
+
+		default:
+			break;
+		}
+	}
+
 	boolean nearPieces(Position position, ArrayList<String> pieces) {
 
 		for (int i = 0; i < pieces.size(); i++)
@@ -398,18 +687,6 @@ public class Logic {
 				return true;
 
 		return false;
-	}
-
-	public void eagleMove() {
-
-		if (eagle.status == Status.alive && hero.status != Status.dead) {
-			eagle.setPosition(hero.getPosition());
-			String customEaglePiece = hero.piece.substring(0, 2)
-					+ Piece.eagleChar;
-			hero.setPiece(customEaglePiece);
-			maze.get(hero.getPosition().getX()).get(hero.getPosition().getY())
-					.setId(hero.getPiece());
-		}
 	}
 
 	Position getAvailableMazePosition() {

@@ -1,4 +1,3 @@
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -17,7 +16,7 @@ public class Builder extends Logic {
 	}
 
 	public void defaultMaze() {
-		
+
 		// Fill with spaces
 		for (int i = 0; i < size; i++) {
 			ArrayList<Position> mazeLine = new ArrayList<Position>();
@@ -25,7 +24,7 @@ public class Builder extends Logic {
 				mazeLine.add(new Position(i, z, Piece.emptyChar));
 			maze.add(mazeLine);
 		}
-		
+
 		for (int i = 0; i < size; i++) {
 			// Upper and lower maze border limits
 			maze.get(i).get(0).setId(Piece.wallChar);
@@ -67,8 +66,9 @@ public class Builder extends Logic {
 		hero = new Hero(maze.get(1).get(1), Status.alive, Piece.heroChar);
 
 		// Eagle position
-		eagle = new Eagle(hero.getPosition(), Status.alive, Piece.eagleChar);
-		eagleMove();
+		eagle = new Eagle(new Position(hero.getPosition().getX(), hero
+				.getPosition().getY(), " HG"), Status.alive, Piece.eagleChar);
+		hero.setPiece(" HG");
 
 		maze.get(hero.getPosition().getX()).get(hero.getPosition().getY())
 				.setId(hero.getPiece());
@@ -77,7 +77,6 @@ public class Builder extends Logic {
 		dragons.add(new Dragon(maze.get(1).get(3), Status.alive,
 				Piece.dragonChar));
 		maze.get(1).get(3).setId(Piece.dragonChar);
-		aditionalDragons(1);
 
 		// Exit position
 		maze.get(9).get(5).setId(Piece.exitChar);
@@ -117,7 +116,7 @@ public class Builder extends Logic {
 				mazeLine.add(new Position(i, z, Piece.wallChar));
 			maze.add(mazeLine);
 		}
-		
+
 		// start position
 		Random ry = new Random();
 		// int randomLine = ry.nextInt(size);//substituir por size later on
@@ -217,8 +216,9 @@ public class Builder extends Logic {
 				Piece.heroChar);
 
 		// Eagle position
-		eagle = new Eagle(hero.getPosition(), Status.alive, Piece.eagleChar);
-		eagleMove();
+		eagle = new Eagle(new Position(hero.getPosition().getX(), hero
+				.getPosition().getY(), " HG"), Status.alive, Piece.eagleChar);
+		hero.setPiece(" HG");
 
 		maze.get(hero.getPosition().getX()).get(hero.getPosition().getY())
 				.setId(hero.getPiece());

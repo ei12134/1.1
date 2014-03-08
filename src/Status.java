@@ -1,6 +1,6 @@
 public class Status {
 
-	static String alive = "alive", dead = "dead", guarding = "guarding",
+	static final String alive = "alive", dead = "dead", guarding = "guarding",
 			armed = "armed", asleep = "asleep", idle = "idle",
-			cleared = "cleared", pursuing = "pursuing";
+			cleared = "cleared", pursuing = "pursuing", returning = "returning";
 }

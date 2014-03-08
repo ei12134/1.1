@@ -1,5 +1,6 @@
 
 public class Eagle {
+	Position heroPosition;
 	Position position;
 	String status;
 	String piece;
@@ -22,8 +23,16 @@ public class Eagle {
 		return piece;
 	}
 
+	public Position getHeroPosition() {
+		return heroPosition;
+	}
+	
 	public void setPosition(Position position) {
 		this.position = position;
+	}
+	
+	public void setHeroPosition(Position position) {
+		this.heroPosition = position;
 	}
 
 	public void setStatus(String status) {

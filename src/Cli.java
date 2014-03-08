@@ -99,7 +99,7 @@ public class Cli {
 	}
 
 	public String getKey() {
-		System.out.print("(w/a/s/d) to move (q) to abort > ");
+		System.out.print("(w/a/s/d) to move (e) to release eagle (q) to abort > ");
 		Scanner scan = new Scanner(System.in);
 		String input = scan.nextLine();
 		// scan.close();
