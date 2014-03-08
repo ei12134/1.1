@@ -32,7 +32,8 @@ public class Logic {
 		badNearPiece.add(Piece.guardingChar);
 		badNearPiece.add(Piece.asleepChar);
 		badNearPiece.add(Piece.exitChar);
-
+		badNearPiece.add(" XG");
+		badNearPiece.add("EXG");
 	};
 
 	public void heroMove() {
@@ -47,6 +48,11 @@ public class Logic {
 			input = cli.getKey();
 			move = false;
 
+			if (input.equals("q")) {
+				cli.gameMessages("Game aborted.");
+				break;
+			}
+
 			switch (input) {
 
 			case "d":
@@ -54,11 +60,17 @@ public class Logic {
 				nearPiece = maze.get(hero.getPosition().getX() + 1)
 						.get(hero.getPosition().getY()).getId();
 
-				if (nearPiece == Piece.emptyChar)
+				if (nearPiece.equals(Piece.emptyChar))
 					move = true;
-				else if (nearPiece == Piece.swordChar) {
+				else if (nearPiece == Piece.swordChar
+						|| nearPiece.equals("E G")) {
 					hero.setPiece(Piece.armedChar);
 					hero.setStatus(Status.armed);
+					move = true;
+				} else if (nearPiece.equals("E G")) {
+					hero.setPiece(Piece.armedChar);
+					hero.setStatus(Status.armed);
+					eagle.setStatus(Status.alive);
 					move = true;
 				} else if (nearPiece == Piece.exitChar
 						&& hero.getStatus() != Status.armed)
@@ -85,11 +97,16 @@ public class Logic {
 				nearPiece = maze.get(hero.getPosition().getX() - 1)
 						.get(hero.getPosition().getY()).getId();
 
-				if (nearPiece == Piece.emptyChar)
+				if (nearPiece.equals(Piece.emptyChar))
 					move = true;
 				else if (nearPiece == Piece.swordChar) {
 					hero.setPiece(Piece.armedChar);
 					hero.setStatus(Status.armed);
+					move = true;
+				} else if (nearPiece.equals("E G")) {
+					hero.setPiece(Piece.armedChar);
+					hero.setStatus(Status.armed);
+					eagle.setStatus(Status.alive);
 					move = true;
 				} else if (nearPiece == Piece.exitChar
 						&& hero.getStatus() != Status.armed)
@@ -116,11 +133,16 @@ public class Logic {
 				nearPiece = maze.get(hero.getPosition().getX())
 						.get(hero.getPosition().getY() + 1).getId();
 
-				if (nearPiece == Piece.emptyChar)
+				if (nearPiece.equals(Piece.emptyChar))
 					move = true;
 				else if (nearPiece == Piece.swordChar) {
 					hero.setPiece(Piece.armedChar);
 					hero.setStatus(Status.armed);
+					move = true;
+				} else if (nearPiece.equals("E G")) {
+					hero.setPiece(Piece.armedChar);
+					hero.setStatus(Status.armed);
+					eagle.setStatus(Status.alive);
 					move = true;
 				} else if (nearPiece == Piece.exitChar
 						&& hero.getStatus() != Status.armed)
@@ -147,11 +169,16 @@ public class Logic {
 				nearPiece = maze.get(hero.getPosition().getX())
 						.get(hero.getPosition().getY() - 1).getId();
 
-				if (nearPiece == Piece.emptyChar)
+				if (nearPiece.equals(Piece.emptyChar))
 					move = true;
 				else if (nearPiece == Piece.swordChar) {
 					hero.setPiece(Piece.armedChar);
 					hero.setStatus(Status.armed);
+					move = true;
+				} else if (nearPiece.equals("E G")) {
+					hero.setPiece(Piece.armedChar);
+					hero.setStatus(Status.armed);
+					eagle.setStatus(Status.alive);
 					move = true;
 				} else if (nearPiece == Piece.exitChar
 						&& hero.getStatus() != Status.armed)
@@ -173,14 +200,10 @@ public class Logic {
 				}
 				break;
 
-			case "q":
-				cli.gameMessages("Game aborted.");
-				done = true;
-				break;
-
 			case "e":
 
-				if (eagle.getStatus() == Status.alive) {
+				if (eagle.getStatus() == Status.alive
+						&& hero.getStatus() != Status.armed) {
 					eagle.setStatus(Status.pursuing);
 					eagle.setHeroPosition(new Position(hero.getPosition()
 							.getX(), hero.getPosition().getY(), " H "));
@@ -195,50 +218,51 @@ public class Logic {
 				break;
 			}
 
-			if (done)
-				break;
-
 			// Check for adjacent dragon
 			for (int i = 0; i < dragons.size(); i++) {
 				Dragon dragon = dragons.get(i);
 
 				if ((dragon.getStatus() != Status.dead)
 						&& (hero.getStatus() != Status.cleared)) {
-					if ((nearPieces(maze.get(hero.getPosition().getX() + 1)
-							.get(hero.getPosition().getY()), nearDragon))
-							|| nearPieces(
-									maze.get(hero.getPosition().getX() - 1)
-											.get(hero.getPosition().getY()),
-									nearDragon)
-							|| nearPieces(maze.get(hero.getPosition().getX())
-									.get(hero.getPosition().getY() + 1),
-									nearDragon)
-							|| nearPieces(maze.get(hero.getPosition().getX())
-									.get(hero.getPosition().getY() - 1),
-									nearDragon)
-							|| nearPieces(
-									maze.get(hero.getPosition().getX() - 1)
-											.get(hero.getPosition().getY() + 1),
-									nearDragon)
-							|| nearPieces(
-									maze.get(hero.getPosition().getX() + 1)
-											.get(hero.getPosition().getY() + 1),
-									nearDragon)
-							|| nearPieces(
-									maze.get(hero.getPosition().getX() + 1)
-											.get(hero.getPosition().getY() - 1),
-									nearDragon)
-							|| nearPieces(
-									maze.get(hero.getPosition().getX() - 1)
-											.get(hero.getPosition().getY() - 1),
-									nearDragon)) {
+					if (((hero.getPosition().getX() + 1 == (dragon
+							.getPosition().getX()) && hero.getPosition().getY() == (dragon
+							.getPosition().getY())))
+							|| ((hero.getPosition().getX() - 1 == (dragon
+									.getPosition().getX()) && hero
+									.getPosition().getY() == (dragon
+									.getPosition().getY())))
+							|| ((hero.getPosition().getX() == (dragon
+									.getPosition().getX()) && hero
+									.getPosition().getY() + 1 == (dragon
+									.getPosition().getY())))
+							|| ((hero.getPosition().getX() == (dragon
+									.getPosition().getX()) && hero
+									.getPosition().getY() - 1 == (dragon
+									.getPosition().getY())))
+							|| ((hero.getPosition().getX() - 1 == (dragon
+									.getPosition().getX()) && hero
+									.getPosition().getY() + 1 == (dragon
+									.getPosition().getY())))
+							|| ((hero.getPosition().getX() + 1 == (dragon
+									.getPosition().getX()) && hero
+									.getPosition().getY() + 1 == (dragon
+									.getPosition().getY())))
+							|| ((hero.getPosition().getX() + 1 == (dragon
+									.getPosition().getX()) && hero
+									.getPosition().getY() - 1 == (dragon
+									.getPosition().getY())))
+							|| ((hero.getPosition().getX() - 1 == (dragon
+									.getPosition().getX()) && hero
+									.getPosition().getY() - 1 == (dragon
+									.getPosition().getY())))) {
 						if (hero.getStatus() == Status.armed) {
 							dragon.setStatus(Status.dead);
 							maze.get(dragon.getPosition().getX())
 									.get(dragon.getPosition().getY())
 									.setId(Piece.emptyChar);
 							message = "Dragon slayed!";
-							dragons.remove(i);
+//							dragons.remove(i);
+//							i--;
 						} else if (dragon.status != Status.asleep) {
 							hero.setStatus(Status.dead);
 							maze.get(hero.getPosition().getX())
@@ -298,6 +322,12 @@ public class Logic {
 							.get(dragon.getPosition().getY())
 							.setId(Piece.emptyChar);
 				} else {
+					if (maze.get(dragon.getPosition().getX() + 1)
+							.get(dragon.getPosition().getY()).getId()
+							.substring(2, 3) == "G"
+							&& eagle.getStatus() == Status.idle)
+						eagle.setStatus(Status.dead);
+
 					dragon.setStatus(Status.guarding);
 					dragon.setPiece(Piece.guardingChar);
 					maze.get(dragon.getPosition().getX())
@@ -332,6 +362,12 @@ public class Logic {
 							.get(dragon.getPosition().getY())
 							.setId(Piece.emptyChar);
 				} else {
+					if (maze.get(dragon.getPosition().getX() + 1)
+							.get(dragon.getPosition().getY()).getId()
+							.substring(2, 3) == "G"
+							&& eagle.getStatus() == Status.idle)
+						eagle.setStatus(Status.dead);
+
 					dragon.setStatus(Status.guarding);
 					dragon.setPiece(Piece.guardingChar);
 					maze.get(dragon.getPosition().getX())
@@ -366,6 +402,12 @@ public class Logic {
 							.get(dragon.getPosition().getY())
 							.setId(Piece.emptyChar);
 				} else {
+					if (maze.get(dragon.getPosition().getX() + 1)
+							.get(dragon.getPosition().getY()).getId()
+							.substring(2, 3) == "G"
+							&& eagle.getStatus() == Status.idle)
+						eagle.setStatus(Status.dead);
+
 					dragon.setStatus(Status.guarding);
 					dragon.setPiece(Piece.guardingChar);
 					maze.get(dragon.getPosition().getX())
@@ -400,6 +442,12 @@ public class Logic {
 							.get(dragon.getPosition().getY())
 							.setId(Piece.emptyChar);
 				} else {
+					if (maze.get(dragon.getPosition().getX() + 1)
+							.get(dragon.getPosition().getY()).getId()
+							.substring(2, 3) == "G"
+							&& eagle.getStatus() == Status.idle)
+						eagle.setStatus(Status.dead);
+
 					dragon.setStatus(Status.guarding);
 					dragon.setPiece(Piece.guardingChar);
 					maze.get(dragon.getPosition().getX())
@@ -447,16 +495,16 @@ public class Logic {
 
 				// Descend at arrival to the sword position
 				if (deltaX == 0 && deltaY == 0) {
-					// if (maze.get(sword.getPosition().getX())
-					// .get(sword.getPosition().getY()).getId().substring(0, 2)
-					// != " E") {
-					// eagle.setStatus(Status.dead);
-					// } else {~
-					maze.get(eagle.getPosition().getX())
-							.get(eagle.getPosition().getY()).setId("E G");
-					eagle.setStatus(Status.returning);
+					if (maze.get(sword.getPosition().getX())
+							.get(sword.getPosition().getY()).getId()
+							.substring(1, 2).equals("F")) {
+						eagle.setStatus(Status.dead);
+					} else {
+						maze.get(eagle.getPosition().getX())
+								.get(eagle.getPosition().getY()).setId("E G");
+						eagle.setStatus(Status.returning);
 
-					// }
+					}
 				} // Eagle movement in pursuit of the sword
 				else if (Math.abs(deltaX) > Math.abs(deltaY)) {
 					if (deltaX < 0) {
@@ -556,16 +604,12 @@ public class Logic {
 							.getX()
 							|| eagle.getHeroPosition().getY() != hero
 									.getPosition().getY()) {
-						maze.get(eagle.getPosition().getX())
-								.get(eagle.getPosition().getY())
-								.setId(Piece.swordChar);
-						hero.setPiece(" HG");
+						eagle.setStatus(Status.idle);
 					} else {
 						hero.setPiece(" AG");
 						hero.setStatus(Status.armed);
+						eagle.setStatus(Status.alive);
 					}
-
-					eagle.setStatus(Status.alive);
 
 				} // Eagle movement in pursuit of the hero
 				else if (Math.abs(deltaX) > Math.abs(deltaY)) {
@@ -689,7 +733,7 @@ public class Logic {
 		return false;
 	}
 
-	Position getAvailableMazePosition() {
+	Position getAvailablePosition() {
 		int randomX = 0, randomY = 0;
 		Random r = new Random();
 

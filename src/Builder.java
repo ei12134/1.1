@@ -91,7 +91,7 @@ public class Builder extends Logic {
 
 		for (int i = 0; i < dragonCounter; i++) {
 
-			Position newDragonPosition = getAvailableMazePosition();
+			Position newDragonPosition = getAvailablePosition();
 
 			if (newDragonPosition != null)
 				dragons.add(new Dragon(newDragonPosition, Status.alive,
@@ -212,8 +212,7 @@ public class Builder extends Logic {
 		} while (numberiterations > 0);
 
 		// Hero position
-		hero = new Hero(getAvailableMazePosition(), Status.alive,
-				Piece.heroChar);
+		hero = new Hero(getAvailablePosition(), Status.alive, Piece.heroChar);
 
 		// Eagle position
 		eagle = new Eagle(new Position(hero.getPosition().getX(), hero
@@ -224,7 +223,7 @@ public class Builder extends Logic {
 				.setId(hero.getPiece());
 
 		// Dragon position
-		aditionalDragons(2);
+		aditionalDragons(5);
 
 		// Exit position
 		Position exitPosition = generateExit();
@@ -232,7 +231,7 @@ public class Builder extends Logic {
 				.setId(Piece.exitChar);
 
 		// Sword position
-		sword = new Sword(getAvailableMazePosition());
+		sword = new Sword(getAvailablePosition());
 		maze.get(sword.getPosition().getX()).get(sword.getPosition().getY())
 				.setId(Piece.swordChar);
 	}

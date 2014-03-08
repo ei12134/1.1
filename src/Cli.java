@@ -31,7 +31,7 @@ public class Cli {
 
 		Scanner scan = new Scanner(System.in);
 		int size;
-		// scan.close();
+		//scan.close();
 
 		do {
 			System.out.print("\n\tEnter maze size\n\n * Type 0 to select standard maze\n * Odd (>= 7) maze sizes only\n > ");
