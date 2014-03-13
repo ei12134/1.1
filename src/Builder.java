@@ -119,31 +119,50 @@ public class Builder extends Logic {
 
 		// start position
 		Random ry = new Random();
-		// int randomLine = ry.nextInt(size);//substituir por size later on
+		int randomLine = ry.nextInt(size);// substituir por size later on
 		// tem de ser odd
 		Random rx = new Random();
-		// int randomColum = rx.nextInt(size);//substituir por size later on,
+		int randomColum = rx.nextInt(size);// substituir por size later on,
 		// tem de ser odd
-		int randomLine = 5;
-		int randomColum = 3;
-		// while (randomLine%2 ==0){
-		// randomLine = ry.nextInt(size);
-		// }
-		// while (randomColum%2 ==0){
-		// randomColum = ry.nextInt(size);
-		// }
+		// int randomLine = 5;
+		// int randomColum = 3;
+		while (randomLine % 2 == 0) {
+			randomLine = ry.nextInt(size);
+		}
+		while (randomColum % 2 == 0) {
+			randomColum = ry.nextInt(size);
+		}
 
 		// initial point
 		maze.get(randomLine).get(randomColum).setId(Piece.emptyChar);
 
-		int numberiterations = 9250;
-		do {
+		// initialize border cells as already visited
+		boolean[][] visited;
+		visited = new boolean[size + 2][size + 2];
+		for (int x = 0; x < size + 2; x++)
+			visited[x][0] = visited[x][size] = true;
+		for (int y = 0; y < size + 2; y++)
+			visited[0][y] = visited[size][y] = true;
+		visited[randomLine][randomColum] = true;
+
+		// initialize inside cells as not visited
+		for (int x = 1; x < size - 1; x++) {
+			for (int y = 1; y < size - 1; y++) {
+				visited[x][y] = false;
+			}
+		}
+
+		boolean completed = false;
+
+		while (!completed) {
 			if (randomLine + 2 < size) {
 				if (maze.get(randomLine + 2).get(randomColum).getId() == Piece.wallChar) {
 					maze.get(randomLine + 1).get(randomColum)
 							.setId(Piece.emptyChar);
 					maze.get(randomLine + 2).get(randomColum)
 							.setId(Piece.emptyChar);
+					visited[randomLine + 1][randomColum] = false;
+					visited[randomLine + 2][randomColum] = false;
 				}
 			}
 			if (randomLine - 2 > 0) {
@@ -152,6 +171,8 @@ public class Builder extends Logic {
 							.setId(Piece.emptyChar);
 					maze.get(randomLine - 2).get(randomColum)
 							.setId(Piece.emptyChar);
+					visited[randomLine - 1][randomColum] = false;
+					visited[randomLine - 2][randomColum] = false;
 				}
 			}
 			if (randomColum + 2 < size) {
@@ -160,6 +181,8 @@ public class Builder extends Logic {
 							.setId(Piece.emptyChar);
 					maze.get(randomLine).get(randomColum + 2)
 							.setId(Piece.emptyChar);
+					visited[randomLine][randomColum + 1] = false;
+					visited[randomLine][randomColum + 2] = false;
 				}
 			}
 			if (randomColum - 2 > 0) {
@@ -168,6 +191,8 @@ public class Builder extends Logic {
 							.setId(Piece.emptyChar);
 					maze.get(randomLine).get(randomColum - 2)
 							.setId(Piece.emptyChar);
+					visited[randomLine][randomColum - 1] = false;
+					visited[randomLine][randomColum - 2] = false;
 				}
 			}
 			Random r = new Random();
@@ -177,8 +202,10 @@ public class Builder extends Logic {
 			case 0:
 				if ((randomLine + 2 < size)
 						&& (maze.get(randomLine + 1).get(randomColum).getId() == Piece.emptyChar)) {
+
+					visited[randomLine + 1][randomColum] = true;
+					visited[randomLine + 2][randomColum] = true;
 					randomLine += 2;
-					numberiterations--;
 				}
 				break;
 
@@ -186,30 +213,45 @@ public class Builder extends Logic {
 				if ((randomLine - 2 > 0)
 						&& (maze.get(randomLine - 1).get(randomColum).getId() == Piece.emptyChar)) {
 
+					visited[randomLine - 1][randomColum] = true;
+					visited[randomLine - 2][randomColum] = true;
 					randomLine -= 2;
-					numberiterations--;
 				}
 				break;
 			case 2:
 				if ((randomColum + 2 < size)
 						&& (maze.get(randomLine).get(randomColum + 1).getId() == Piece.emptyChar)) {
+					visited[randomLine][randomColum + 1] = true;
+					visited[randomLine][randomColum + 2] = true;
+
 					randomColum += 2;
-					numberiterations--;
+
 				}
 				break;
 			case 3:
 				if ((randomColum - 2 > 0)
 						&& (maze.get(randomLine)).get(randomColum - 1).getId() == Piece.emptyChar) {
-
+					visited[randomLine][randomColum - 1] = true;
+					visited[randomLine][randomColum - 2] = true;
 					randomColum -= 2;
-					numberiterations--;
+
 				}
 				break;
 			default:
 				break;
 			}
+			completed = true;
+			for (int i = 0; i < size; i++) {
+				for (int j = 0; j < size; j++) {
+					if ((visited[i][j] == false)
+							&& maze.get(i).get(j).getId() != Piece.wallChar) {
 
-		} while (numberiterations > 0);
+						completed = false;
+					}
+				}
+			}
+
+		}
 
 		// Hero position
 		hero = new Hero(getAvailablePosition(), Status.alive, Piece.heroChar);
