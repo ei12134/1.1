@@ -7,11 +7,23 @@ public class Builder extends Logic {
 	};
 
 	public void mazeSelector() {
-		if (size == 10)
-			defaultMaze();
-		else
-			generateMaze();
+		long start = 0;
+		long end = 0;
+		if (size == 10){
+			 start = System.currentTimeMillis();
+			 defaultMaze();
+			     end = System.currentTimeMillis();;
 
+			    System.out.println("It took "+(end - start) + " ms"+ " to make the maze ");}
+			
+		else{
+			  start = System.currentTimeMillis();
+			   generateMaze();
+			     end = System.currentTimeMillis();
+
+			     System.out.println("It took "+(end - start) + " ms"+ " to make the maze ");}
+			
+		
 		heroMove();
 	}
 
