@@ -1,7 +1,5 @@
 package maze;
 
-import algorithms.Algoritmo;
-
 public class Main {
 
 	public static void main(String[] args) {

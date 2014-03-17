@@ -1,6 +1,5 @@
 package maze;
 
-import algorithms.Algoritmo;
 import java.util.HashMap;
 import java.util.Random;
 import java.util.Scanner;
@@ -71,7 +70,7 @@ public class Jogo {
 					.getMovimentosPossiveis(heroi);
 
 			if (estadoDragao == 0)
-				dragao.setaDormir(true);
+				dragao.setaDormir(false);
 			else {
 				dragao.setaDormir(true);
 				System.out.println("Dragao a dormir!!!!!!!!!!");

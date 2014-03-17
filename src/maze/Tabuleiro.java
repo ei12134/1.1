@@ -4,7 +4,6 @@ import algorithms.Algoritmo;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Random;
 import java.util.Scanner;
 
 public class Tabuleiro {
@@ -79,6 +78,9 @@ public class Tabuleiro {
 			System.out.println("Opcao invalida! Escolher novamente...");
 			resposta = scanner.nextInt();
 		}
+		   long start=0;
+	        long end =0;
+	        start = System.currentTimeMillis();
 		Algoritmo algoritmo = new Algoritmo(resposta);
 		tabuleiro = algoritmo.gerarPuzzle();
 
@@ -143,7 +145,9 @@ public class Tabuleiro {
 						.comoChar()) {
 					saida = new Peca(i, j, TipoPeca.SAIDA.comoChar());
 					break;
-				}
+				}end = System.currentTimeMillis();
+
+	       	     System.out.println("It took "+(end - start) + " ms"+ " to make the maze ");
 	}
 
 	public void mostrarTabuleiro() {
