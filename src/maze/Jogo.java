@@ -43,10 +43,10 @@ public class Jogo {
 			tabuleiro = new Tabuleiro(heroi, dragao, 0);
 		}
 
-		iniciarJogo();
+		iniciarJogo( resposta);  //adicionei(Paulo) o parametro resposta para que o dragao se comporte de maneira + simples no tabuleiro default
 	}
 
-	public void iniciarJogo() {
+	public void iniciarJogo(int resposta) {
 		// Variavel que armazena a escolha do utilizador para movimentar o heroi
 		char jogadorOpcao;
 		// Variavel que define o estado do dragao
@@ -69,7 +69,7 @@ public class Jogo {
 			HashMap<Integer, Boolean> movimentosPossiveis = tabuleiro
 					.getMovimentosPossiveis(heroi);
 
-			if (estadoDragao == 0)
+			if (estadoDragao == 0 || resposta == 0)
 				dragao.setaDormir(false);
 			else {
 				dragao.setaDormir(true);
