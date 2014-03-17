@@ -24,7 +24,6 @@ public class Tests {
 		j1.hero = new Hero(1, 1);
 		j1.maze = new Maze(j1.hero, j1.dragon, 1);
 		
-
 		HashMap<Integer, Boolean> validMoves =j1.maze.getValidMoves(j1.hero);
 		assertTrue(validMoves.containsKey(Movement.MOVE_RIGHT.getDirecaoInt()));
 	}

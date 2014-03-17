@@ -151,7 +151,7 @@ public class Logic {
 	 * para uma peca diferente da peca da espada entao mostramos um 'E'na peca
 	 * da espada e um 'D' na peca do dragon(estado normal)
 	 */
-	public void moveDragon() {
+	public void moveDragon( ) {
 		int posX = dragon.getPosX();
 		int posY = dragon.getPosY();
 		int dir = random.nextInt(4);
