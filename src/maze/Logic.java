@@ -206,7 +206,8 @@ public class Logic {
 			}
 		}
 	}
-
+	
+	
 	public void checkDragonAtSword() {
 		if (dragonAtSword()) {
 			dragon.setAtSword(true);
