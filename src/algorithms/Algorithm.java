@@ -152,7 +152,8 @@ public class Algorithm {
 		// Verificar se podemos adicionar a Piece que esta em cima
 		if (currentPiece.getPosY() - 2 > 0 && currentPiece.getPosX() != 0
 				&& currentPiece.getPosX() != mazeSize - 1) {
-			if (!visitedPieces[currentPiece.getPosY() - 2][currentPiece.getPosX()]) {
+			if (!visitedPieces[currentPiece.getPosY() - 2][currentPiece
+					.getPosX()]) {
 				neighbour.add(maze.get(currentPiece.getPosY() - 2).get(
 						currentPiece.getPosX()));
 			}
@@ -162,7 +163,8 @@ public class Algorithm {
 		if (currentPiece.getPosY() + 2 < mazeSize - 1
 				&& currentPiece.getPosX() != 0
 				&& currentPiece.getPosX() != mazeSize - 1) {
-			if (!visitedPieces[currentPiece.getPosY() + 2][currentPiece.getPosX()]) {
+			if (!visitedPieces[currentPiece.getPosY() + 2][currentPiece
+					.getPosX()]) {
 				neighbour.add(maze.get(currentPiece.getPosY() + 2).get(
 						currentPiece.getPosX()));
 			}

@@ -4,25 +4,20 @@ import algorithms.Algorithm;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Scanner;
 
 public class Maze {
 
-	/**
-	 * Um maze e caracterizado por um conjunto de Pieces(em que cada uma
-	 * representa um objeto da classe Piece)
-	 */
-	ArrayList<ArrayList<Piece>> maze;
+	public ArrayList<ArrayList<Piece>> maze;
 
 	private Piece exit;
 	private Piece sword;
 
 	public Maze(Hero hero, Dragon dragon, int size) {
 		maze = new ArrayList<ArrayList<Piece>>();
-		if (size == 1)
+		if (size == 10)
 			startDefaultMaze(hero, dragon);
 		else
-			startRandomMaze(hero, dragon);
+			startRandomMaze(hero, dragon, size);
 	}
 
 	private void startDefaultMaze(Hero hero, Dragon dragao) {
@@ -56,8 +51,7 @@ public class Maze {
 			if (i != 2 && i != 3)
 				maze.get(8).get(i).setSymbol(PieceType.FREE.asChar());
 
-		maze.get(hero.getPosY()).get(hero.getPosX())
-				.setSymbol(hero.showHero());
+		maze.get(hero.getPosY()).get(hero.getPosX()).setSymbol(hero.showHero());
 		maze.get(exit.getPosY()).get(exit.getPosX())
 				.setSymbol(PieceType.EXIT.asChar());
 		maze.get(sword.getPosY()).get(sword.getPosX())
@@ -66,19 +60,9 @@ public class Maze {
 				.setSymbol(dragao.showDragon(hero));
 	}
 
-	private void startRandomMaze(Hero hero, Dragon dragon) {
-		int userInput;
-		Scanner scanner = new Scanner(System.in);
-		System.out.println("Select odd maze size:");
-		userInput = scanner.nextInt();
-		while (userInput % 2 == 0 || userInput > 40) {
-			System.out.println("Invalid Option! Try again...");
-			userInput = scanner.nextInt();
-		}
-		long start = 0;
-		long end = 0;
-		start = System.currentTimeMillis();
-		Algorithm algorithm = new Algorithm(userInput);
+	private void startRandomMaze(Hero hero, Dragon dragon, int size) {
+
+		Algorithm algorithm = new Algorithm(size);
 		maze = algorithm.createMaze();
 
 		/**
@@ -95,7 +79,7 @@ public class Maze {
 			posX = 1 + (int) (Math.random() * ((maze.size() - 1 - 1) + 1));
 			posY = 1 + (int) (Math.random() * ((maze.size() - 1 - 1) + 1));
 		}
-		// Gerar posicao do hero
+		// Set hero position
 		hero.setPosition(posX, posY);
 		maze.get(hero.getPosY()).get(hero.getPosX()).setSymbol(hero.showHero());
 
@@ -108,7 +92,7 @@ public class Maze {
 			posX = 1 + (int) (Math.random() * ((maze.size() - 1 - 1) + 1));
 			posY = 1 + (int) (Math.random() * ((maze.size() - 1 - 1) + 1));
 		}
-		// Gerar posicao do dragon
+		// Set dragon position
 		dragon.setPosition(posX, posY);
 		maze.get(dragon.getPosY()).get(dragon.getPosX())
 				.setSymbol(dragon.showDragon(hero));
@@ -124,32 +108,18 @@ public class Maze {
 			posX = 1 + (int) (Math.random() * ((maze.size() - 1 - 1) + 1));
 			posY = 1 + (int) (Math.random() * ((maze.size() - 1 - 1) + 1));
 		}
-		// Gerar posicao da SWORD
+		// Set sword position
 		sword = new Piece(posX, posY, PieceType.SWORD.asChar());
 		maze.get(sword.getPosY()).get(sword.getPosX())
 				.setSymbol(PieceType.SWORD.asChar());
 
-		// Marcar a EXIT
+		// Set exit position
 		for (int i = 0; i < maze.size(); i++)
 			for (int j = 0; j < maze.get(i).size(); j++)
 				if (maze.get(j).get(i).getSymbol() == PieceType.EXIT.asChar()) {
 					exit = new Piece(i, j, PieceType.EXIT.asChar());
 					break;
 				}
-		end = System.currentTimeMillis();
-
-		System.out.println("It took " + (end - start) + " ms"
-				+ " to make the maze ");
-	}
-
-	public void showMaze() {
-		for (int i = 0; i < maze.size(); i++) {
-			ArrayList<Piece> linhamaze = maze.get(i);
-			for (int j = 0; j < maze.get(i).size(); j++)
-				System.out.print(linhamaze.get(j).getSymbol() + " ");
-
-			System.out.println();
-		}
 	}
 
 	/**

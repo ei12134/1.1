@@ -2,14 +2,11 @@ package maze;
 
 import java.util.HashMap;
 import java.util.Random;
-import java.util.Scanner;
 
-public class Logic {
+import cli.Cli;
 
-	/**
-	 * Cada jogo inicialmente tera um maze, um hero e um dragon como principais
-	 * elementos
-	 */
+public class Logic extends Cli {
+
 	public Maze maze;
 	public Hero hero;
 	public Dragon dragon;
@@ -17,63 +14,50 @@ public class Logic {
 	Random random = new Random();
 
 	public Logic() {
-		finished = false;
+		while (mainMenu())
+		{
+			this.finished = false;
+			int size = setMazeSize();
+			if (size == 10) {
+				hero = new Hero(1, 1);
+				dragon = new Dragon(1, 6);
+				maze = new Maze(hero, dragon, 10);
+			} else {
+				hero = new Hero(0, 0);
+				dragon = new Dragon(0, 0);
+				maze = new Maze(hero, dragon, size);
+			}
+			startGame();
+		}
 	}
 
-	public void askMazeSize() {
-		int size;
-		Scanner scanner = new Scanner(System.in);
-		System.out.println("Puzzle normal/aleatorio? (0/1)");
-		size = scanner.nextInt();
-		while (size != 0 && size != 1) {
-			System.out.println("Invalid number! Try again...");
-			size = scanner.nextInt();
-		}
-
-		if (size == 0) {
-			hero = new Hero(1, 1);
-			dragon = new Dragon(1, 6);
-			maze = new Maze(hero, dragon, 1);
-		} else {
-			// TODO: Melhorar esta funcao mais tarde. So funciona porque (0,0) e
-			// sempre parede
-			hero = new Hero(0, 0);
-			dragon = new Dragon(0, 0);
-			maze = new Maze(hero, dragon, 0);
-		}
-
-		startGame(size); // adicionei(Paulo) o parametro size para que o dragon
-							// se comporte de maneira + simples no maze default
-	}
-
-	public void startGame(int size) {
+	public void startGame() {
 		// Variavel que armazena a escolha do utilizador para movimentar o hero
-		char userInput;
+		String userInput;
 		// Variavel que define o estado do dragon
 		int dragonState;
 
-		// Utilizado para receber input do jogador
-		Scanner scanner = new Scanner(System.in);
 		Random r = new Random();
-		/**
-		 * Mostrar uma mensagem ao jogador no qual ele(a) e informado sobre o
-		 * objetivo do jogo
-		 */
-		System.out.println("Encontrar a saida(S) para vencer o dragon!");
-		maze.showMaze();
+
+		displayMaze(maze.maze);
+
 		while (!finished) {
 			dragonState = r.nextInt(2);
-			System.out.print("Escolher nova posicao do hero: ");
-			userInput = scanner.next().charAt(0);
-
+			userInput = getKey();
 			HashMap<Integer, Boolean> validMoves = maze.getValidMoves(hero);
 
-			if (dragonState == 0 || size == 0)
+			if (dragonState == 0)
 				dragon.setAsleep(false);
 			else {
 				dragon.setAsleep(true);
-				System.out.println("Dragon is asleep");
+				gameMessages("Dragon is asleep");
 			}
+			
+			if (userInput.equals("q")){
+				finished=true;
+				break;
+			}
+			
 			// Move hero
 			moveHero(userInput, validMoves);
 			// Move dragon
@@ -86,19 +70,19 @@ public class Logic {
 			}
 			String state = checkGame();
 			// E finalmente mostrar o maze
-			maze.showMaze();
+			displayMaze(maze.maze);
 
 			if (state.equals(GameState.HERO_WON.toString())) {
 				finished = true;
 
 				// Escrever uma mensagem para informar que o jogador venceu o
 				// jogo
-				System.out.println("Venceste o jogo!!");
+				gameMessages("\nHero won :)");
 			} else if (state.equals(GameState.HERO_DIED.toString())) {
 				finished = true;
 
 				// Escrever uma mensagem para informar que o jogador morreu
-				System.out.println("Foste morto pelo dragon!!!");
+				gameMessages("\nHero died :(");
 			}
 		}
 	}
@@ -109,33 +93,33 @@ public class Logic {
 	 * possivel(nao e parede por exemplo) Se for valida entao movimenta, caso
 	 * contrario mostra uma mensagem de erro
 	 */
-	public void moveHero(int pos, HashMap<Integer, Boolean> moves) {
+	public void moveHero(String userInput, HashMap<Integer, Boolean> moves) {
 		// Mover jogador para cima
-		if (pos == 'w') {
+		if (userInput.equals("w")) {
 			// Verificar se o HashMap contem a key com o valor 0(cima)
 			if (moves.containsKey(Movement.MOVE_UP.getDirecaoInt())) {
 				// Alterar a peca atual onde o hero esta para uma peca livre
 				maze.swapPieces(Movement.MOVE_UP.getDirecaoInt(), hero);
 			} else
-				System.err.println("Nao pode mover o hero para cima!");
-		} else if (pos == 's') {
+				errorMessages("\n\nHero can't move up!\n");
+		} else if (userInput.equals("s")) {
 			// Verificar se o HashMap contem a key com o valor 1(baixo)
 			if (moves.containsKey(Movement.MOVE_DOWN.getDirecaoInt())) {
 				maze.swapPieces(Movement.MOVE_DOWN.getDirecaoInt(), hero);
 			} else
-				System.err.println("Nao pode mover o hero para baixo!");
-		} else if (pos == 'a') {
+				errorMessages("\n\nHero can't move down!\n");
+		} else if (userInput.equals("a")) {
 			// Verificar se o HashMap contem a key com o valor 3(esquerda)
 			if (moves.containsKey(Movement.MOVE_LEFT.getDirecaoInt())) {
 				maze.swapPieces(Movement.MOVE_LEFT.getDirecaoInt(), hero);
 			} else
-				System.err.println("Nao pode mover o hero para a esquerda!");
-		} else if (pos == 'd') {
+				errorMessages("\n\nHero can't move left!\n");
+		} else if (userInput.equals("d")) {
 			// Verificar se o HashMap contem a key com o valor 2(direita)
 			if (moves.containsKey(Movement.MOVE_RIGHT.getDirecaoInt())) {
 				maze.swapPieces(Movement.MOVE_RIGHT.getDirecaoInt(), hero);
 			} else
-				System.err.println("Nao pode mover o hero para a direita!");
+				errorMessages("\n\nHero can't move right!\n");
 		}
 	}
 
@@ -151,7 +135,7 @@ public class Logic {
 	 * para uma peca diferente da peca da espada entao mostramos um 'E'na peca
 	 * da espada e um 'D' na peca do dragon(estado normal)
 	 */
-	public void moveDragon( ) {
+	public void moveDragon() {
 		int posX = dragon.getPosX();
 		int posY = dragon.getPosY();
 		int dir = random.nextInt(4);

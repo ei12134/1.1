@@ -4,6 +4,7 @@ public class Dragon extends Character {
 
 	private boolean atSword;
 	private boolean asleep;
+	private char mode;
 
 	public Dragon(int posX, int posY) {
 		super(posX, posY);
@@ -29,6 +30,10 @@ public class Dragon extends Character {
 	public void setAsleep(boolean asleep) {
 		this.asleep = asleep;
 	}
+	
+	public void setMode(char mode) {
+		this.mode = mode;
+	}
 
 	public boolean getAtSword() {
 		return atSword;
@@ -38,4 +43,7 @@ public class Dragon extends Character {
 		return asleep;
 	}
 
+	public char getMode() {
+		return mode;
+	}
 }
