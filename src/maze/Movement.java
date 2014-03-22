@@ -11,7 +11,7 @@ public enum Movement
 		this.move = move;
 	}
 
-	public int getDirecaoInt() {
+	public int getDirection() {
 		return move;
 	}
 }
