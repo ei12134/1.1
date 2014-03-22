@@ -39,7 +39,7 @@ public class Logic extends Cli {
 
 		Random r = new Random();
 
-		displayMaze(maze.maze);
+		//displayMaze(maze.maze);
 
 		while (!finished) {
 			dragonState = r.nextInt(2);
