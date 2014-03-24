@@ -33,8 +33,8 @@ public class Algorithm {
 			ArrayList<Piece> linha = new ArrayList<Piece>();
 			for (int j = 0; j < mazeSize; j++) {
 				linha.add(new Piece(j, i,
-						(j % 2 != 0 && i % 2 != 0 ? PieceType.FREE.asChar()
-								: PieceType.WALL.asChar())));
+						(j % 2 != 0 && i % 2 != 0 ? PieceType.FREE.asString()
+								: PieceType.WALL.asString())));
 			}
 			mazeTemp.add(linha);
 		}
@@ -66,7 +66,7 @@ public class Algorithm {
 
 		// Set the chosen Piece as exit
 		Piece exitPiece = maze.get(exitLine).get(exitColumn);
-		exitPiece.setSymbol(PieceType.EXIT.asChar());
+		exitPiece.setSymbol(PieceType.EXIT.asString());
 
 		// Current Piece will be exit neighbor
 		currentPiece = maze.get(exitPiece.getPosY()).get(
@@ -117,21 +117,21 @@ public class Algorithm {
 	public void moveCurrentPiece(Piece Piece, int direcao) {
 		if (direcao == Movement.MOVE_UP.getDirection()) {
 			maze.get(Piece.getPosY() + 1).get(Piece.getPosX())
-					.setSymbol(PieceType.FREE.asChar());
+					.setSymbol(PieceType.FREE.asString());
 		} else if (direcao == Movement.MOVE_DOWN.getDirection()) {
 			maze.get(Piece.getPosY() - 1).get(Piece.getPosX())
-					.setSymbol(PieceType.FREE.asChar());
+					.setSymbol(PieceType.FREE.asString());
 		} else if (direcao == Movement.MOVE_RIGHT.getDirection()) {
 			maze.get(Piece.getPosY()).get(Piece.getPosX() - 1)
-					.setSymbol(PieceType.FREE.asChar());
+					.setSymbol(PieceType.FREE.asString());
 		} else {
 			maze.get(Piece.getPosY()).get(Piece.getPosX() + 1)
-					.setSymbol(PieceType.FREE.asChar());
+					.setSymbol(PieceType.FREE.asString());
 		}
 
 		// Marcar como Piece FREE
 		maze.get(Piece.getPosY()).get(Piece.getPosX())
-				.setSymbol(PieceType.FREE.asChar());
+				.setSymbol(PieceType.FREE.asString());
 		// Atualizar a Piece atual
 		currentPiece = Piece;
 

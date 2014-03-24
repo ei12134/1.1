@@ -2,18 +2,18 @@ package maze;
 
 /**
  * Fonte: http://stackoverflow.com/questions/14202959/in-java-is-there-a-way-to-
- * define-enum-of-type-char
+ * define-enum-of-type-String
  */
 public enum PieceType {
-	FREE(' '), WALL('X'), EXIT('S'), SWORD('E');
+	FREE("   "), WALL(" X "), EXIT(" S "), SWORD(" E ");
 
-	private final char asChar;
+	private final String asString;
 
-	public char asChar() {
-		return asChar;
+	public String asString() {
+		return asString;
 	}
 
-	private PieceType(char asChar) {
-		this.asChar = asChar;
+	private PieceType(String asString) {
+		this.asString = asString;
 	}
 }
