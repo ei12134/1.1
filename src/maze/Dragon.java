@@ -4,22 +4,21 @@ public class Dragon extends Character {
 
 	private boolean atSword;
 	private boolean asleep;
-	private char mode;
 
 	public Dragon(int posX, int posY) {
 		super(posX, posY);
 	}
 
-	public char showDragon(Hero hero) {
+	public String showDragon(Hero hero) {
 		if (!getDead()) {
 			if (getAtSword() && !hero.getArmed())
-				return 'F';
+				return " F ";
 			else if (getAsleep())
-				return 'd';
+				return " d ";
 			else
-				return 'D';
+				return " D ";
 		} else {
-			return ' ';
+			return "   ";
 		}
 	}
 
@@ -30,10 +29,6 @@ public class Dragon extends Character {
 	public void setAsleep(boolean asleep) {
 		this.asleep = asleep;
 	}
-	
-	public void setMode(char mode) {
-		this.mode = mode;
-	}
 
 	public boolean getAtSword() {
 		return atSword;
@@ -43,7 +38,4 @@ public class Dragon extends Character {
 		return asleep;
 	}
 
-	public char getMode() {
-		return mode;
-	}
 }

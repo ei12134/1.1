@@ -11,6 +11,8 @@ public class Logic extends Cli {
 	public Maze maze;
 	public ArrayList<Dragon> dragons;
 	public Hero hero;
+	public Eagle eagle;
+	public int dragonStrategy;
 	private boolean finished;
 
 	public Logic() {
@@ -20,13 +22,14 @@ public class Logic extends Cli {
 			int size = setMazeSize();
 			if (size == 10) {
 				hero = new Hero(1, 1);
+				eagle = new Eagle(1, 1);
 				dragons = new ArrayList<Dragon>();
 				dragons.add(new Dragon(1, 6));
 				maze = new Maze(hero, dragons, 10);
 			} else {
 				hero = new Hero(0, 0);
 				dragons = new ArrayList<Dragon>();
-				maze = new Maze(hero, dragons, size, 2);
+				maze = new Maze(hero, dragons, size, 7);
 			}
 			startGame();
 		}
@@ -40,7 +43,7 @@ public class Logic extends Cli {
 
 		Random random = new Random();
 
-		//displayMaze(maze.maze);
+		displayMaze(maze.maze);
 
 		while (!finished) {
 
@@ -48,19 +51,18 @@ public class Logic extends Cli {
 			HashMap<Integer, Boolean> validMoves = maze.getValidMoves(hero);
 			userInput = getKey();
 			moveHero(userInput, validMoves);
+			moveEagle();
 
 			// Dragon(s) processing
 			for (int i = 0; i < dragons.size(); i++) {
-
 				Dragon dragon = dragons.get(i);
-				dragonState = random.nextInt(2);
+				dragonState = random.nextInt(4);
 
-				if (dragonState == 0)
-					dragon.setAsleep(false);
-				else {
+				if (dragonState == 0) {
 					dragon.setAsleep(true);
 					gameMessages("Dragon is asleep");
-				}
+				} else
+					dragon.setAsleep(false);
 
 				if (userInput.equals("q")) {
 					finished = true;
@@ -69,10 +71,11 @@ public class Logic extends Cli {
 
 				// Move dragon
 				if (!dragon.getDead()) {
-					if (dragon.getAsleep())
+					if (dragon.getAsleep()) {
+						System.out.println("|||| O dragao esta a dormir|||");
 						maze.getMazePiece(dragon.getPosX(), dragon.getPosY())
 								.setSymbol(dragon.showDragon(hero));
-					else
+					} else
 						moveDragon(dragon);
 				}
 			}
@@ -104,6 +107,15 @@ public class Logic extends Cli {
 	 */
 	public void moveHero(String userInput, HashMap<Integer, Boolean> moves) {
 		// Mover jogador para cima
+		if (userInput.equals("e")) {
+			if (!eagle.getReturning()) {
+				eagle.setPursuing(true);
+				hero.setEagle(false);
+				eagle.setHeroX(hero.getPosX());
+				eagle.setHeroY(hero.getPosY());
+			}
+		}
+
 		if (userInput.equals("w")) {
 			// Verificar se o HashMap contem a key com o valor 0(cima)
 			if (moves.containsKey(Movement.MOVE_UP.getDirection())) {
@@ -150,13 +162,15 @@ public class Logic extends Cli {
 		int posX = dragon.getPosX();
 		int posY = dragon.getPosY();
 		int direction = random.nextInt(4);
-		char symbol;
+		String symbol;
 		if (direction == Movement.MOVE_UP.getDirection()) {
 			symbol = maze.getMazePieceSymbol(posX, posY - 1);
-			if (symbol != PieceType.WALL.asChar() && symbol != hero.showHero()
-					&& symbol != PieceType.EXIT.asChar()) {
-				maze.getMazePiece(posX, posY)
-						.setSymbol(PieceType.FREE.asChar());
+			if (symbol != PieceType.WALL.asString()
+					&& symbol != hero.showHero()
+					&& symbol != PieceType.EXIT.asString()
+					&& maze.nearDragons(posX, posY - 1)) {
+				maze.getMazePiece(posX, posY).setSymbol(
+						PieceType.FREE.asString());
 				dragon.setPosition(posX, posY - 1);
 				checkDragonAtSword(dragon);
 
@@ -165,10 +179,12 @@ public class Logic extends Cli {
 			}
 		} else if (direction == Movement.MOVE_DOWN.getDirection()) {
 			symbol = maze.getMazePieceSymbol(posX, posY + 1);
-			if (symbol != PieceType.WALL.asChar() && symbol != hero.showHero()
-					&& symbol != PieceType.EXIT.asChar()) {
-				maze.getMazePiece(posX, posY)
-						.setSymbol(PieceType.FREE.asChar());
+			if (symbol != PieceType.WALL.asString()
+					&& symbol != hero.showHero()
+					&& symbol != PieceType.EXIT.asString()
+					&& maze.nearDragons(posX, posY + 1)) {
+				maze.getMazePiece(posX, posY).setSymbol(
+						PieceType.FREE.asString());
 				dragon.setPosition(posX, posY + 1);
 				checkDragonAtSword(dragon);
 
@@ -177,10 +193,12 @@ public class Logic extends Cli {
 			}
 		} else if (direction == Movement.MOVE_RIGHT.getDirection()) {
 			symbol = maze.getMazePieceSymbol(posX + 1, posY);
-			if (symbol != PieceType.WALL.asChar() && symbol != hero.showHero()
-					&& symbol != PieceType.EXIT.asChar()) {
-				maze.getMazePiece(posX, posY)
-						.setSymbol(PieceType.FREE.asChar());
+			if (symbol != PieceType.WALL.asString()
+					&& symbol != hero.showHero()
+					&& symbol != PieceType.EXIT.asString()
+					&& maze.nearDragons(posX + 1, posY)) {
+				maze.getMazePiece(posX, posY).setSymbol(
+						PieceType.FREE.asString());
 				dragon.setPosition(posX + 1, posY);
 				checkDragonAtSword(dragon);
 
@@ -189,15 +207,246 @@ public class Logic extends Cli {
 			}
 		} else if (direction == Movement.MOVE_LEFT.getDirection()) {
 			symbol = maze.getMazePieceSymbol(posX - 1, posY);
-			if (symbol != PieceType.WALL.asChar() && symbol != hero.showHero()
-					&& symbol != PieceType.EXIT.asChar()) {
-				maze.getMazePiece(posX, posY)
-						.setSymbol(PieceType.FREE.asChar());
+			if (symbol != PieceType.WALL.asString()
+					&& symbol != hero.showHero()
+					&& symbol != PieceType.EXIT.asString()
+					&& maze.nearDragons(posX - 1, posY)) {
+				maze.getMazePiece(posX, posY).setSymbol(
+						PieceType.FREE.asString());
 				dragon.setPosition(posX - 1, posY);
 				checkDragonAtSword(dragon);
 
 				maze.getMazePiece(posX - 1, posY).setSymbol(
 						dragon.showDragon(hero));
+			}
+		}
+	}
+
+	public void moveEagle() {
+
+		String previousPiece;
+		String nextPiece;
+
+		if (!eagle.getPursuing() && !eagle.getReturning()) {
+			if (!hero.getDead())
+				eagle.setPosition(hero.getPosX(), hero.getPosY());
+		} else if (eagle.getPursuing()) {
+
+			if (!hero.getDead()) {
+				int deltaX = maze.getSword().getPosX() - eagle.getPosX();
+				int deltaY = maze.getSword().getPosY() - eagle.getPosY();
+
+				// Descend at arrival to the sword position
+				if (deltaX == 0 && deltaY == 0) {
+					// if (maze.get(sword.getPosition().getX())
+					// .get(sword.getPosition().getY()).getId()
+					// .substring(1, 2).equals("F")) {
+					// eagle.setStatus(Status.dead);
+					// } else {
+					maze.getMazePiece(eagle.getPosX(), eagle.getPosY())
+							.setSymbol("E G");
+					eagle.setPursuing(false);
+					eagle.setReturning(true);
+
+				}
+				// Eagle movement in pursuit of the sword
+				else if (Math.abs(deltaX) > Math.abs(deltaY)) {
+					if (deltaX < 0) {
+						previousPiece = maze
+								.getMazePiece(eagle.getPosX(), eagle.getPosY())
+								.getSymbol().substring(0, 2)
+								+ " ";
+
+						nextPiece = maze
+								.getMazePiece(eagle.getPosX() - 1,
+										eagle.getPosY()).getSymbol()
+								.substring(0, 2)
+								+ eagle.showEagle();
+
+						maze.getMazePiece(eagle.getPosX(), eagle.getPosY())
+								.setSymbol(previousPiece);
+
+						eagle.setPosition(eagle.getPosX() - 1, eagle.getPosY());
+
+						maze.getMazePiece(eagle.getPosX(), eagle.getPosY())
+								.setSymbol(nextPiece);
+					} else {
+						previousPiece = maze
+								.getMazePiece(eagle.getPosX(), eagle.getPosY())
+								.getSymbol().substring(0, 2)
+								+ " ";
+
+						nextPiece = maze
+								.getMazePiece(eagle.getPosX() + 1,
+										eagle.getPosY()).getSymbol()
+								.substring(0, 2)
+								+ eagle.showEagle();
+
+						maze.getMazePiece(eagle.getPosX(), eagle.getPosY())
+								.setSymbol(previousPiece);
+
+						eagle.setPosition(eagle.getPosX() + 1, eagle.getPosY());
+
+						maze.getMazePiece(eagle.getPosX(), eagle.getPosY())
+								.setSymbol(nextPiece);
+					}
+				} else {
+					if (deltaY < 0) {
+
+						previousPiece = maze
+								.getMazePiece(eagle.getPosX(), eagle.getPosY())
+								.getSymbol().substring(0, 2)
+								+ " ";
+
+						nextPiece = maze
+								.getMazePiece(eagle.getPosX(),
+										eagle.getPosY() - 1).getSymbol()
+								.substring(0, 2)
+								+ eagle.showEagle();
+
+						maze.getMazePiece(eagle.getPosX(), eagle.getPosY())
+								.setSymbol(previousPiece);
+
+						eagle.setPosition(eagle.getPosX(), eagle.getPosY() - 1);
+
+						maze.getMazePiece(eagle.getPosX(), eagle.getPosY())
+								.setSymbol(nextPiece);
+					} else {
+						previousPiece = maze
+								.getMazePiece(eagle.getPosX(), eagle.getPosY())
+								.getSymbol().substring(0, 2)
+								+ " ";
+
+						nextPiece = maze
+								.getMazePiece(eagle.getPosX(),
+										eagle.getPosY() + 1).getSymbol()
+								.substring(0, 2)
+								+ eagle.showEagle();
+
+						maze.getMazePiece(eagle.getPosX(), eagle.getPosY())
+								.setSymbol(previousPiece);
+
+						eagle.setPosition(eagle.getPosX(), eagle.getPosY() + 1);
+
+						maze.getMazePiece(eagle.getPosX(), eagle.getPosY())
+								.setSymbol(nextPiece);
+					}
+				}
+			}
+		} else if (eagle.getReturning()) {
+			if (!hero.getDead()) {
+				int deltaX = eagle.getHeroX() - eagle.getPosX();
+				int deltaY = eagle.getHeroY() - eagle.getPosY();
+
+				// Descend at arrival to the hero position
+				if (deltaX == 0 && deltaY == 0) {
+					if (eagle.getHeroX() != hero.getPosX()
+							|| eagle.getHeroY() != hero.getPosY()) {
+						maze.getMazePiece(eagle.getPosX(), eagle.getPosY()).setSymbol(" E ");
+						eagle.setPosition(hero.getPosX(), hero.getPosY());
+						hero.setEagle(true);
+						eagle.setPursuing(false);
+						eagle.setReturning(false);
+					} else {
+						hero.setEagle(true);
+						hero.setArmed(true);
+						eagle.setPursuing(false);
+						eagle.setReturning(false);
+					}
+
+				} // Eagle movement in pursuit of the hero
+				else if (Math.abs(deltaX) > Math.abs(deltaY)) {
+					if (deltaX < 0) {
+						previousPiece = " "
+								+ maze.getMazePiece(eagle.getPosX(),
+										eagle.getPosY()).getSymbol()
+										.substring(1, 2) + " ";
+
+						nextPiece = "E"
+								+ maze.getMazePiece(eagle.getPosX() - 1,
+										eagle.getPosY()).getSymbol()
+										.substring(1, 2) + eagle.showEagle();
+
+						maze.getMazePiece(eagle.getPosX(), eagle.getPosY())
+								.setSymbol(previousPiece);
+
+						maze.getMazePiece(eagle.getPosX(), eagle.getPosY())
+								.setSymbol(previousPiece);
+
+						eagle.setPosition(eagle.getPosX() - 1, eagle.getPosY());
+
+						maze.getMazePiece(eagle.getPosX(), eagle.getPosY())
+								.setSymbol(nextPiece);
+					} else {
+						previousPiece = " "
+								+ maze.getMazePiece(eagle.getPosX(),
+										eagle.getPosY()).getSymbol()
+										.substring(1, 2) + " ";
+
+						nextPiece = "E"
+								+ maze.getMazePiece(eagle.getPosX() + 1,
+										eagle.getPosY()).getSymbol()
+										.substring(1, 2) + eagle.showEagle();
+
+						maze.getMazePiece(eagle.getPosX(), eagle.getPosY())
+								.setSymbol(previousPiece);
+
+						maze.getMazePiece(eagle.getPosX(), eagle.getPosY())
+								.setSymbol(previousPiece);
+
+						eagle.setPosition(eagle.getPosX() + 1, eagle.getPosY());
+
+						maze.getMazePiece(eagle.getPosX(), eagle.getPosY())
+								.setSymbol(nextPiece);
+					}
+				}
+
+				else {
+					if (deltaY < 0) {
+
+						previousPiece = " "
+								+ maze.getMazePiece(eagle.getPosX(),
+										eagle.getPosY()).getSymbol()
+										.substring(1, 2) + " ";
+
+						nextPiece = "E"
+								+ maze.getMazePiece(eagle.getPosX(),
+										eagle.getPosY() - 1).getSymbol()
+										.substring(1, 2) + eagle.showEagle();
+
+						maze.getMazePiece(eagle.getPosX(), eagle.getPosY())
+								.setSymbol(previousPiece);
+
+						maze.getMazePiece(eagle.getPosX(), eagle.getPosY())
+								.setSymbol(previousPiece);
+
+						eagle.setPosition(eagle.getPosX(), eagle.getPosY() - 1);
+
+						maze.getMazePiece(eagle.getPosX(), eagle.getPosY())
+								.setSymbol(nextPiece);
+					} else {
+						previousPiece = " "
+								+ maze.getMazePiece(eagle.getPosX(),
+										eagle.getPosY()).getSymbol()
+										.substring(1, 2) + " ";
+
+						nextPiece = "E"
+								+ maze.getMazePiece(eagle.getPosX(),
+										eagle.getPosY() + 1).getSymbol()
+										.substring(1, 2) + eagle.showEagle();
+
+						maze.getMazePiece(eagle.getPosX(), eagle.getPosY())
+								.setSymbol(previousPiece);
+
+						maze.getMazePiece(eagle.getPosX(), eagle.getPosY())
+								.setSymbol(previousPiece);
+
+						eagle.setPosition(eagle.getPosX(), eagle.getPosY() + 1);
+
+						maze.getMazePiece(eagle.getPosX(), eagle.getPosY())
+								.setSymbol(nextPiece);
+					}
+				}
 			}
 		}
 	}
@@ -209,7 +458,7 @@ public class Logic extends Cli {
 			if (!hero.getArmed())
 				maze.getMazePiece(maze.getSword().getPosX(),
 						maze.getSword().getPosY()).setSymbol(
-						PieceType.SWORD.asChar());
+						PieceType.SWORD.asString());
 			dragon.setAtSword(false);
 		}
 	}

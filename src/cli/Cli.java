@@ -53,7 +53,6 @@ public class Cli {
 	}
 
 	public int setDragonMode() {
-
 		boolean validInput = false;
 		int mode = 0;
 
@@ -93,7 +92,7 @@ public class Cli {
 		for (int i = 0; i < maze.size(); i++) {
 			ArrayList<Piece> linhamaze = maze.get(i);
 			for (int j = 0; j < maze.get(i).size(); j++)
-				System.out.print(linhamaze.get(j).getSymbol() + " ");
+				System.out.print(linhamaze.get(j).getSymbol());
 
 			System.out.println();
 		}

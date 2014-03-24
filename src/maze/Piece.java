@@ -4,9 +4,9 @@ public class Piece {
 
 	private int posX;
 	private int posY;
-	private char symbol;
+	private String symbol;
 
-	public Piece(int posX, int posY, char symbol) {
+	public Piece(int posX, int posY, String symbol) {
 		this.posX = posX;
 		this.posY = posY;
 		this.symbol = symbol;
@@ -20,11 +20,11 @@ public class Piece {
 		return posY;
 	}
 
-	public char getSymbol() {
+	public String getSymbol() {
 		return symbol;
 	}
 
-	public void setSymbol(char symbol) {
+	public void setSymbol(String symbol) {
 		this.symbol = symbol;
 	}
 }
