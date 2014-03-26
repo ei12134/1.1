@@ -27,4 +27,9 @@ public class Piece {
 	public void setSymbol(String symbol) {
 		this.symbol = symbol;
 	}
+	
+	public void setPosition(int x, int y) {
+		posX = x;
+		posY = y;
+	}
 }

@@ -34,7 +34,6 @@ public class Cli {
 
 	public int setMazeSize() {
 		int size;
-
 		do {
 			System.out
 					.print("\n\tEnter maze size\n\n * Type 0 to select standard maze\n * Odd (>= 7) maze sizes only\n > ");
@@ -52,32 +51,32 @@ public class Cli {
 		return size;
 	}
 
-	public int setDragonMode() {
+	public int setDragonStrategy() {
 		boolean validInput = false;
 		int mode = 0;
 
 		while (!validInput) {
 			System.out
-					.print("\n\tEnter dragon mode\n\n * 0 - Idle\n * 1 - Random move\n * 2 - Sleeping dragon\n\n> ");
+					.print("\n\tEnter dragon mode\n\n * 0 - Idle\n * 1 - Random move\n * 2 - Random move + sleeping\n > ");
 			while (!scan.hasNextInt()) {
 				System.out.print("\nInvalid input!\n");
 				System.out
-						.print("\n\tEnter dragon mode\n\n * 0 - Idle\n * 1 - Random move\n * 2 - Sleeping dragon\n\n > ");
-				scan.next(); // this is important!
+						.print("\n\tEnter dragon mode\n\n * 0 - Idle\n * 1 - Random move\n * 2 - Random move + sleeping\n > ");
+				scan.next();
 			}
 			mode = scan.nextInt();
 
 			switch (mode) {
 			case 0:
-				mode = 1;
+				mode = 0;
 				validInput = true;
 				break;
 			case 1:
-				mode = 5;
+				mode = 1;
 				validInput = true;
 				break;
 			case 2:
-				mode = 6;
+				mode = 2;
 				validInput = true;
 				break;
 			default:
@@ -90,17 +89,16 @@ public class Cli {
 
 	public void displayMaze(ArrayList<ArrayList<Piece>> maze) {
 		for (int i = 0; i < maze.size(); i++) {
-			ArrayList<Piece> linhamaze = maze.get(i);
+			ArrayList<Piece> linhamaze = maze.get(i);		
 			for (int j = 0; j < maze.get(i).size(); j++)
 				System.out.print(linhamaze.get(j).getSymbol());
-
 			System.out.println();
 		}
 	}
 
 	public String getKey() {
 		System.out
-				.print("\n(w/a/s/d) to move (e) to release eagle (q) to abort > ");
+				.print("\n\n(w/a/s/d) to move (e) to release eagle (q) to abort > ");
 		String input = scan.nextLine();
 		return input;
 	}

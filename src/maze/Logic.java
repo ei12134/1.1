@@ -16,7 +16,6 @@ public class Logic extends Cli {
 	private boolean finished;
 
 	public Logic() {
-
 		while (mainMenu()) {
 			this.finished = false;
 			int size = setMazeSize();
@@ -28,75 +27,64 @@ public class Logic extends Cli {
 				maze = new Maze(hero, dragons, 10);
 			} else {
 				hero = new Hero(0, 0);
+				eagle = new Eagle(0, 0);
 				dragons = new ArrayList<Dragon>();
-				maze = new Maze(hero, dragons, size, 7);
+				maze = new Maze(hero, dragons, eagle, size, 7);
 			}
+			dragonStrategy = setDragonStrategy();
 			startGame();
 		}
 	}
 
 	public void startGame() {
-		// User choice to move the hero
-		String userInput;
-		// Dragon state variable
-		int dragonState;
 
+		String userInput = null;
+		int dragonState;
 		Random random = new Random();
 
-		displayMaze(maze.maze);
-
-		while (!finished) {
-
+		do {
+			
+			displayMaze(maze.maze);
 			// Move hero
-			HashMap<Integer, Boolean> validMoves = maze.getValidMoves(hero);
 			userInput = getKey();
+			HashMap<Integer, Boolean> validMoves = maze.getValidMoves(hero);
+			
+			if (userInput.equals("q")) {
+				finished = true;
+				break;
+			}
+
 			moveHero(userInput, validMoves);
-			moveEagle();
+//			moveEagle();
 
 			// Dragon(s) processing
 			for (int i = 0; i < dragons.size(); i++) {
 				Dragon dragon = dragons.get(i);
 				dragonState = random.nextInt(4);
 
-				if (dragonState == 0) {
+				if (dragonState == 0 && dragonStrategy == 2)
 					dragon.setAsleep(true);
-					gameMessages("Dragon is asleep");
-				} else
+				else
 					dragon.setAsleep(false);
-
-				if (userInput.equals("q")) {
-					finished = true;
-					break;
-				}
-
 				// Move dragon
 				if (!dragon.getDead()) {
 					if (dragon.getAsleep()) {
-						System.out.println("|||| O dragao esta a dormir|||");
 						maze.getMazePiece(dragon.getPosX(), dragon.getPosY())
 								.setSymbol(dragon.showDragon(hero));
-					} else
+					} else if (dragonStrategy != 0)
 						moveDragon(dragon);
 				}
 			}
-
-			// Check game status and finally display the maze
+			// Check game status
 			String state = checkGame();
-			displayMaze(maze.maze);
-
 			if (state.equals(GameState.HERO_WON.toString())) {
 				finished = true;
-
-				// Escrever uma mensagem para informar que o jogador venceu o
-				// jogo
 				gameMessages("\nHero won :)");
 			} else if (state.equals(GameState.HERO_DIED.toString())) {
 				finished = true;
-
-				// Escrever uma mensagem para informar que o jogador morreu
 				gameMessages("\nHero died :(");
 			}
-		}
+		} while (!finished);
 	}
 
 	/**
@@ -342,7 +330,8 @@ public class Logic extends Cli {
 				if (deltaX == 0 && deltaY == 0) {
 					if (eagle.getHeroX() != hero.getPosX()
 							|| eagle.getHeroY() != hero.getPosY()) {
-						maze.getMazePiece(eagle.getPosX(), eagle.getPosY()).setSymbol(" E ");
+						maze.getMazePiece(eagle.getPosX(), eagle.getPosY())
+								.setSymbol(" E ");
 						eagle.setPosition(hero.getPosX(), hero.getPosY());
 						hero.setEagle(true);
 						eagle.setPursuing(false);
@@ -353,8 +342,8 @@ public class Logic extends Cli {
 						eagle.setPursuing(false);
 						eagle.setReturning(false);
 					}
-
-				} // Eagle movement in pursuit of the hero
+				}
+				// Eagle movement in pursuit of the hero
 				else if (Math.abs(deltaX) > Math.abs(deltaY)) {
 					if (deltaX < 0) {
 						previousPiece = " "
@@ -374,6 +363,9 @@ public class Logic extends Cli {
 								.setSymbol(previousPiece);
 
 						eagle.setPosition(eagle.getPosX() - 1, eagle.getPosY());
+
+						maze.getSword().setPosition(eagle.getPosX() - 1,
+								eagle.getPosY());
 
 						maze.getMazePiece(eagle.getPosX(), eagle.getPosY())
 								.setSymbol(nextPiece);
@@ -396,6 +388,9 @@ public class Logic extends Cli {
 
 						eagle.setPosition(eagle.getPosX() + 1, eagle.getPosY());
 
+						maze.getSword().setPosition(eagle.getPosX() + 1,
+								eagle.getPosY());
+
 						maze.getMazePiece(eagle.getPosX(), eagle.getPosY())
 								.setSymbol(nextPiece);
 					}
@@ -403,7 +398,6 @@ public class Logic extends Cli {
 
 				else {
 					if (deltaY < 0) {
-
 						previousPiece = " "
 								+ maze.getMazePiece(eagle.getPosX(),
 										eagle.getPosY()).getSymbol()
@@ -421,6 +415,9 @@ public class Logic extends Cli {
 								.setSymbol(previousPiece);
 
 						eagle.setPosition(eagle.getPosX(), eagle.getPosY() - 1);
+
+						maze.getSword().setPosition(eagle.getPosX(),
+								eagle.getPosY() - 1);
 
 						maze.getMazePiece(eagle.getPosX(), eagle.getPosY())
 								.setSymbol(nextPiece);
@@ -442,6 +439,9 @@ public class Logic extends Cli {
 								.setSymbol(previousPiece);
 
 						eagle.setPosition(eagle.getPosX(), eagle.getPosY() + 1);
+
+						maze.getSword().setPosition(eagle.getPosX(),
+								eagle.getPosY() + 1);
 
 						maze.getMazePiece(eagle.getPosX(), eagle.getPosY())
 								.setSymbol(nextPiece);
@@ -472,37 +472,27 @@ public class Logic extends Cli {
 		Dragon dragon = adjacentDragon();
 
 		if (dragon != null) {
-			/**
-			 * Depois de movimentar o hero temos que verificar se a nova posicao
-			 * e adjacente a posicao onde esta o dragon atualmente.
-			 * 
-			 * Se for e o hero nao tiver espada entao o hero morre. No caso de
-			 * estar armado entao o dragon morre e desaparece
-			 */
 			if (!hero.getArmed()) {
 				if (!dragon.getDead() && !dragon.getAsleep()) {
-					// Se o hero nao estiver armado entao o jogo termina com a
-					// morte do hero
+					// If hero is unnarmed the game ends
 					return GameState.HERO_DIED.toString();
 				}
 			} else {
-				// Neste caso o hero esta armado
+				// Armed hero
 				if (!dragon.getDead() || dragon.getAsleep()) {
 					System.out.println("\nHero killed a dragon");
-					// Alterar o estado do dragon para morto
+					// Set dragon state as dead
 					dragon.setDead(true);
 					maze.getMazePiece(dragon.getPosX(), dragon.getPosY())
 							.setSymbol(dragon.showDragon(hero));
 				}
 			}
 		}
-
 		return GameState.CONTINUE_GAME.toString();
 	}
 
 	public Dragon adjacentDragon() {
-		// Estas variaveis foram declaradas para nao se estar constantemente a
-		// chamar as funcoes que retornam as posicoes
+		// Generic position returning function 
 		int heroX = hero.getPosX();
 		int heroY = hero.getPosY();
 

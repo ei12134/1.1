@@ -17,10 +17,10 @@ public class Maze {
 		startDefaultMaze(hero, dragons);
 	}
 
-	public Maze(Hero hero, ArrayList<Dragon> dragons, int mazeSize,
+	public Maze(Hero hero, ArrayList<Dragon> dragons, Eagle eagle, int mazeSize,
 			int dragonCounter) {
 		maze = new ArrayList<ArrayList<Piece>>();
-		startRandomMaze(hero, dragons, mazeSize, dragonCounter);
+		startRandomMaze(hero, dragons, eagle, mazeSize, dragonCounter);
 	}
 
 	private void startDefaultMaze(Hero hero, ArrayList<Dragon> dragons) {
@@ -63,7 +63,7 @@ public class Maze {
 				.setSymbol(dragons.get(0).showDragon(hero));
 	}
 
-	private void startRandomMaze(Hero hero, ArrayList<Dragon> dragons,
+	private void startRandomMaze(Hero hero, ArrayList<Dragon> dragons,Eagle eagle,
 			int mazeSize, int dragonCounter) {
 
 		Algorithm algorithm = new Algorithm(mazeSize);
@@ -98,6 +98,9 @@ public class Maze {
 			posX = 1 + (int) (Math.random() * ((maze.size() - 1 - 1) + 1));
 			posY = 1 + (int) (Math.random() * ((maze.size() - 1 - 1) + 1));
 		}
+		
+		// Set eagle position
+		eagle.setPosition(hero.getPosX(), hero.getPosY());
 
 		// Set sword position
 		sword = new Piece(posX, posY, PieceType.SWORD.asString());
@@ -136,7 +139,6 @@ public class Maze {
 						.getSymbol() == PieceType.EXIT.asString()) && !heroArmado))
 					validMoves.put(0, true);
 			}
-
 		// Check if hero can move down
 		if (hero.getPosY() + 1 < maze.size())
 			if (maze.get(hero.getPosY() + 1).get(hero.getPosX()).getSymbol() != PieceType.WALL
@@ -145,7 +147,6 @@ public class Maze {
 						.getSymbol() == PieceType.EXIT.asString()) && !heroArmado))
 					validMoves.put(1, true);
 			}
-
 		// Check if hero can move to the right
 		if (hero.getPosX() + 1 < maze.size())
 			if (maze.get(hero.getPosY()).get(hero.getPosX() + 1).getSymbol() != PieceType.WALL
@@ -154,7 +155,6 @@ public class Maze {
 						.getSymbol() == PieceType.EXIT.asString()) && !heroArmado))
 					validMoves.put(2, true);
 			}
-
 		// Check if hero can move to the left
 		if (hero.getPosX() - 1 >= 0)
 			if (maze.get(hero.getPosY()).get(hero.getPosX() - 1).getSymbol() != PieceType.WALL
