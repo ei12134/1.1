@@ -9,9 +9,9 @@ public class Dragon extends Character {
 		super(posX, posY);
 	}
 
-	public String showDragon(Hero hero) {
+	public String showDragon() {
 		if (!getDead()) {
-			if (getAtSword() && !hero.getArmed())
+			if (getAtSword())
 				return " F ";
 			else if (getAsleep())
 				return " d ";

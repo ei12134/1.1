@@ -17,8 +17,8 @@ public class Maze {
 		startDefaultMaze(hero, dragons);
 	}
 
-	public Maze(Hero hero, ArrayList<Dragon> dragons, Eagle eagle, int mazeSize,
-			int dragonCounter) {
+	public Maze(Hero hero, ArrayList<Dragon> dragons, Eagle eagle,
+			int mazeSize, int dragonCounter) {
 		maze = new ArrayList<ArrayList<Piece>>();
 		startRandomMaze(hero, dragons, eagle, mazeSize, dragonCounter);
 	}
@@ -59,11 +59,11 @@ public class Maze {
 		maze.get(sword.getPosY()).get(sword.getPosX())
 				.setSymbol(PieceType.SWORD.asString());
 		maze.get(dragons.get(0).getPosY()).get(dragons.get(0).getPosX())
-				.setSymbol(dragons.get(0).showDragon(hero));
+				.setSymbol(dragons.get(0).showDragon());
 	}
 
-	private void startRandomMaze(Hero hero, ArrayList<Dragon> dragons,Eagle eagle,
-			int mazeSize, int dragonCounter) {
+	private void startRandomMaze(Hero hero, ArrayList<Dragon> dragons,
+			Eagle eagle, int mazeSize, int dragonCounter) {
 
 		Algorithm algorithm = new Algorithm(mazeSize);
 		maze = algorithm.createMaze();
@@ -74,7 +74,8 @@ public class Maze {
 		// Random number between [1, maze size - 1]
 		posX = 1 + (int) (Math.random() * ((maze.size() - 1 - 1) + 1));
 		posY = 1 + (int) (Math.random() * ((maze.size() - 1 - 1) + 1));
-		while (maze.get(posY).get(posX).getSymbol() == PieceType.WALL.asString()
+		while (maze.get(posY).get(posX).getSymbol() == PieceType.WALL
+				.asString()
 				|| maze.get(posY).get(posX).getSymbol() == PieceType.EXIT
 						.asString()) {
 			posX = 1 + (int) (Math.random() * ((maze.size() - 1 - 1) + 1));
@@ -90,14 +91,15 @@ public class Maze {
 
 		posX = 1 + (int) (Math.random() * ((maze.size() - 1 - 1) + 1));
 		posY = 1 + (int) (Math.random() * ((maze.size() - 1 - 1) + 1));
-		while (maze.get(posY).get(posX).getSymbol() == PieceType.WALL.asString()
+		while (maze.get(posY).get(posX).getSymbol() == PieceType.WALL
+				.asString()
 				|| maze.get(posY).get(posX).getSymbol() == PieceType.EXIT
 						.asString()
 				|| maze.get(posY).get(posX).getSymbol() == hero.showHero()) {
 			posX = 1 + (int) (Math.random() * ((maze.size() - 1 - 1) + 1));
 			posY = 1 + (int) (Math.random() * ((maze.size() - 1 - 1) + 1));
 		}
-		
+
 		// Set eagle position
 		eagle.setPosition(hero.getPosX(), hero.getPosY());
 
@@ -131,35 +133,35 @@ public class Maze {
 
 		// Check if hero can move up
 		if (hero.getPosY() - 1 >= 0)
-			if (maze.get(hero.getPosY() - 1).get(hero.getPosX()).getSymbol() != PieceType.WALL
-					.asString()) {
+			if (!(maze.get(hero.getPosY() - 1).get(hero.getPosX()).getSymbol()
+					.equals(PieceType.WALL.asString()))) {
 				// Confirms if hero is armed at exit
 				if (!((maze.get(hero.getPosY() - 1).get(hero.getPosX())
-						.getSymbol() == PieceType.EXIT.asString()) && !heroArmado))
+						.getSymbol().equals(PieceType.EXIT.asString())) && !heroArmado))
 					validMoves.put(0, true);
 			}
 		// Check if hero can move down
 		if (hero.getPosY() + 1 < maze.size())
-			if (maze.get(hero.getPosY() + 1).get(hero.getPosX()).getSymbol() != PieceType.WALL
-					.asString()) {
+			if (!(maze.get(hero.getPosY() + 1).get(hero.getPosX()).getSymbol()
+					.equals(PieceType.WALL.asString()))) {
 				if (!((maze.get(hero.getPosY() + 1).get(hero.getPosX())
-						.getSymbol() == PieceType.EXIT.asString()) && !heroArmado))
+						.getSymbol().equals(PieceType.EXIT.asString())) && !heroArmado))
 					validMoves.put(1, true);
 			}
 		// Check if hero can move to the right
 		if (hero.getPosX() + 1 < maze.size())
-			if (maze.get(hero.getPosY()).get(hero.getPosX() + 1).getSymbol() != PieceType.WALL
-					.asString()) {
+			if (!(maze.get(hero.getPosY()).get(hero.getPosX() + 1).getSymbol()
+					.equals(PieceType.WALL.asString()))) {
 				if (!((maze.get(hero.getPosY()).get(hero.getPosX() + 1)
-						.getSymbol() == PieceType.EXIT.asString()) && !heroArmado))
+						.getSymbol().equals(PieceType.EXIT.asString())) && !heroArmado))
 					validMoves.put(2, true);
 			}
 		// Check if hero can move to the left
 		if (hero.getPosX() - 1 >= 0)
-			if (maze.get(hero.getPosY()).get(hero.getPosX() - 1).getSymbol() != PieceType.WALL
-					.asString()) {
+			if (!(maze.get(hero.getPosY()).get(hero.getPosX() - 1).getSymbol()
+					.equals(PieceType.WALL.asString()))) {
 				if (!((maze.get(hero.getPosY()).get(hero.getPosX() - 1)
-						.getSymbol() == PieceType.EXIT.asString()) && !heroArmado))
+						.getSymbol().equals(PieceType.EXIT.asString())) && !heroArmado))
 					validMoves.put(3, true);
 			}
 		return validMoves;
@@ -266,16 +268,16 @@ public class Maze {
 
 		for (int i = 0; i < dragons.size(); i++)
 			maze.get(dragons.get(i).getPosY()).get(dragons.get(i).getPosX())
-					.setSymbol(dragons.get(i).showDragon(hero));
+					.setSymbol(dragons.get(i).showDragon());
 
 	}
 
 	public boolean nearDragons(int posX, int posY) {
-		if(maze.get(posY).get(posX).getSymbol().equals(" d ")|| 
-				maze.get(posY).get(posX).getSymbol().equals(" D ") || 
-				maze.get(posY).get(posX).getSymbol().equals(" F "))
+		if (maze.get(posY).get(posX).getSymbol().equals(" d ")
+				|| maze.get(posY).get(posX).getSymbol().equals(" D ")
+				|| maze.get(posY).get(posX).getSymbol().equals(" F "))
 			return false;
-		
+
 		return true;
 	}
 
