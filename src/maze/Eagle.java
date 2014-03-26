@@ -2,28 +2,33 @@ package maze;
 
 public class Eagle extends Character {
 
-	private boolean pursuing;
+	private boolean pursuit;
 	private boolean returning;
+	private boolean dead;
 	private int heroX, heroY;
 
 	public Eagle(int posX, int posY) {
 		super(posX, posY);
-		this.pursuing = false;
+		this.pursuit = false;
 		this.returning = false;
+		this.dead = false;
 	}
 
 	public char showEagle() {
 		return 'G';
 	}
 
-	public void setPursuing(boolean pursuing) {
-		this.pursuing = pursuing;
+	public void setPursuit(boolean pursuit) {
+		this.pursuit = pursuit;
 	}
 
 	public void setReturning(boolean returning) {
 		this.returning = returning;
 	}
 
+	public void setDead(boolean dead) {
+		this.dead = dead;
+	}
 	public void setHeroX(int heroX) {
 		this.heroX = heroX;
 	}
@@ -32,8 +37,12 @@ public class Eagle extends Character {
 		this.heroY = heroY;
 	}
 	
-	public boolean getPursuing() {
-		return pursuing;
+	public boolean getDead() {
+		return dead;
+	}
+	
+	public boolean getPursuit() {
+		return pursuit;
 	}
 
 	public boolean getReturning() {

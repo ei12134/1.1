@@ -32,7 +32,6 @@ public class Maze {
 			for (int j = 0; j < 10; j++) {
 				linha.add(new Piece(i, j, PieceType.WALL.asString()));
 			}
-
 			maze.add(linha);
 		}
 

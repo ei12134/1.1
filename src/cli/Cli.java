@@ -7,10 +7,11 @@ import maze.Piece;
 
 public class Cli {
 
-	private Scanner scan;
+	private Scanner scanInt, scanString;
 
 	public Cli() {
-		scan = new Scanner(System.in);
+		scanInt = new Scanner(System.in);
+		scanString = new Scanner(System.in);
 	}
 	
 	public boolean mainMenu() {
@@ -18,12 +19,12 @@ public class Cli {
 		do {
 			System.out
 					.print("\n\tMaze Game\n\n * Type 0 to play\n * Type 1 to exit\n > ");
-			while (!scan.hasNextInt()) {
+			while (!scanInt.hasNextInt()) {
 				System.out
 						.print("\n\tMaze Game\n\n * 0 to play\n * 1 to exit\n > ");
-				scan.next();
+				scanInt.next();
 			}
-			input = scan.nextInt();
+			input = scanInt.nextInt();
 		} while (input < 0 || input > 1);
 
 		if (input == 0)
@@ -37,12 +38,12 @@ public class Cli {
 		do {
 			System.out
 					.print("\n\tEnter maze size\n\n * Type 0 to select standard maze\n * Odd (>= 7) maze sizes only\n > ");
-			while (!scan.hasNextInt()) {
+			while (!scanInt.hasNextInt()) {
 				System.out
 						.print("\n\tEnter maze size\n\n * Type 0 to select standard maze\n * Odd (>= 7) maze sizes only\n > ");
-				scan.next();
+				scanInt.next();
 			}
-			size = scan.nextInt();
+			size = scanInt.nextInt();
 			if (size == 0) {
 				return 10;
 			}
@@ -58,13 +59,13 @@ public class Cli {
 		while (!validInput) {
 			System.out
 					.print("\n\tEnter dragon mode\n\n * 0 - Idle\n * 1 - Random move\n * 2 - Random move + sleeping\n > ");
-			while (!scan.hasNextInt()) {
+			while (!scanInt.hasNextInt()) {
 				System.out.print("\nInvalid input!\n");
 				System.out
 						.print("\n\tEnter dragon mode\n\n * 0 - Idle\n * 1 - Random move\n * 2 - Random move + sleeping\n > ");
-				scan.next();
+				scanInt.next();
 			}
-			mode = scan.nextInt();
+			mode = scanInt.nextInt();
 
 			switch (mode) {
 			case 0:
@@ -98,14 +99,14 @@ public class Cli {
 
 	public String getKey() {
 		System.out
-				.print("\n\n(w/a/s/d) to move (e) to release eagle (q) to abort > ");
-		String input = scan.nextLine();
+				.print("\n(w/a/s/d) to move (e) to release eagle (q) to abort > ");
+		String input = scanString.nextLine();
 		return input;
 	}
 
 	public void anyKey() {
 		gameMessages("Press any key to continue...");
-		scan.nextLine();
+		scanString.nextLine();
 	}
 
 	public void gameMessages(String message) {
