@@ -34,7 +34,8 @@ public class mazebuilder extends JFrame implements KeyListener{
 	@SuppressWarnings("deprecation")
 	public mazebuilder() throws IOException{
 		//ssuper("BEST LABIRINTH EU");
-		setSize(400, 500);
+		setSize(300, 200);
+		
 		JFrame.setDefaultLookAndFeelDecorated(true);
 	    final JFrame frame = new JFrame("BEST LABIRINTH EU");
 	    Container c = frame.getContentPane();
@@ -42,7 +43,7 @@ public class mazebuilder extends JFrame implements KeyListener{
 	    c.setLayout(new GridLayout(50, 50));
 	    
 	  
-	
+	    frame.setResizable(false);
 	//   frame.add(new Board());
 	   
 	    
