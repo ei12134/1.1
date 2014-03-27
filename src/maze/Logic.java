@@ -98,7 +98,7 @@ public class Logic extends Cli {
 	public void moveHero(String userInput, HashMap<Integer, Boolean> moves) {
 
 		// Release eagle
-		if (userInput.equals("e")) {
+		if (userInput.equals("e")&&(!hero.getArmed())) {
 			if (!eagle.getReturning()) {
 				eagle.setPursuit(true);
 				hero.setEagle(false);
@@ -225,7 +225,7 @@ public class Logic extends Cli {
 		int nextX = 0, nextY = 0;
 
 		// Update eagle position to follow hero
-		if (!eagle.getPursuit() && !eagle.getReturning()) {
+		if ((!eagle.getPursuit() && !eagle.getReturning())||(hero.getArmed())){
 			eagle.setPosition(hero.getPosX(), hero.getPosY());
 		}
 		// Calculate distance between the eagle and the sword
