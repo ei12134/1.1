@@ -10,24 +10,41 @@ import javax.swing.Timer;
 
 public class Board extends JPanel implements ActionListener {
 	public Timer temporizador;
-	
-	
+	// int size = Cli.setMazeSize(); //Preciso do tamanho
+	int size = 13;
+	private Map m;
+
 	public Board() {
-		temporizador = new Timer (25,this);
+		m = new Map();
+		temporizador = new Timer(25, this);
 		temporizador.start();
 	}
+
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		repaint();
-		
+
 	}
-	
-	public void draw(Graphics g){
+
+	public void paint(Graphics g) {
 		super.paint(g);
-		g.setColor(Color.red);
-		g.fillRect(45, 60, 32, 32);
-	//	g.draw3DRect(1, 2, 3, 4, true);
-		
+		// para testar com o
+		// frame.add(new Board());
+		// do mazebuilder:
+		// g.setColor(Color.red);
+		// g.fillRect(45, 60, 32, 32);
+
+		// para pintar a maze:
+		for (int y = 0; y < size; y++) { // linhas e colunas
+			for (int x = 0; x < size; x++) {
+				if (m.getMap(x, y).equals("X")) {
+					g.drawImage(m.getWall(), x * 32, y * 32, null);// 32 pixels
+				} else {
+					g.drawImage(m.getFloor(), x * 32, y * 32, null);// 32 pixels
+				}
+			}
+		}
+
 	}
 
 }

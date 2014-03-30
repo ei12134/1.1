@@ -26,65 +26,97 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import maze.Maze;
-public class mazebuilder extends JFrame implements KeyListener{
+
+public class mazebuilder extends JFrame implements KeyListener {
 	public static void main(String[] args) throws IOException {
 		new mazebuilder();
 	}
 
 	@SuppressWarnings("deprecation")
-	public mazebuilder() throws IOException{
-		//ssuper("BEST LABIRINTH EU");
-		setSize(300, 200);
-		
-		JFrame.setDefaultLookAndFeelDecorated(true);
-	    final JFrame frame = new JFrame("BEST LABIRINTH EU");
-	    Container c = frame.getContentPane();
-	
-	    c.setLayout(new GridLayout(50, 50));
-	    
-	  
-	    frame.setResizable(false);
-	//   frame.add(new Board());
-	   
-	    
-	    try {
-			URL url = new URL("http://th09.deviantart.net/fs71/PRE/f/2012/365/2/0/dragon_girl_by_byzwa_dher-d5ps5p5.jpg");
-			Image image = ImageIO.read(url);
-			c.add(new JLabel(new ImageIcon(image)));
-		} catch (MalformedURLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	   // frame.add(new JButton("Button 3"));
-	    
+	public mazebuilder() throws IOException {
+		// ssuper("BEST LABIRINTH EU");
 
-		JButton exit = new JButton("Exit");
-		c.add(exit);
-		exit.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				frame.setVisible(false);
-				System.exit(0);
-			}
-		});
-	    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	    frame.pack();
-	    frame.setVisible(true);
+		// JFrame.setDefaultLookAndFeelDecorated(true);
+		JFrame frame = new JFrame("BEST LABIRINTH EU");
+
+		// Container c = frame.getContentPane();
+
+		// c.setLayout(new GridLayout(50, 50));
+		//
+
+		// frame.setResizable(false);
+		frame.add(new Board());
+		frame.setSize(513, 453);
+		frame.setLocationRelativeTo(null);
+		frame.setVisible(true);
+		frame.setResizable(false);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+		// try {
+		// URL url = new
+		// URL("http://th09.deviantart.net/fs71/PRE/f/2012/365/2/0/dragon_girl_by_byzwa_dher-d5ps5p5.jpg");
+		// Image image = ImageIO.read(url);
+		// c.add(new JLabel(new ImageIcon(image)));
+		// } catch (MalformedURLException e) {
+		// // TODO Auto-generated catch block
+		// e.printStackTrace();
+		// }
+		//
+
+		// JButton exit = new JButton("Exit");
+		// c.add(exit);
+		// exit.addActionListener(new ActionListener() {
+		// @Override
+		// public void actionPerformed(ActionEvent e) {
+		// frame.setVisible(false);
+		// System.exit(0);
+		// }
+		// });
+		// frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		// frame.pack();
+		// frame.setVisible(true);
 	}
 
-    @Override
-    public void keyTyped(KeyEvent ke) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+	@Override
+	public void keyTyped(KeyEvent ke) {
+		throw new UnsupportedOperationException("Not supported yet."); // To
+																		// change
+																		// body
+																		// of
+																		// generated
+																		// methods,
+																		// choose
+																		// Tools
+																		// |
+																		// Templates.
+	}
 
-    @Override
-    public void keyPressed(KeyEvent ke) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+	@Override
+	public void keyPressed(KeyEvent ke) {
+		throw new UnsupportedOperationException("Not supported yet."); // To
+																		// change
+																		// body
+																		// of
+																		// generated
+																		// methods,
+																		// choose
+																		// Tools
+																		// |
+																		// Templates.
+	}
 
-    @Override
-    public void keyReleased(KeyEvent ke) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-   
+	@Override
+	public void keyReleased(KeyEvent ke) {
+		throw new UnsupportedOperationException("Not supported yet."); // To
+																		// change
+																		// body
+																		// of
+																		// generated
+																		// methods,
+																		// choose
+																		// Tools
+																		// |
+																		// Templates.
+	}
+
 }
