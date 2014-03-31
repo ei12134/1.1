@@ -1,4 +1,5 @@
 package gui;
+
 import maze.Maze;
 import maze.Piece;
 
@@ -37,6 +38,7 @@ public class Board extends JPanel implements ActionListener {
 		// g.fillRect(45, 60, 32, 32);
 
 		
+	//Maze.this.maze.size();
 //			for (int i = 0; i < maze.size(); i++) {
 //				ArrayList<Piece> linhamaze = maze.get(i);		
 //				for (int j = 0; j < maze.get(i).size(); j++)

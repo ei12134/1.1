@@ -22,10 +22,10 @@ public class Map {
 	public Map() {
 
 		ImageIcon img = new ImageIcon(
-				"\\png\\wall12.png");
+				"src\\png\\wall12.png");
 		wall = img.getImage();
 		 img = new ImageIcon(
-				"C:\\Users\\Filipe\\Documents\\GitHub\\maze\\bin\\floor.png");
+				"src\\png\\floor.png");
 		floor = img.getImage();
 	
 		openFile();
@@ -51,7 +51,7 @@ public class Map {
 		try {
 			m = new Scanner(
 					new File(
-							"C:\\Users\\Filipe\\Documents\\GitHub\\maze\\bin\\Map.txt"));// ficheiro
+							"src\\png\\Map.txt"));// ficheiro
 																				// do
 																									// mapa
 		} catch (FileNotFoundException e) {
