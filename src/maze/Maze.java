@@ -174,7 +174,7 @@ public class Maze {
 	 * tem SWORD ou nao Se tiver entao mostra um 'A', caso contrario mostra um
 	 * 'H'
 	 */
-	public void swapPieces(int direction, Hero hero) {
+	public void swapPieces(int direction, Hero hero, Eagle eagle) {
 		if (direction == Movement.MOVE_UP.getDirection()) {
 			getMazePiece(hero.getPosX(), hero.getPosY()).setSymbol(
 					PieceType.FREE.asString());
@@ -182,6 +182,7 @@ public class Maze {
 			if (!hero.getArmed()
 					&& ArmedNextPiece(Movement.MOVE_UP.getDirection(), hero))
 				hero.setArmed(true);
+
 			getMazePiece(hero.getPosX(), hero.getPosY() - 1).setSymbol(
 					hero.showHero());
 
@@ -219,6 +220,13 @@ public class Maze {
 					hero.showHero());
 
 			hero.setPosition(hero.getPosX() - 1, hero.getPosY());
+		}
+
+		if (hero.getPosX() == eagle.getPosX()
+				&& hero.getPosY() == eagle.getPosY() && eagle.getGround()) {
+			eagle.setGround(false);
+			eagle.setReturning(false);
+			eagle.setPursuit(false);
 		}
 	}
 
