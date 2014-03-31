@@ -12,7 +12,7 @@ public class Maze {
 	private Piece exit;
 	private Piece sword;
 
-	public Maze(Hero hero, ArrayList<Dragon> dragons, int mazeSize) {
+	public Maze(Hero hero, ArrayList<Dragon> dragons) {
 		maze = new ArrayList<ArrayList<Piece>>();
 		startDefaultMaze(hero, dragons);
 	}

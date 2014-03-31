@@ -46,10 +46,10 @@ public class mazebuilder extends JFrame implements KeyListener {
 
 		// frame.setResizable(false);
 		frame.add(new Board());
-		frame.setSize(513, 453);
+		frame.setSize(512, 512);
 		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
-		frame.setResizable(false);
+		frame.setResizable(true);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		// try {

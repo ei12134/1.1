@@ -22,13 +22,12 @@ public class Map {
 	public Map() {
 
 		ImageIcon img = new ImageIcon(
-				"C://Users//zikoc_000//Documents//GitHub//Maze//src//wall4.png");
+				"\\png\\wall12.png");
 		wall = img.getImage();
 		 img = new ImageIcon(
-				"C://Users//zikoc_000//Documents//GitHub//Maze//src//floor.png");
+				"C:\\Users\\Filipe\\Documents\\GitHub\\maze\\bin\\floor.png");
 		floor = img.getImage();
-		
-		
+	
 		openFile();
 		readFile();
 		closeFile();
@@ -52,7 +51,7 @@ public class Map {
 		try {
 			m = new Scanner(
 					new File(
-							"C://Users//zikoc_000//Documents//GitHub//Maze//src//Map.txt"));// ficheiro
+							"C:\\Users\\Filipe\\Documents\\GitHub\\maze\\bin\\Map.txt"));// ficheiro
 																				// do
 																									// mapa
 		} catch (FileNotFoundException e) {

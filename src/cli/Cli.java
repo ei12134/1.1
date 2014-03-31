@@ -52,7 +52,7 @@ public class Cli {
 		return size;
 	}
 
-	public int setDragonStrategy() {
+	public int dragonStrategy() {
 		boolean validInput = false;
 		int mode = 0;
 
@@ -110,10 +110,10 @@ public class Cli {
 	}
 
 	public void gameMessages(String message) {
-		System.out.println(message);
+		System.out.println("\n " + message + "\n");
 	}
 
 	public void errorMessages(String message) {
-		System.err.println(message);
+		System.err.println("\n " + message + "\n");
 	}
 }

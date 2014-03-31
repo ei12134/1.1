@@ -12,27 +12,24 @@ public class Logic extends Cli {
 	public ArrayList<Dragon> dragons;
 	public Hero hero;
 	public Eagle eagle;
-	public int dragonStrategy;
+	private int dragonStrategy;
 	private boolean finished;
 
-	public Logic() {
-		while (mainMenu()) {
-			this.finished = false;
-			int size = setMazeSize();
-			if (size == 10) {
-				hero = new Hero(1, 1);
-				eagle = new Eagle(1, 1);
-				dragons = new ArrayList<Dragon>();
-				dragons.add(new Dragon(1, 6));
-				maze = new Maze(hero, dragons, 10);
-			} else {
-				hero = new Hero(0, 0);
-				eagle = new Eagle(0, 0);
-				dragons = new ArrayList<Dragon>();
-				maze = new Maze(hero, dragons, eagle, size, 7);
-			}
-			dragonStrategy = setDragonStrategy();
-			startGame();
+	public Logic(int mazeSize) {
+		this.finished = false;
+
+		if (mazeSize == 10) {
+			hero = new Hero(1, 1);
+			eagle = new Eagle(1, 1);
+			dragons = new ArrayList<Dragon>();
+			dragons.add(new Dragon(1, 6));
+			maze = new Maze(hero, dragons);
+			dragonStrategy = 1;
+		} else {
+			hero = new Hero(0, 0);
+			eagle = new Eagle(0, 0);
+			dragons = new ArrayList<Dragon>();
+			maze = new Maze(hero, dragons, eagle, mazeSize, 7);
 		}
 	}
 
@@ -80,11 +77,16 @@ public class Logic extends Cli {
 			// Check game status
 			String state = checkGame();
 			if (state.equals(GameState.HERO_WON.toString())) {
+				displayMaze(maze.maze);
 				finished = true;
-				gameMessages("\n * Hero won :)\n");
+				gameMessages("* Hero won :)");
 			} else if (state.equals(GameState.HERO_DIED.toString())) {
+				displayMaze(maze.maze);
 				finished = true;
-				errorMessages("\n * Hero died :(\n");
+				errorMessages("! Hero died :(");
+			} else if (state.equals(GameState.DRAGON_KILLED.toString())) {
+				displayMaze(maze.maze);
+				gameMessages("* Hero killed a dragon!");
 			}
 		} while (!finished);
 	}
@@ -98,13 +100,13 @@ public class Logic extends Cli {
 	public void moveHero(String userInput, HashMap<Integer, Boolean> moves) {
 
 		// Release eagle
-		if (userInput.equals("e")&&(!hero.getArmed())) {
+		if (userInput.equals("e") && (!hero.getArmed())) {
 			if (!eagle.getReturning()) {
 				eagle.setPursuit(true);
 				hero.setEagle(false);
 				eagle.setHeroX(hero.getPosX());
 				eagle.setHeroY(hero.getPosY());
-				gameMessages("\n * Hero released the eagle\n");
+				gameMessages("* Hero released the eagle");
 			}
 		}
 		// Mover player Up
@@ -114,25 +116,25 @@ public class Logic extends Cli {
 				// Make current piece free
 				maze.swapPieces(Movement.MOVE_UP.getDirection(), hero);
 			} else
-				errorMessages("\n\n ! Hero can't move up\n");
+				errorMessages("! Hero can't move up");
 		} else if (userInput.equals("s")) {
 			// Check if HashMap contains the key with value 1)
 			if (moves.containsKey(Movement.MOVE_DOWN.getDirection())) {
 				maze.swapPieces(Movement.MOVE_DOWN.getDirection(), hero);
 			} else
-				errorMessages("\n\n ! Hero can't move down!\n");
+				errorMessages("! Hero can't move down!");
 		} else if (userInput.equals("d")) {
 			// Check if HashMap contains the key with value 2)
 			if (moves.containsKey(Movement.MOVE_RIGHT.getDirection())) {
 				maze.swapPieces(Movement.MOVE_RIGHT.getDirection(), hero);
 			} else
-				errorMessages("\n\n ! Hero can't move right!\n");
+				errorMessages("! Hero can't move right!");
 		} else if (userInput.equals("a")) {
 			// Check if HashMap contains the key with value 3)
 			if (moves.containsKey(Movement.MOVE_LEFT.getDirection())) {
 				maze.swapPieces(Movement.MOVE_LEFT.getDirection(), hero);
 			} else
-				errorMessages("\n\n ! Hero can't move left!\n");
+				errorMessages("! Hero can't move left!");
 		}
 	}
 
@@ -209,7 +211,8 @@ public class Logic extends Cli {
 				dragon.setAtSword(false);
 				maze.getMazePiece(nextX, nextY).setSymbol(dragon.showDragon());
 			} else if ((maze.getSword().getPosX() == dragon.getPosX())
-					&& (maze.getSword().getPosY() == dragon.getPosY()) && !eagle.getReturning()) {
+					&& (maze.getSword().getPosY() == dragon.getPosY())
+					&& !eagle.getReturning() && !hero.getArmed()) {
 				dragon.setAtSword(true);
 				maze.getMazePiece(nextX, nextY).setSymbol(dragon.showDragon());
 			}
@@ -225,7 +228,7 @@ public class Logic extends Cli {
 		int nextX = 0, nextY = 0;
 
 		// Update eagle position to follow hero
-		if ((!eagle.getPursuit() && !eagle.getReturning())||(hero.getArmed())){
+		if ((!eagle.getPursuit() && !eagle.getReturning()) || (hero.getArmed())) {
 			eagle.setPosition(hero.getPosX(), hero.getPosY());
 		}
 		// Calculate distance between the eagle and the sword
@@ -239,7 +242,7 @@ public class Logic extends Cli {
 					if (maze.getMazePiece(eagle.getPosX(), eagle.getPosY())
 							.getSymbol().contains("F")) {
 						eagle.setDead(true);
-						errorMessages("\n ! Eagle died :(\n");
+						errorMessages("! Eagle died :(");
 					}
 					// Free sword
 					else {
@@ -304,15 +307,15 @@ public class Logic extends Cli {
 						eagle.setReturning(false);
 						maze.getMazePiece(hero.getPosX(), hero.getPosY())
 								.setSymbol(hero.showHero());
-						errorMessages("\n\n ! Hero was not on the same spot\n ! Eagle returned to hero\n");
+						errorMessages("! Hero was not on the same spot - Eagle returned to hero");
 					} else {
 						hero.setEagle(true);
 						hero.setArmed(true);
 						eagle.setPursuit(false);
 						eagle.setReturning(false);
-						gameMessages("\n\n * Eagle returned successfuly and hero is now armed\n");
+						gameMessages("* Eagle returned successfuly and hero is now armed");
 						maze.getMazePiece(hero.getPosX(), hero.getPosY())
-						.setSymbol(hero.showHero());
+								.setSymbol(hero.showHero());
 					}
 				}
 				// Eagle movement in pursuit of the hero
@@ -358,7 +361,7 @@ public class Logic extends Cli {
 				&& (hero.getPosY() == maze.getExitY()) && hero.getArmed()) {
 			return GameState.HERO_WON.toString();
 		}
-
+		// TODO get arraylist to check all dragons nearby available to kill
 		Dragon dragon = adjacentDragon();
 
 		if (dragon != null) {
@@ -367,19 +370,14 @@ public class Logic extends Cli {
 					// If hero is unnarmed the game ends
 					return GameState.HERO_DIED.toString();
 				}
-			} else {
-				// Armed hero
-				if (!dragon.getDead() || dragon.getAsleep()) {
-					if (dragons.size() > 1)
-						gameMessages("\n * Hero killed a dragon\n");
-					else
-						gameMessages("\n * Hero killed the dragon\n");
-					// Set dragon state as dead
-					dragon.setDead(true);
-					dragons.remove(dragon);
-					maze.getMazePiece(dragon.getPosX(), dragon.getPosY())
-							.setSymbol(dragon.showDragon());
-				}
+			}
+			// Armed hero
+			else if (!dragon.getDead()) {
+				// Set dragon state as dead
+				dragon.setDead(true);
+				maze.getMazePiece(dragon.getPosX(), dragon.getPosY())
+						.setSymbol(dragon.showDragon());
+				return GameState.DRAGON_KILLED.toString();
 			}
 		}
 		return GameState.CONTINUE_GAME.toString();
@@ -410,5 +408,22 @@ public class Logic extends Cli {
 	public boolean dragonAtSword(Dragon dragon) {
 		return (dragon.getPosX() == maze.getSword().getPosX())
 				&& (dragon.getPosY() == maze.getSword().getPosY());
+	}
+
+	public boolean getFinished() {
+		return finished;
+	}
+
+	// test
+	public ArrayList<Dragon> getDragons() {
+		return dragons;
+	}
+
+	public void setDragons(ArrayList<Dragon> dragons) {
+		this.dragons = dragons;
+	}
+
+	public void setDragonStrategy(int dragonStrategy) {
+		this.dragonStrategy = dragonStrategy;
 	}
 }
