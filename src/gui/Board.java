@@ -1,9 +1,11 @@
 package gui;
+import maze.Maze;
+import maze.Piece;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.JPanel;
 import javax.swing.Timer;
@@ -33,6 +35,14 @@ public class Board extends JPanel implements ActionListener {
 		// do mazebuilder:
 		// g.setColor(Color.red);
 		// g.fillRect(45, 60, 32, 32);
+
+		
+//			for (int i = 0; i < maze.size(); i++) {
+//				ArrayList<Piece> linhamaze = maze.get(i);		
+//				for (int j = 0; j < maze.get(i).size(); j++)
+//					System.out.print(linhamaze.get(j).getSymbol());
+//				System.out.println();
+//			}
 
 		// para pintar a maze:
 		for (int y = 0; y < size; y++) { // linhas e colunas
