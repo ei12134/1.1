@@ -22,7 +22,7 @@ public class Logic extends Maze {
 
 	// Random Maze
 	public Logic(Cli cli, int mazeSize) {
-		super(mazeSize, 7); // 7 -> dragonCounter
+		super(mazeSize, 5); // 5 -> dragonCounter
 		this.cli = cli;
 		this.done = false;
 		dragonStrategy = 1;
@@ -40,14 +40,14 @@ public class Logic extends Maze {
 			cli.displayMaze(maze);
 			// Move hero
 			userInput = cli.getKey();
-			HashMap<Integer, Boolean> validMoves = getValidMoves(hero);
+			HashMap<Integer, Boolean> validHeroMoves = getValidHeroMoves();
 
 			if (userInput.equals("q")) {
 				done = true;
 				break;
 			}
 			if (!hero.getDead())
-				moveHero(userInput, validMoves);
+				moveHero(userInput, validHeroMoves);
 
 			// Dragon(s) processing
 			for (int i = 0; i < dragons.size(); i++) {
@@ -173,7 +173,7 @@ public class Logic extends Maze {
 			nextX = dragon.getPosX() - 1;
 			nextY = dragon.getPosY();
 			break;
-			
+
 		default:
 			break;
 		}
@@ -188,20 +188,21 @@ public class Logic extends Maze {
 		}
 
 		if (nextX != 0 && nextY != 0) {
+			// Clear left piece symbol
+			getMazePiece(previousX, previousY).setSymbol(
+					PieceType.FREE.asString());
+
 			if (dragon.getGuarding()) {
 				getMazePiece(previousX, previousY).setSymbol(
 						PieceType.SWORD.asString());
 				dragon.setGuarding(false);
 			} else if ((getSword().getPosX() == nextX)
-					&& (getSword().getPosY() == nextY)
-					&& (eagle.getState().equals(State.EAGLE_GROUND))
-					&& !hero.getArmed()) {
+					&& (getSword().getPosY() == nextY) && !hero.getArmed()) {
+				if (eagle.getState().equals(State.EAGLE_GROUND))
+					eagle.setDead(true);
+
 				dragon.setGuarding(true);
-				eagle.setDead(true);
 			}
-			// Clear left piece symbol
-			getMazePiece(previousX, previousY).setSymbol(
-					PieceType.FREE.asString());
 			// Set entry piece symbol
 			getMazePiece(nextX, nextY).setSymbol(dragon.showDragon());
 			// Update dragon position
@@ -333,30 +334,81 @@ public class Logic extends Maze {
 	}
 
 	public State checkGame() {
+
+		State state = State.GAME_CONTINUE;
 		if ((hero.getPosX() == getExitX()) && (hero.getPosY() == getExitY())
 				&& hero.getArmed()) {
 			return State.HERO_WON;
 		}
 		// TODO get arraylist to check all dragons nearby available to kill
-		Dragon dragon = adjacentDragon();
-
-		if (dragon != null) {
-			if (!hero.getArmed()) {
-				if (!dragon.getDead() && !dragon.getAsleep()) {
-					// If hero is unnarmed the game ends
-					return State.HERO_DEAD;
+		Dragon dragon;
+		for (int i = 0; i < dragons.size(); i++) {
+			dragon = adjacentDragon();
+			if (dragon != null) {
+				if (!hero.getArmed()) {
+					if (!dragon.getDead() && !dragon.getAsleep()) {
+						// If hero is unnarmed the game ends
+						return State.HERO_DEAD;
+					}
+				}
+				// Armed hero
+				else if (!dragon.getDead()) {
+					// Set dragon state as dead
+					dragon.setDead(true);
+					getMazePiece(dragon.getPosX(), dragon.getPosY()).setSymbol(
+							dragon.showDragon());
+					dragons.remove(dragon);
+					state = State.DRAGON_DEAD;
 				}
 			}
-			// Armed hero
-			else if (!dragon.getDead()) {
-				// Set dragon state as dead
-				dragon.setDead(true);
-				getMazePiece(dragon.getPosX(), dragon.getPosY()).setSymbol(
-						dragon.showDragon());
-				return State.DRAGON_DEAD;
-			}
 		}
-		return State.GAME_CONTINUE;
+		return state;
+	}
+
+	/**
+	 * Checks each of the 4 positions around hero for availability and if adds
+	 * it to HasMap validMoves
+	 * 
+	 * @return HashMap with possible positions for hero to move into
+	 */
+	public HashMap<Integer, Boolean> getValidHeroMoves() {
+		HashMap<Integer, Boolean> validMoves = new HashMap<Integer, Boolean>();
+		boolean heroArmado = hero.getArmed();
+
+		// Check if hero can move up
+		if (hero.getPosY() - 1 >= 0)
+			if (!(maze.get(hero.getPosY() - 1).get(hero.getPosX()).getSymbol()
+					.equals(PieceType.WALL.asString()))) {
+				// Confirms if hero is armed at exit
+				if (!((maze.get(hero.getPosY() - 1).get(hero.getPosX())
+						.getSymbol().equals(PieceType.EXIT.asString())) && !heroArmado))
+					validMoves.put(0, true);
+			}
+		// Check if hero can move down
+		if (hero.getPosY() + 1 < maze.size())
+			if (!(maze.get(hero.getPosY() + 1).get(hero.getPosX()).getSymbol()
+					.equals(PieceType.WALL.asString()))) {
+				if (!((maze.get(hero.getPosY() + 1).get(hero.getPosX())
+						.getSymbol().equals(PieceType.EXIT.asString())) && !heroArmado))
+					validMoves.put(1, true);
+			}
+		// Check if hero can move to the right
+		if (hero.getPosX() + 1 < maze.size())
+			if (!(maze.get(hero.getPosY()).get(hero.getPosX() + 1).getSymbol()
+					.equals(PieceType.WALL.asString()))) {
+				if (!((maze.get(hero.getPosY()).get(hero.getPosX() + 1)
+						.getSymbol().equals(PieceType.EXIT.asString())) && !heroArmado))
+					validMoves.put(2, true);
+			}
+		// Check if hero can move to the left
+		if (hero.getPosX() - 1 >= 0)
+			if (!(maze.get(hero.getPosY()).get(hero.getPosX() - 1).getSymbol()
+					.equals(PieceType.WALL.asString()))) {
+				if (!((maze.get(hero.getPosY()).get(hero.getPosX() - 1)
+						.getSymbol().equals(PieceType.EXIT.asString())) && !heroArmado))
+					validMoves.put(3, true);
+			}
+		return validMoves;
 	}
 
 	public Dragon adjacentDragon() {
@@ -379,6 +431,15 @@ public class Logic extends Maze {
 				return dragon;
 		}
 		return null;
+	}
+
+	public boolean nearDragons(int posX, int posY) {
+		if (maze.get(posY).get(posX).getSymbol().equals(" d ")
+				|| maze.get(posY).get(posX).getSymbol().equals(" D ")
+				|| maze.get(posY).get(posX).getSymbol().equals(" F "))
+			return true;
+
+		return false;
 	}
 
 	public boolean dragonAtSword(Dragon dragon) {

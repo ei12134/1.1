@@ -3,7 +3,6 @@ package maze;
 import algorithms.Algorithm;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Random;
 
 public class Maze {
@@ -21,7 +20,7 @@ public class Maze {
 		eagle = new Eagle(1, 1);
 		dragons = new ArrayList<Dragon>();
 		dragons.add(new Dragon(1, 6));
-		startDefaultMaze(hero, dragons);
+		startDefaultMaze();
 	}
 
 	public Maze(int mazeSize, int dragonCounter) {
@@ -29,10 +28,10 @@ public class Maze {
 		hero = new Hero(0, 0);
 		eagle = new Eagle(0, 0);
 		dragons = new ArrayList<Dragon>();
-		startRandomMaze(hero, dragons, eagle, mazeSize, dragonCounter);
+		startRandomMaze(mazeSize, dragonCounter);
 	}
 
-	private void startDefaultMaze(Hero hero, ArrayList<Dragon> dragons) {
+	private void startDefaultMaze() {
 		exit = new Piece(9, 5, PieceType.EXIT.asString());
 		sword = new Piece(1, 8, PieceType.SWORD.asString());
 
@@ -71,8 +70,7 @@ public class Maze {
 				.setSymbol(dragons.get(0).showDragon());
 	}
 
-	private void startRandomMaze(Hero hero, ArrayList<Dragon> dragons,
-			Eagle eagle, int mazeSize, int dragonCounter) {
+	private void startRandomMaze(int mazeSize, int dragonCounter) {
 
 		Algorithm algorithm = new Algorithm(mazeSize);
 		maze = algorithm.createMaze();
@@ -92,7 +90,7 @@ public class Maze {
 		}
 
 		// Set dragon(s) position(s)
-		addDragons(hero, dragons, dragonCounter);
+		addDragons(dragonCounter);
 
 		// Set hero position
 		hero.setPosition(posX, posY);
@@ -127,60 +125,7 @@ public class Maze {
 	}
 
 	/**
-	 * Checks each of the 4 positions around hero for availability and if adds
-	 * it to HasMap validMoves
-	 * 
-	 * @param hero
-	 *            An object of the class Hero used as a reference for available
-	 *            positions
-	 * @return HashMap with possible positions for hero to move into
-	 */
-	public HashMap<Integer, Boolean> getValidMoves(Hero hero) {
-		HashMap<Integer, Boolean> validMoves = new HashMap<Integer, Boolean>();
-		boolean heroArmado = hero.getArmed();
-
-		// Check if hero can move up
-		if (hero.getPosY() - 1 >= 0)
-			if (!(maze.get(hero.getPosY() - 1).get(hero.getPosX()).getSymbol()
-					.equals(PieceType.WALL.asString()))) {
-				// Confirms if hero is armed at exit
-				if (!((maze.get(hero.getPosY() - 1).get(hero.getPosX())
-						.getSymbol().equals(PieceType.EXIT.asString())) && !heroArmado))
-					validMoves.put(0, true);
-			}
-		// Check if hero can move down
-		if (hero.getPosY() + 1 < maze.size())
-			if (!(maze.get(hero.getPosY() + 1).get(hero.getPosX()).getSymbol()
-					.equals(PieceType.WALL.asString()))) {
-				if (!((maze.get(hero.getPosY() + 1).get(hero.getPosX())
-						.getSymbol().equals(PieceType.EXIT.asString())) && !heroArmado))
-					validMoves.put(1, true);
-			}
-		// Check if hero can move to the right
-		if (hero.getPosX() + 1 < maze.size())
-			if (!(maze.get(hero.getPosY()).get(hero.getPosX() + 1).getSymbol()
-					.equals(PieceType.WALL.asString()))) {
-				if (!((maze.get(hero.getPosY()).get(hero.getPosX() + 1)
-						.getSymbol().equals(PieceType.EXIT.asString())) && !heroArmado))
-					validMoves.put(2, true);
-			}
-		// Check if hero can move to the left
-		if (hero.getPosX() - 1 >= 0)
-			if (!(maze.get(hero.getPosY()).get(hero.getPosX() - 1).getSymbol()
-					.equals(PieceType.WALL.asString()))) {
-				if (!((maze.get(hero.getPosY()).get(hero.getPosX() - 1)
-						.getSymbol().equals(PieceType.EXIT.asString())) && !heroArmado))
-					validMoves.put(3, true);
-			}
-		return validMoves;
-	}
-
-	/**
-	 * Esta funcao e utilizada para trocar duas Pieces. Alem de trocar duas
-	 * Pieces ainda verifica se o hero esta armado ou nao atraves de uma funcao
-	 * auxiliar Quando marcamos o simbolo no maze o programa verifica se o hero
-	 * tem SWORD ou nao Se tiver entao mostra um 'A', caso contrario mostra um
-	 * 'H'
+	 * Swaps hero position with a given valid direction
 	 */
 	public void swapHero(int direction) {
 
@@ -271,28 +216,17 @@ public class Maze {
 		return null;
 	}
 
-	public void addDragons(Hero hero, ArrayList<Dragon> dragons,
-			int dragonCounter) {
+	public void addDragons(int dragonCounter) {
 		for (int i = 0; i < dragonCounter; i++) {
 			Piece newDragonPiece = getAvailablePosition();
 			if (newDragonPiece != null)
 				dragons.add(new Dragon(newDragonPiece.getPosX(), newDragonPiece
 						.getPosY()));
 		}
-
 		for (int i = 0; i < dragons.size(); i++)
 			maze.get(dragons.get(i).getPosY()).get(dragons.get(i).getPosX())
 					.setSymbol(dragons.get(i).showDragon());
 
-	}
-
-	public boolean nearDragons(int posX, int posY) {
-		if (maze.get(posY).get(posX).getSymbol().equals(" d ")
-				|| maze.get(posY).get(posX).getSymbol().equals(" D ")
-				|| maze.get(posY).get(posX).getSymbol().equals(" F "))
-			return true;
-
-		return false;
 	}
 
 	public int getExitX() {
