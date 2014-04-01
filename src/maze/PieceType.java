@@ -1,10 +1,7 @@
 package maze;
 
-/**
- * Fonte: http://stackoverflow.com/questions/14202959/in-java-is-there-a-way-to-
- * define-enum-of-type-String
- */
 public enum PieceType {
+	
 	FREE("   "), WALL(" X "), EXIT(" S "), SWORD(" E ");
 
 	private final String asString;

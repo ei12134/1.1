@@ -2,12 +2,12 @@ package maze;
 
 public class Eagle extends Character {
 
-	private String state;
+	private State state;
 	private int heroX, heroY;
 
 	public Eagle(int posX, int posY) {
 		super(posX, posY);
-		this.state = State.EAGLE_FOLLOWING.toString();
+		this.state = State.EAGLE_FOLLOWING;
 	}
 
 	public char showEagle() {
@@ -22,11 +22,11 @@ public class Eagle extends Character {
 		this.heroY = heroY;
 	}
 
-	public void setState(String state) {
+	public void setState(State state) {
 		this.state = state;
 	}
 
-	public String getState() {
+	public State getState() {
 		return state;
 	}
 

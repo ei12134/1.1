@@ -76,6 +76,7 @@ public class Cli {
 	}
 
 	public void displayMaze(ArrayList<ArrayList<Piece>> maze) {
+		System.out.println();
 		for (int i = 0; i < maze.size(); i++) {
 			ArrayList<Piece> linhamaze = maze.get(i);
 			for (int j = 0; j < maze.get(i).size(); j++)
@@ -98,10 +99,10 @@ public class Cli {
 	}
 
 	public void gameMessages(String message) {
-		System.out.println("\n " + message + "\n");
+		System.out.println("\n " + message);
 	}
 
 	public void errorMessages(String message) {
-		System.err.println("\n\n " + message + "\n");
+		System.err.println("\n\n " + message);
 	}
 }

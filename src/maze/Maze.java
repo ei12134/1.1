@@ -38,9 +38,9 @@ public class Maze {
 
 		for (int i = 0; i < 10; i++) {
 			ArrayList<Piece> linha = new ArrayList<Piece>();
-			for (int j = 0; j < 10; j++) {
+			for (int j = 0; j < 10; j++)
 				linha.add(new Piece(i, j, PieceType.WALL.asString()));
-			}
+
 			maze.add(linha);
 		}
 
@@ -182,67 +182,73 @@ public class Maze {
 	 * tem SWORD ou nao Se tiver entao mostra um 'A', caso contrario mostra um
 	 * 'H'
 	 */
-	public void swapPieces(int direction, Hero hero) {
-		if (direction == Movement.MOVE_UP.getDirection()) {
+	public void swapHero(int direction) {
+
+		int nextX = 0;
+		int nextY = 0;
+
+		switch (direction) {
+
+		case (0):
+			// Move Up
+			nextX = hero.getPosX();
+			nextY = hero.getPosY() - 1;
+			break;
+
+		case (1):
+			// Move Down
+			nextX = hero.getPosX();
+			nextY = hero.getPosY() + 1;
+			break;
+
+		case (2):
+			// Move Right
+			nextX = hero.getPosX() + 1;
+			nextY = hero.getPosY();
+			break;
+
+		case (3):
+			// Move Left
+			nextX = hero.getPosX() - 1;
+			nextY = hero.getPosY();
+			break;
+		default:
+			break;
+		}
+
+		if (nextX != 0 && nextY != 0) {
+			// Check for sword in next position
+			if (!hero.getArmed()) {
+				if ((nextX == sword.getPosX()) && (nextY == sword.getPosY())) {
+					if (eagle.getState().equals(State.EAGLE_GROUND)) {
+						eagle.setState(State.EAGLE_FOLLOWING);
+						hero.setEagle(true);
+					}
+					hero.setArmed(true);
+				}
+			}
+			// Clear current position
 			getMazePiece(hero.getPosX(), hero.getPosY()).setSymbol(
 					PieceType.FREE.asString());
-
-			if (!hero.getArmed()
-					&& ArmedNextPiece(Movement.MOVE_UP.getDirection(), hero))
-				hero.setArmed(true);
-			getMazePiece(hero.getPosX(), hero.getPosY() - 1).setSymbol(
-					hero.showHero());
-
-			hero.setPosition(hero.getPosX(), hero.getPosY() - 1);
-		} else if (direction == Movement.MOVE_DOWN.getDirection()) {
-			getMazePiece(hero.getPosX(), hero.getPosY()).setSymbol(
-					PieceType.FREE.asString());
-
-			if (!hero.getArmed()
-					&& ArmedNextPiece(Movement.MOVE_DOWN.getDirection(), hero))
-				hero.setArmed(true);
-			getMazePiece(hero.getPosX(), hero.getPosY() + 1).setSymbol(
-					hero.showHero());
-
-			hero.setPosition(hero.getPosX(), hero.getPosY() + 1);
-		} else if (direction == Movement.MOVE_RIGHT.getDirection()) {
-			getMazePiece(hero.getPosX(), hero.getPosY()).setSymbol(
-					PieceType.FREE.asString());
-
-			if (!hero.getArmed()
-					&& ArmedNextPiece(Movement.MOVE_RIGHT.getDirection(), hero))
-				hero.setArmed(true);
-			getMazePiece(hero.getPosX() + 1, hero.getPosY()).setSymbol(
-					hero.showHero());
-
-			hero.setPosition(hero.getPosX() + 1, hero.getPosY());
-		} else if (direction == Movement.MOVE_LEFT.getDirection()) {
-			getMazePiece(hero.getPosX(), hero.getPosY()).setSymbol(
-					PieceType.FREE.asString());
-
-			if (!hero.getArmed()
-					&& ArmedNextPiece(Movement.MOVE_LEFT.getDirection(), hero))
-				hero.setArmed(true);
-			getMazePiece(hero.getPosX() - 1, hero.getPosY()).setSymbol(
-					hero.showHero());
-
-			hero.setPosition(hero.getPosX() - 1, hero.getPosY());
+			// Set next position
+			getMazePiece(nextX, nextY).setSymbol(hero.showHero());
+			hero.setPosition(nextX, nextY);
 		}
 	}
 
-	public boolean ArmedNextPiece(int pos, Hero hero) {
+	public boolean ArmedNextPiece(int direction) {
 		int posX = hero.getPosX();
 		int posY = hero.getPosY();
-		if (pos == Movement.MOVE_UP.getDirection()) {
+		if (direction == Movement.MOVE_UP.getDirection()) {
 			if ((posX == sword.getPosX()) && (posY - 1 == sword.getPosY()))
 				return true;
-		} else if (pos == Movement.MOVE_DOWN.getDirection()) {
+		} else if (direction == Movement.MOVE_DOWN.getDirection()) {
 			if ((posX == sword.getPosX()) && (posY + 1 == sword.getPosY()))
 				return true;
-		} else if (pos == Movement.MOVE_RIGHT.getDirection()) {
+		} else if (direction == Movement.MOVE_RIGHT.getDirection()) {
 			if ((posX + 1 == sword.getPosX()) && (posY == sword.getPosY()))
 				return true;
-		} else if ((pos == Movement.MOVE_LEFT.getDirection())) {
+		} else if ((direction == Movement.MOVE_LEFT.getDirection())) {
 			if ((posX - 1 == sword.getPosX()) && (posY == sword.getPosY()))
 				return true;
 		}
@@ -284,9 +290,9 @@ public class Maze {
 		if (maze.get(posY).get(posX).getSymbol().equals(" d ")
 				|| maze.get(posY).get(posX).getSymbol().equals(" D ")
 				|| maze.get(posY).get(posX).getSymbol().equals(" F "))
-			return false;
+			return true;
 
-		return true;
+		return false;
 	}
 
 	public int getExitX() {
@@ -312,7 +318,7 @@ public class Maze {
 	public ArrayList<ArrayList<Piece>> getMaze() {
 		return maze;
 	}
-	
+
 	public Hero getHero() {
 		return hero;
 	}
