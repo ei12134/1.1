@@ -13,42 +13,28 @@ public class Cli {
 		scanInt = new Scanner(System.in);
 		scanString = new Scanner(System.in);
 	}
-	
-	public boolean mainMenu() {
-		int input;
-		do {
-			System.out
-					.print("\n\tMaze Game\n\n * Type 0 to play\n * Type 1 to exit\n > ");
-			while (!scanInt.hasNextInt()) {
-				System.out
-						.print("\n\tMaze Game\n\n * 0 to play\n * 1 to exit\n > ");
-				scanInt.next();
-			}
-			input = scanInt.nextInt();
-		} while (input < 0 || input > 1);
-
-		if (input == 0)
-			return true;
-		else
-			return false;
-	}
 
 	public int setMazeSize() {
 		int size;
 		do {
 			System.out
-					.print("\n\tEnter maze size\n\n * Type 0 to select standard maze\n * Odd (>= 7) maze sizes only\n > ");
+					.print("\n\tMaze Game\n\n > Enter maze size\n\n * Enter odd (>= 7) maze sizes only\n * Type 1 to select standard maze\n * Type 0 to exit\n > ");
 			while (!scanInt.hasNextInt()) {
 				System.out
-						.print("\n\tEnter maze size\n\n * Type 0 to select standard maze\n * Odd (>= 7) maze sizes only\n > ");
+						.print("\n\tMaze Game\n\n > Enter maze size\n\n * Enter odd (>= 7) maze sizes only\n * Type 1 to select standard maze\n * Type 0 to exit\n > ");
 				scanInt.next();
 			}
 			size = scanInt.nextInt();
 			if (size == 0) {
+				System.out.print("\n ! Exiting the game...\n");
+				return 0;
+			} else if (size == 1) {
+				System.out.print("\n ! Starting default maze\n\n");
 				return 10;
 			}
 		} while (size <= 6 || size % 2 == 0);
 
+		System.out.print("\n ! Starting random maze\n");
 		return size;
 	}
 
@@ -85,12 +71,13 @@ public class Cli {
 				break;
 			}
 		}
+		System.out.println();
 		return mode;
 	}
 
 	public void displayMaze(ArrayList<ArrayList<Piece>> maze) {
 		for (int i = 0; i < maze.size(); i++) {
-			ArrayList<Piece> linhamaze = maze.get(i);		
+			ArrayList<Piece> linhamaze = maze.get(i);
 			for (int j = 0; j < maze.get(i).size(); j++)
 				System.out.print(linhamaze.get(j).getSymbol());
 			System.out.println();
@@ -101,6 +88,7 @@ public class Cli {
 		System.out
 				.print("\n(w/a/s/d) to move (e) to release eagle (q) to abort > ");
 		String input = scanString.nextLine();
+		System.out.println();
 		return input;
 	}
 
@@ -114,6 +102,6 @@ public class Cli {
 	}
 
 	public void errorMessages(String message) {
-		System.err.println("\n " + message + "\n");
+		System.err.println("\n\n " + message + "\n");
 	}
 }
