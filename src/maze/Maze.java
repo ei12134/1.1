@@ -256,4 +256,12 @@ public class Maze {
 	public Hero getHero() {
 		return hero;
 	}
+
+	public void setHero(Hero hero) {
+		this.hero = hero;
+	}
+	
+	public void setDragons(ArrayList<Dragon> dragons) {
+		this.dragons = dragons;
+	}
 }

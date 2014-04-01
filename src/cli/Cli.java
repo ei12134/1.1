@@ -26,15 +26,15 @@ public class Cli {
 			}
 			size = scanInt.nextInt();
 			if (size == 0) {
-				System.out.print("\n ! Exiting the game...\n");
+				System.err.println("\n ! Exiting the game...");
 				return 0;
 			} else if (size == 1) {
-				System.out.print("\n ! Starting default maze\n\n");
+				System.out.println("\n ! Starting default maze");
 				return 10;
 			}
 		} while (size <= 6 || size % 2 == 0);
 
-		System.out.print("\n ! Starting random maze\n");
+		System.out.println("\n ! Starting random maze");
 		return size;
 	}
 
