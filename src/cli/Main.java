@@ -7,10 +7,13 @@ public class Main {
 		int size;
 		Logic game;
 		Cli cli = new Cli();
-		while ((size = cli.setMazeSize()) != 0) {		
-			game = new Logic(size);
-			if (size != 10)
+		while ((size = cli.setMazeSize()) != 0) {
+			if (size == 10)
+				game = new Logic(cli);
+			else {
+				game = new Logic(cli, size);
 				game.setDragonStrategy(cli.dragonStrategy());
+			}
 			game.startGame();
 		}
 	}

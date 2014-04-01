@@ -36,7 +36,7 @@ public class Map {
         Hero hero = new Hero(0, 0);
         Eagle eagle = new Eagle(0, 0);
         ArrayList<Dragon> dragons = new ArrayList<Dragon>();
-        Maze maze = new Maze(hero, dragons, eagle, boardSize, 3);
+        Maze maze = new Maze(boardSize, 3);
         tabuleiro = maze.getMaze();
         System.out.println(tabuleiro);
     }

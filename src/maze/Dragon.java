@@ -1,8 +1,8 @@
 package maze;
 
 public class Dragon extends Character {
-
-	private boolean atSword;
+ 
+	private boolean guarding;
 	private boolean asleep;
 
 	public Dragon(int posX, int posY) {
@@ -11,7 +11,7 @@ public class Dragon extends Character {
 
 	public String showDragon() {
 		if (!getDead()) {
-			if (getAtSword())
+			if (getGuarding())
 				return " F ";
 			else if (getAsleep())
 				return " d ";
@@ -22,16 +22,16 @@ public class Dragon extends Character {
 		}
 	}
 
-	public void setAtSword(boolean espada) {
-		atSword = espada;
+	public void setGuarding(boolean guarding) {
+		this.guarding = guarding;
 	}
 
 	public void setAsleep(boolean asleep) {
 		this.asleep = asleep;
 	}
 
-	public boolean getAtSword() {
-		return atSword;
+	public boolean getGuarding() {
+		return guarding;
 	}
 
 	public boolean getAsleep() {

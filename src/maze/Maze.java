@@ -2,25 +2,33 @@ package maze;
 
 import algorithms.Algorithm;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 
 public class Maze {
 
-	public ArrayList<ArrayList<Piece>> maze;
-	private Piece exit;
-	private Piece sword;
+	protected ArrayList<ArrayList<Piece>> maze;
+	protected ArrayList<Dragon> dragons;
+	protected Hero hero;
+	protected Eagle eagle;
+	protected Piece exit;
+	protected Piece sword;
 
-	public Maze(Hero hero, ArrayList<Dragon> dragons) {
+	public Maze() {
 		maze = new ArrayList<ArrayList<Piece>>();
+		hero = new Hero(1, 1);
+		eagle = new Eagle(1, 1);
+		dragons = new ArrayList<Dragon>();
+		dragons.add(new Dragon(1, 6));
 		startDefaultMaze(hero, dragons);
 	}
 
-	public Maze(Hero hero, ArrayList<Dragon> dragons, Eagle eagle,
-			int mazeSize, int dragonCounter) {
+	public Maze(int mazeSize, int dragonCounter) {
 		maze = new ArrayList<ArrayList<Piece>>();
+		hero = new Hero(0, 0);
+		eagle = new Eagle(0, 0);
+		dragons = new ArrayList<Dragon>();
 		startRandomMaze(hero, dragons, eagle, mazeSize, dragonCounter);
 	}
 
@@ -117,7 +125,6 @@ public class Maze {
 					break;
 				}
 	}
-
 
 	/**
 	 * Checks each of the 4 positions around hero for availability and if adds
@@ -243,7 +250,6 @@ public class Maze {
 		return false;
 	}
 
-
 	public Piece getAvailablePosition() {
 		int randomX = 0, randomY = 0;
 		Random r = new Random();
@@ -258,7 +264,6 @@ public class Maze {
 		}
 		return null;
 	}
-
 
 	public void addDragons(Hero hero, ArrayList<Dragon> dragons,
 			int dragonCounter) {
@@ -275,7 +280,6 @@ public class Maze {
 
 	}
 
-
 	public boolean nearDragons(int posX, int posY) {
 		if (maze.get(posY).get(posX).getSymbol().equals(" d ")
 				|| maze.get(posY).get(posX).getSymbol().equals(" D ")
@@ -285,33 +289,31 @@ public class Maze {
 		return true;
 	}
 
-
 	public int getExitX() {
 		return exit.getPosX();
 	}
-
 
 	public int getExitY() {
 		return exit.getPosY();
 	}
 
-
 	public String getMazePieceSymbol(int x, int y) {
 		return maze.get(y).get(x).getSymbol();
 	}
-
 
 	public Piece getMazePiece(int x, int y) {
 		return maze.get(y).get(x);
 	}
 
-
 	public Piece getSword() {
 		return sword;
 	}
 
-
-    public ArrayList<ArrayList<Piece>> getMaze() {
-        return maze;
-    }
+	public ArrayList<ArrayList<Piece>> getMaze() {
+		return maze;
+	}
+	
+	public Hero getHero() {
+		return hero;
+	}
 }

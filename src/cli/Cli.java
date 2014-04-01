@@ -18,10 +18,10 @@ public class Cli {
 		int size;
 		do {
 			System.out
-					.print("\n\tMaze Game\n\n > Enter maze size\n\n * Enter odd (>= 7) maze sizes only\n * Type 1 to select standard maze\n * Type 0 to exit\n > ");
+					.print("\n\tMaze Game\n\n > Enter maze size\n\n * Enter odd (>= 7) maze sizes only\n * Type 1 to select standard maze\n * Type 0 to exit\n\n > ");
 			while (!scanInt.hasNextInt()) {
 				System.out
-						.print("\n\tMaze Game\n\n > Enter maze size\n\n * Enter odd (>= 7) maze sizes only\n * Type 1 to select standard maze\n * Type 0 to exit\n > ");
+						.print("\n\tMaze Game\n\n > Enter maze size\n\n * Enter odd (>= 7) maze sizes only\n * Type 1 to select standard maze\n * Type 0 to exit\n\n > ");
 				scanInt.next();
 			}
 			size = scanInt.nextInt();
@@ -44,11 +44,11 @@ public class Cli {
 
 		while (!validInput) {
 			System.out
-					.print("\n\tEnter dragon mode\n\n * 0 - Idle\n * 1 - Random move\n * 2 - Random move + sleeping\n > ");
+					.print("\n\tEnter dragon mode\n\n * 0 - Idle\n * 1 - Random move\n * 2 - Random move + sleeping\n\n > ");
 			while (!scanInt.hasNextInt()) {
 				System.out.print("\nInvalid input!\n");
 				System.out
-						.print("\n\tEnter dragon mode\n\n * 0 - Idle\n * 1 - Random move\n * 2 - Random move + sleeping\n > ");
+						.print("\n\tEnter dragon mode\n\n * 0 - Idle\n * 1 - Random move\n * 2 - Random move + sleeping\n\n > ");
 				scanInt.next();
 			}
 			mode = scanInt.nextInt();
@@ -86,7 +86,7 @@ public class Cli {
 
 	public String getKey() {
 		System.out
-				.print("\n(w/a/s/d) to move (e) to release eagle (q) to abort > ");
+				.print("\n * (w/a/s/d) to move (e) to release eagle (q) to abort > ");
 		String input = scanString.nextLine();
 		System.out.println();
 		return input;
