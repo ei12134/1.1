@@ -114,25 +114,25 @@ public class Logic extends Cli {
 			// Check if HashMap contains the key with value 0)
 			if (moves.containsKey(Movement.MOVE_UP.getDirection())) {
 				// Make current piece free
-				maze.swapPieces(Movement.MOVE_UP.getDirection(), hero, eagle);
+				maze.swapPieces(Movement.MOVE_UP.getDirection(), hero);
 			} else
 				errorMessages("! Hero can't move up");
 		} else if (userInput.equals("s")) {
 			// Check if HashMap contains the key with value 1)
 			if (moves.containsKey(Movement.MOVE_DOWN.getDirection())) {
-				maze.swapPieces(Movement.MOVE_DOWN.getDirection(), hero, eagle);
+				maze.swapPieces(Movement.MOVE_DOWN.getDirection(), hero);
 			} else
 				errorMessages("! Hero can't move down!");
 		} else if (userInput.equals("d")) {
 			// Check if HashMap contains the key with value 2)
 			if (moves.containsKey(Movement.MOVE_RIGHT.getDirection())) {
-				maze.swapPieces(Movement.MOVE_RIGHT.getDirection(), hero, eagle);
+				maze.swapPieces(Movement.MOVE_RIGHT.getDirection(), hero);
 			} else
 				errorMessages("! Hero can't move right!");
 		} else if (userInput.equals("a")) {
 			// Check if HashMap contains the key with value 3)
 			if (moves.containsKey(Movement.MOVE_LEFT.getDirection())) {
-				maze.swapPieces(Movement.MOVE_LEFT.getDirection(), hero, eagle);
+				maze.swapPieces(Movement.MOVE_LEFT.getDirection(), hero);
 			} else
 				errorMessages("! Hero can't move left!");
 		}
@@ -204,14 +204,8 @@ public class Logic extends Cli {
 			maze.getMazePiece(nextX, nextY).setSymbol(dragon.showDragon());
 			// Update dragon position
 			dragon.setPosition(nextX, nextY);
-			if (dragon.getPosX() == eagle.getPosX()
-					&& dragon.getPosY() == eagle.getPosY() && eagle.getGround() && !hero.getArmed()) {
-				eagle.setDead(true);
-				dragon.setAtSword(true);
-				maze.getMazePiece(nextX, nextY).setSymbol(dragon.showDragon());
-			}
 
-			else if (dragon.getAtSword()) {
+			if (dragon.getAtSword()) {
 				maze.getMazePiece(previousX, previousY).setSymbol(
 						PieceType.SWORD.asString());
 				dragon.setAtSword(false);
@@ -248,8 +242,6 @@ public class Logic extends Cli {
 					if (maze.getMazePiece(eagle.getPosX(), eagle.getPosY())
 							.getSymbol().contains("F")) {
 						eagle.setDead(true);
-						maze.getMazePiece(eagle.getPosX(), eagle.getPosY())
-								.setSymbol(" F ");
 						errorMessages("! Eagle died :(");
 					}
 					// Free sword
@@ -309,10 +301,13 @@ public class Logic extends Cli {
 								.setSymbol(PieceType.SWORD.asString());
 						maze.getSword().setPosition(eagle.getHeroX(),
 								eagle.getHeroY());
+						eagle.setPosition(hero.getPosX(), hero.getPosY());
+						hero.setEagle(true);
 						eagle.setPursuit(false);
 						eagle.setReturning(false);
-						eagle.setGround(true);
-						errorMessages("! Hero was not on the same spot - Eagle is in the ground");
+						maze.getMazePiece(hero.getPosX(), hero.getPosY())
+								.setSymbol(hero.showHero());
+						errorMessages("! Hero was not on the same spot - Eagle returned to hero");
 					} else {
 						hero.setEagle(true);
 						hero.setArmed(true);

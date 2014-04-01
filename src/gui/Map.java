@@ -1,75 +1,87 @@
 package gui;
 
+import maze.*;
+
 import java.awt.Image;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Scanner;
 
 import javax.swing.ImageIcon;
 
-import cli.Cli;
-
 public class Map {
-	// int size = Cli.setMazeSize(); //Preciso do tamanho
-	int size = 13;
-	private Scanner m;
+    private int boardSize;
+	private Scanner scanner;
 
-	private String Map[] = new String[size];
+    private ArrayList<ArrayList<Piece> > tabuleiro;
 
 	private Image wall;
 	private Image floor;
 
-	public Map() {
+	public Map(int boardSize, boolean random) {
+        this.boardSize = boardSize;
+        tabuleiro = new ArrayList<ArrayList<Piece>>();
+        wall = new ImageIcon("src//png//wall12.png").getImage();
+        floor = new ImageIcon("src//png/floor.png").getImage();
 
-		ImageIcon img = new ImageIcon(
-				"src\\png\\wall12.png");
-		wall = img.getImage();
-		 img = new ImageIcon(
-				"src\\png\\floor.png");
-		floor = img.getImage();
-	
-		openFile();
-		readFile();
-		closeFile();
-	}
+        if(random) {
+            generateRandomBoard();
+        }
+    }
 
-	public Image getWall() {
-		return wall;
-	}
-	
+
+    public void generateRandomBoard() {
+        Hero hero = new Hero(0, 0);
+        Eagle eagle = new Eagle(0, 0);
+        ArrayList<Dragon> dragons = new ArrayList<Dragon>();
+        Maze maze = new Maze(hero, dragons, eagle, boardSize, 3);
+        tabuleiro = maze.getMaze();
+        System.out.println(tabuleiro);
+    }
+
+    public Image getWall() {
+        return wall;
+    }
+
+
 	public Image getFloor() {
-		return floor;
-	}
+        return floor;
+    }
 
-	public String getMap(int x, int y) {
-		String index = Map[y].substring(x, x + 1);
-		return index;
 
+	public Piece getMap(int x, int y) {
+		return tabuleiro.get(y).get(x);
 	}
 
 	public void openFile() {
 		try {
-			m = new Scanner(
-					new File(
-							"src\\png\\Map.txt"));// ficheiro
-																				// do
-																									// mapa
+			scanner = new Scanner(new File("src//png//Map.txt"));
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 
+
 	public void readFile() {
+        HashMap<java.lang.Character, String> pieces = new HashMap<java.lang.Character, String>();
+        pieces.put('X', PieceType.WALL.asString());
+        pieces.put('F', PieceType.FREE.asString());
 
-		while (m.hasNext()) {
-			for (int i = 0; i < size; i++) {
-				Map[i] = m.next();
-
-			}
-		}
-
+        int i = 0;
+        while(scanner.hasNext()) {
+            ArrayList<Piece> row = new ArrayList<Piece>();
+            String s = scanner.next();
+            for(int j = 0; j < s.length(); j++)
+                row.add(new Piece(i, j, pieces.get(s.charAt(j))));
+            tabuleiro.add(row);
+            i++;
+        }
+        scanner.close();
 	}
+
 
 	public void closeFile() {
 

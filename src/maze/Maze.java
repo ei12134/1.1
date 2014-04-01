@@ -2,6 +2,7 @@ package maze;
 
 import algorithms.Algorithm;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
@@ -117,6 +118,7 @@ public class Maze {
 				}
 	}
 
+
 	/**
 	 * Checks each of the 4 positions around hero for availability and if adds
 	 * it to HasMap validMoves
@@ -126,7 +128,6 @@ public class Maze {
 	 *            positions
 	 * @return HashMap with possible positions for hero to move into
 	 */
-
 	public HashMap<Integer, Boolean> getValidMoves(Hero hero) {
 		HashMap<Integer, Boolean> validMoves = new HashMap<Integer, Boolean>();
 		boolean heroArmado = hero.getArmed();
@@ -174,7 +175,7 @@ public class Maze {
 	 * tem SWORD ou nao Se tiver entao mostra um 'A', caso contrario mostra um
 	 * 'H'
 	 */
-	public void swapPieces(int direction, Hero hero, Eagle eagle) {
+	public void swapPieces(int direction, Hero hero) {
 		if (direction == Movement.MOVE_UP.getDirection()) {
 			getMazePiece(hero.getPosX(), hero.getPosY()).setSymbol(
 					PieceType.FREE.asString());
@@ -182,7 +183,6 @@ public class Maze {
 			if (!hero.getArmed()
 					&& ArmedNextPiece(Movement.MOVE_UP.getDirection(), hero))
 				hero.setArmed(true);
-
 			getMazePiece(hero.getPosX(), hero.getPosY() - 1).setSymbol(
 					hero.showHero());
 
@@ -221,13 +221,6 @@ public class Maze {
 
 			hero.setPosition(hero.getPosX() - 1, hero.getPosY());
 		}
-
-		if (hero.getPosX() == eagle.getPosX()
-				&& hero.getPosY() == eagle.getPosY() && eagle.getGround()) {
-			eagle.setGround(false);
-			eagle.setReturning(false);
-			eagle.setPursuit(false);
-		}
 	}
 
 	public boolean ArmedNextPiece(int pos, Hero hero) {
@@ -250,7 +243,8 @@ public class Maze {
 		return false;
 	}
 
-	Piece getAvailablePosition() {
+
+	public Piece getAvailablePosition() {
 		int randomX = 0, randomY = 0;
 		Random r = new Random();
 
@@ -264,6 +258,7 @@ public class Maze {
 		}
 		return null;
 	}
+
 
 	public void addDragons(Hero hero, ArrayList<Dragon> dragons,
 			int dragonCounter) {
@@ -280,6 +275,7 @@ public class Maze {
 
 	}
 
+
 	public boolean nearDragons(int posX, int posY) {
 		if (maze.get(posY).get(posX).getSymbol().equals(" d ")
 				|| maze.get(posY).get(posX).getSymbol().equals(" D ")
@@ -289,23 +285,33 @@ public class Maze {
 		return true;
 	}
 
+
 	public int getExitX() {
 		return exit.getPosX();
 	}
+
 
 	public int getExitY() {
 		return exit.getPosY();
 	}
 
+
 	public String getMazePieceSymbol(int x, int y) {
 		return maze.get(y).get(x).getSymbol();
 	}
+
 
 	public Piece getMazePiece(int x, int y) {
 		return maze.get(y).get(x);
 	}
 
+
 	public Piece getSword() {
 		return sword;
 	}
+
+
+    public ArrayList<ArrayList<Piece>> getMaze() {
+        return maze;
+    }
 }

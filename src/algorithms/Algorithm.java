@@ -38,6 +38,7 @@ public class Algorithm {
 			}
 			mazeTemp.add(linha);
 		}
+
 		// Initialize all visited Pieces to false
 		for (int i = 0; i < mazeSize; i++) {
 			for (int j = 0; j < mazeSize; j++) {
