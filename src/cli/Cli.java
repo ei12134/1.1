@@ -26,15 +26,15 @@ public class Cli {
 			}
 			size = scanInt.nextInt();
 			if (size == 0) {
-				System.err.println("\n ! Exiting the game...");
+				showMessages("Exiting the game...");
 				return 0;
 			} else if (size == 1) {
-				System.out.println("\n ! Starting default maze");
+				showMessages("Starting default maze");
 				return 10;
 			}
 		} while (size <= 6 || size % 2 == 0);
 
-		System.out.println("\n ! Starting random maze");
+		showMessages("Starting random maze");
 		return size;
 	}
 
@@ -67,7 +67,7 @@ public class Cli {
 				validInput = true;
 				break;
 			default:
-				errorMessages("\nInvalid number!\n");
+				showMessages("! Invalid number");
 				break;
 			}
 		}
@@ -87,22 +87,18 @@ public class Cli {
 
 	public String getKey() {
 		System.out
-				.print("\n * (w/a/s/d) to move (e) to release eagle (q) to abort > ");
+				.print("\n (w/a/s/d) to move (e) to release eagle (q) to abort > ");
 		String input = scanString.nextLine();
 		System.out.println();
 		return input;
 	}
 
 	public void anyKey() {
-		gameMessages("Press any key to continue...");
+		showMessages("Press any key to continue...");
 		scanString.nextLine();
 	}
 
-	public void gameMessages(String message) {
-		System.out.println("\n " + message);
-	}
-
-	public void errorMessages(String message) {
-		System.err.println("\n\n " + message);
+	public void showMessages(String message) {
+		System.out.println("\n * " + message);
 	}
 }

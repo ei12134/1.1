@@ -28,14 +28,12 @@ public class Main {
 					cli.displayMaze(game.getMaze());
 
 				for (int i = 0; i < message.length; i++) {
-					if (message[i].charAt(0) == '!')
-						cli.errorMessages(message[i]);
-					else if (message[i].charAt(0) == '*')
-						cli.gameMessages(message[i]);
+					if (!message[i].equals("exit") && !message[i].equals("none"))
+						cli.showMessages(message[i]);
 				}
 			} while (!message[0].equals("exit")
-					&& !message[0].equals("* Hero won :)")
-					&& !message[0].equals("! Hero died :("));
+					&& !message[0].equals("Hero won :)")
+					&& !message[0].equals("Hero died! :("));
 
 		}
 	}

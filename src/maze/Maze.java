@@ -219,14 +219,14 @@ public class Maze {
 	public void addDragons(int dragonCounter) {
 		for (int i = 0; i < dragonCounter; i++) {
 			Piece newDragonPiece = getAvailablePosition();
-			if (newDragonPiece != null)
+			if (newDragonPiece != null) {
 				dragons.add(new Dragon(newDragonPiece.getPosX(), newDragonPiece
 						.getPosY()));
+				maze.get(dragons.get(i).getPosY())
+						.get(dragons.get(i).getPosX())
+						.setSymbol(dragons.get(i).showDragon());
+			}
 		}
-		for (int i = 0; i < dragons.size(); i++)
-			maze.get(dragons.get(i).getPosY()).get(dragons.get(i).getPosX())
-					.setSymbol(dragons.get(i).showDragon());
-
 	}
 
 	public int getExitX() {
@@ -260,7 +260,7 @@ public class Maze {
 	public void setHero(Hero hero) {
 		this.hero = hero;
 	}
-	
+
 	public void setDragons(ArrayList<Dragon> dragons) {
 		this.dragons = dragons;
 	}

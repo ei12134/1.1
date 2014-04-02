@@ -11,7 +11,9 @@ public class Dragon extends Character {
 
 	public String showDragon() {
 		if (!getDead()) {
-			if (getGuarding())
+			if (getGuarding() && getAsleep())
+				return " f ";
+			else if (getGuarding())
 				return " F ";
 			else if (getAsleep())
 				return " d ";

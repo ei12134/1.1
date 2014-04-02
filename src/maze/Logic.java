@@ -61,11 +61,11 @@ public class Logic extends Maze {
 		// Check game status
 		State state = checkGame();
 		if (state.equals(State.HERO_WON))
-			message[0] = "* Hero won :)";
+			message[0] = "Hero won :)";
 		else if (state.equals(State.HERO_DEAD))
-			message[0] = "! Hero died :(";
+			message[0] = "Hero died! :(";
 		else if (state.equals(State.DRAGON_DEAD))
-			message[0] = "* Hero killed a dragon!";
+			message[0] = "Hero killed a dragon";
 
 		return message;
 	}
@@ -81,17 +81,17 @@ public class Logic extends Maze {
 		// Release eagle
 		if (userInput.equals("e")) {
 			if (eagle.getDead())
-				return "! Eagle is dead";
+				return "Eagle is dead!";
 			else if (hero.getArmed())
-				return "! Hero already armed";
+				return "Hero already armed!";
 			else if (!eagle.getState().equals(State.EAGLE_FOLLOWING))
-				return "! Eagle isn't following the hero";
+				return "Eagle isn't following the hero!";
 			else {
 				eagle.setState(State.EAGLE_PURSUING);
 				hero.setEagle(false);
 				eagle.setHeroX(hero.getPosX());
 				eagle.setHeroY(hero.getPosY());
-				return "* Hero released the eagle";
+				return "Hero released the eagle";
 			}
 		}
 		// Mover player Up
@@ -101,25 +101,25 @@ public class Logic extends Maze {
 				// Make current piece free
 				swapHero(Movement.MOVE_UP.getDirection());
 			} else
-				return "! Hero can't move up";
+				return "Hero can't move up!";
 		} else if (userInput.equals("s")) {
 			// Check if HashMap contains the key with value 1)
 			if (moves.containsKey(Movement.MOVE_DOWN.getDirection())) {
 				swapHero(Movement.MOVE_DOWN.getDirection());
 			} else
-				return "! Hero can't move down";
+				return "Hero can't move down!";
 		} else if (userInput.equals("d")) {
 			// Check if HashMap contains the key with value 2)
 			if (moves.containsKey(Movement.MOVE_RIGHT.getDirection())) {
 				swapHero(Movement.MOVE_RIGHT.getDirection());
 			} else
-				return "! Hero can't move right";
+				return "Hero can't move right!";
 		} else if (userInput.equals("a")) {
 			// Check if HashMap contains the key with value 3)
 			if (moves.containsKey(Movement.MOVE_LEFT.getDirection())) {
 				swapHero(Movement.MOVE_LEFT.getDirection());
 			} else
-				return "! Hero can't move left";
+				return "Hero can't move left!";
 		}
 		return "none";
 	}
@@ -184,8 +184,8 @@ public class Logic extends Maze {
 					&& (getSword().getPosY() == nextY) && !hero.getArmed()) {
 				if (eagle.getState().equals(State.EAGLE_GROUND))
 					eagle.setDead(true);
-
-				dragon.setGuarding(true);
+				if (!eagle.getState().equals(State.EAGLE_RETURNING))
+					dragon.setGuarding(true);
 			}
 			// Set entry piece symbol
 			getMazePiece(nextX, nextY).setSymbol(dragon.showDragon());
@@ -217,7 +217,7 @@ public class Logic extends Maze {
 					if (getMazePiece(eagle.getPosX(), eagle.getPosY())
 							.getSymbol().contains("F")) {
 						eagle.setDead(true);
-						return "! Eagle died :(";
+						return "Eagle died!";
 					}
 					// Free sword
 					else {
@@ -269,14 +269,14 @@ public class Logic extends Maze {
 					if (eagle.getHeroX() != hero.getPosX()
 							|| eagle.getHeroY() != hero.getPosY()) {
 						eagle.setState(State.EAGLE_GROUND);
-						return "! Hero was not on the same spot - Eagle is in the ground";
+						return "Hero was not on the same spot - Eagle is in the ground!";
 					} else {
 						hero.setEagle(true);
 						hero.setArmed(true);
 						eagle.setState(State.EAGLE_PURSUING);
 						getMazePiece(hero.getPosX(), hero.getPosY()).setSymbol(
 								hero.showHero());
-						return "* Eagle returned successfuly and hero is now armed";
+						return "Eagle returned successfuly and hero is now armed";
 
 					}
 				}
