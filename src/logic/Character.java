@@ -1,15 +1,15 @@
-package maze;
+package logic;
 
-public class Piece {
+public class Character {
 
 	private int posX;
 	private int posY;
-	private String symbol;
+	private boolean dead;
 
-	public Piece(int posX, int posY, String symbol) {
+	public Character(int posX, int posY) {
 		this.posX = posX;
 		this.posY = posY;
-		this.symbol = symbol;
+		dead = false;
 	}
 
 	public int getPosX() {
@@ -20,14 +20,14 @@ public class Piece {
 		return posY;
 	}
 
-	public String getSymbol() {
-		return symbol;
+	public boolean getDead() {
+		return dead;
 	}
 
-	public void setSymbol(String symbol) {
-		this.symbol = symbol;
+	public void setDead(boolean dead) {
+		this.dead = dead;
 	}
-	
+
 	public void setPosition(int x, int y) {
 		posX = x;
 		posY = y;

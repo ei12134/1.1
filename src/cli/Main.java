@@ -1,6 +1,6 @@
 package cli;
 
-import maze.Logic;
+import logic.Logic;
 
 public class Main {
 	public static void main(String[] args) {

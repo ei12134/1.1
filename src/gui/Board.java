@@ -1,6 +1,6 @@
 package gui;
 
-import maze.PieceType;
+import logic.PieceType;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;

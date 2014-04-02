@@ -5,12 +5,12 @@ import static org.junit.Assert.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import maze.Dragon;
-import maze.State;
-import maze.Hero;
-import maze.Logic;
-import maze.Maze;
-import maze.Movement;
+import logic.Dragon;
+import logic.Hero;
+import logic.Logic;
+import logic.Maze;
+import logic.Movement;
+import logic.State;
 
 import org.junit.Test;
 

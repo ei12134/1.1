@@ -1,4 +1,4 @@
-package maze;
+package logic;
 
 public class Dragon extends Character {
 

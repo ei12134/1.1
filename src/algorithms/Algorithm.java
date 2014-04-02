@@ -1,8 +1,8 @@
 package algorithms;
 
-import maze.Movement;
-import maze.Piece;
-import maze.PieceType;
+import logic.Movement;
+import logic.Piece;
+import logic.PieceType;
 
 import java.util.ArrayList;
 import java.util.Random;

@@ -1,4 +1,4 @@
-package maze;
+package logic;
 
 public enum Movement {
 	MOVE_UP(0), MOVE_DOWN(1), MOVE_RIGHT(2), MOVE_LEFT(3);

@@ -1,8 +1,17 @@
-package maze;
+package logic;
 
 import java.util.HashMap;
 import java.util.Random;
 
+/**
+ * Logic is the class involved in game processing moves of Characters and set
+ * the game State
+ * 
+ * @author André Pinheiro
+ * @author José Peixoto
+ * @author Paulo Faria
+ * @version Required?
+ */
 public class Logic extends Maze {
 
 	private int dragonStrategy;

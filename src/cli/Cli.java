@@ -3,7 +3,7 @@ package cli;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import maze.Piece;
+import logic.Piece;
 
 public class Cli {
 

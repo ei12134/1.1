@@ -1,6 +1,6 @@
 package gui;
 
-import maze.*;
+import logic.*;
 
 import java.awt.Image;
 import java.io.File;
