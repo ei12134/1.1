@@ -182,26 +182,6 @@ public class Maze {
 		return message;
 	}
 
-	public boolean ArmedNextPiece(int direction) {
-		int posX = hero.getPosX();
-		int posY = hero.getPosY();
-		if (direction == Movement.MOVE_UP.getDirection()) {
-			if ((posX == sword.getPosX()) && (posY - 1 == sword.getPosY()))
-				return true;
-		} else if (direction == Movement.MOVE_DOWN.getDirection()) {
-			if ((posX == sword.getPosX()) && (posY + 1 == sword.getPosY()))
-				return true;
-		} else if (direction == Movement.MOVE_RIGHT.getDirection()) {
-			if ((posX + 1 == sword.getPosX()) && (posY == sword.getPosY()))
-				return true;
-		} else if ((direction == Movement.MOVE_LEFT.getDirection())) {
-			if ((posX - 1 == sword.getPosX()) && (posY == sword.getPosY()))
-				return true;
-		}
-
-		return false;
-	}
-
 	public Piece getAvailablePosition() {
 		int randomX = 0, randomY = 0;
 		Random r = new Random();

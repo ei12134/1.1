@@ -130,22 +130,23 @@ public class Algorithm {
 					.setSymbol(PieceType.FREE.asString());
 		}
 
-		// Marcar como Piece FREE
+		// Set as Free Piece
 		maze.get(Piece.getPosY()).get(Piece.getPosX())
 				.setSymbol(PieceType.FREE.asString());
-		// Atualizar a Piece atual
+		// Update current Piece
 		currentPiece = Piece;
 
-		// Adicionar a nova Piece ao stack
+		// Add new Piece to the stack
 		piecesStack.push(currentPiece);
-		// Marcar a Piece como visitada
+
+		// Set Piece as visited
 		visitedPieces[currentPiece.getPosY()][currentPiece.getPosX()] = true;
 	}
 
 	public ArrayList<Piece> getneighborPieces() {
 		ArrayList<Piece> neighbor = new ArrayList<Piece>();
 
-		// Verificar se podemos adicionar a Piece que esta em cima
+		// Check if the Piece above can be added
 		if (currentPiece.getPosY() - 2 > 0 && currentPiece.getPosX() != 0
 				&& currentPiece.getPosX() != mazeSize - 1) {
 			if (!visitedPieces[currentPiece.getPosY() - 2][currentPiece
@@ -155,7 +156,7 @@ public class Algorithm {
 			}
 		}
 
-		// Verificar se podemos adicionar a Piece que esta em baixo
+		// Check if the Piece underneath can be added
 		if (currentPiece.getPosY() + 2 < mazeSize - 1
 				&& currentPiece.getPosX() != 0
 				&& currentPiece.getPosX() != mazeSize - 1) {
@@ -166,7 +167,7 @@ public class Algorithm {
 			}
 		}
 
-		// Verificar se podemos adicionar a Piece que esta a direita
+		// Check if the Piece on the right can be added
 		if (currentPiece.getPosX() + 2 < mazeSize - 1) {
 			if (!visitedPieces[currentPiece.getPosY()][currentPiece.getPosX() + 2]) {
 				neighbor.add(maze.get(currentPiece.getPosY()).get(
@@ -174,7 +175,7 @@ public class Algorithm {
 			}
 		}
 
-		// Verificar se podemos adicionar a Piece que esta a esquerda
+		// Check if the Piece on the left can be added
 		if (currentPiece.getPosX() - 2 > 0) {
 			if (!visitedPieces[currentPiece.getPosY()][currentPiece.getPosX() - 2]) {
 				neighbor.add(maze.get(currentPiece.getPosY()).get(

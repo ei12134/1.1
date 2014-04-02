@@ -1,7 +1,7 @@
 package maze;
 
 public class Dragon extends Character {
- 
+
 	private boolean guarding;
 	private boolean asleep;
 
@@ -19,9 +19,8 @@ public class Dragon extends Character {
 				return " d ";
 			else
 				return " D ";
-		} else {
+		} else
 			return "   ";
-		}
 	}
 
 	public void setGuarding(boolean guarding) {
@@ -39,5 +38,4 @@ public class Dragon extends Character {
 	public boolean getAsleep() {
 		return asleep;
 	}
-
 }

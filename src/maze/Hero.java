@@ -2,8 +2,7 @@ package maze;
 
 public class Hero extends Character {
 
-	private boolean armed;
-	private boolean eagle;
+	private boolean armed, eagle;
 
 	public Hero(int posX, int posY) {
 		super(posX, posY);

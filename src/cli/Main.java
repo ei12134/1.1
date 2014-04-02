@@ -12,10 +12,8 @@ public class Main {
 		while ((size = cli.setMazeSize()) != 0) {
 			if (size == 10)
 				game = new Logic();
-			else {
-				game = new Logic(size);
-				game.setDragonStrategy(cli.dragonStrategy());
-			}
+			else
+				game = new Logic(size, 5, cli.dragonStrategy());
 
 			while (true) {
 				// Display Maze
@@ -26,7 +24,7 @@ public class Main {
 
 				if (message[0] != null) {
 					if (message[0].equals("Abort")) {
-						cli.showMessages("Aborting the game!");
+						cli.showMessages("Game aborted!");
 						break;
 					} else {
 						cli.displayMaze(game.getMaze());
