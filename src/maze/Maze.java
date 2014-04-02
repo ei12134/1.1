@@ -89,9 +89,6 @@ public class Maze {
 			posY = 1 + (int) (Math.random() * ((maze.size() - 1 - 1) + 1));
 		}
 
-		// Set dragon(s) position(s)
-		addDragons(dragonCounter);
-
 		// Set hero position
 		hero.setPosition(posX, posY);
 		maze.get(hero.getPosY()).get(hero.getPosX()).setSymbol(hero.showHero());
@@ -115,6 +112,9 @@ public class Maze {
 		maze.get(sword.getPosY()).get(sword.getPosX())
 				.setSymbol(PieceType.SWORD.asString());
 
+		// Set dragon(s) position(s)
+		addDragons(dragonCounter);
+
 		// Set exit position
 		for (int i = 0; i < maze.size(); i++)
 			for (int j = 0; j < maze.get(i).size(); j++)
@@ -127,10 +127,10 @@ public class Maze {
 	/**
 	 * Swaps hero position with a given valid direction
 	 */
-	public void swapHero(int direction) {
+	public String swapHero(int direction) {
 
-		int nextX = 0;
-		int nextY = 0;
+		int nextX = hero.getPosX(), nextY = hero.getPosY();
+		String message = null;
 
 		switch (direction) {
 
@@ -161,24 +161,25 @@ public class Maze {
 			break;
 		}
 
-		if (nextX != 0 && nextY != 0) {
-			// Check for sword in next position
-			if (!hero.getArmed()) {
-				if ((nextX == sword.getPosX()) && (nextY == sword.getPosY())) {
-					if (eagle.getState().equals(State.EAGLE_GROUND)) {
-						eagle.setState(State.EAGLE_FOLLOWING);
-						hero.setEagle(true);
-					}
-					hero.setArmed(true);
+		// Check for sword in next position
+		if (!hero.getArmed()) {
+			if ((nextX == sword.getPosX()) && (nextY == sword.getPosY())) {
+				if (eagle.getState().equals(State.EAGLE_GROUND)
+						&& !eagle.getDead()) {
+					eagle.setState(State.EAGLE_FOLLOWING);
+					hero.setEagle(true);
 				}
+				hero.setArmed(true);
+				message = "Hero is now armed";
 			}
-			// Clear current position
-			getMazePiece(hero.getPosX(), hero.getPosY()).setSymbol(
-					PieceType.FREE.asString());
-			// Set next position
-			getMazePiece(nextX, nextY).setSymbol(hero.showHero());
-			hero.setPosition(nextX, nextY);
 		}
+		// Clear current position
+		getMazePiece(hero.getPosX(), hero.getPosY()).setSymbol(
+				PieceType.FREE.asString());
+		// Set next position
+		getMazePiece(nextX, nextY).setSymbol(hero.showHero());
+		hero.setPosition(nextX, nextY);
+		return message;
 	}
 
 	public boolean ArmedNextPiece(int direction) {

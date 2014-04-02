@@ -1,8 +1,9 @@
 package maze;
 
 public enum PieceType {
-	
-	FREE("   "), WALL(" X "), EXIT(" S "), SWORD(" E ");
+
+	FREE("   "), WALL(" X "), EXIT(" S "), SWORD(" E "), GROUND_EAGLE("E G"), PURSUING_EAGLE(
+			"  G");
 
 	private final String asString;
 

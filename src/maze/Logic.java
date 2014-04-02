@@ -24,7 +24,9 @@ public class Logic extends Maze {
 
 	public String[] playGame(String userInput) {
 
-		String message[] = new String[] { "none", "none", "none" };
+		// [0] General messages ; [1] Hero messages ; [2] Dragon messages ; [3]
+		// Eagle messages
+		String message[] = new String[] { null, null, null, null };
 		int dragonState;
 		Random random = new Random();
 
@@ -32,7 +34,7 @@ public class Logic extends Maze {
 
 		if (userInput.equals("q")) {
 			done = true;
-			message[0] = "exit";
+			message[0] = "Abort";
 		}
 		if (!hero.getDead())
 			message[1] = moveHero(userInput, validHeroMoves);
@@ -52,18 +54,21 @@ public class Logic extends Maze {
 					getMazePiece(dragon.getPosX(), dragon.getPosY()).setSymbol(
 							dragon.showDragon());
 				} else if (dragonStrategy != 0)
-					moveDragon(dragon);
+					if (message[2] == null)
+						message[2] = moveDragon(dragon);
+					else
+						moveDragon(dragon);
 			}
 		}
 		if (!eagle.getDead())
-			message[2] = moveEagle();
+			message[3] = moveEagle();
 
 		// Check game status
 		State state = checkGame();
 		if (state.equals(State.HERO_WON))
 			message[0] = "Hero won :)";
 		else if (state.equals(State.HERO_DEAD))
-			message[0] = "Hero died! :(";
+			message[0] = "Hero died!";
 		else if (state.equals(State.DRAGON_DEAD))
 			message[0] = "Hero killed a dragon";
 
@@ -78,6 +83,7 @@ public class Logic extends Maze {
 	 */
 	public String moveHero(String userInput, HashMap<Integer, Boolean> moves) {
 
+		String message = null;
 		// Release eagle
 		if (userInput.equals("e")) {
 			if (eagle.getDead())
@@ -99,39 +105,39 @@ public class Logic extends Maze {
 			// Check if HashMap contains the key with value 0)
 			if (moves.containsKey(Movement.MOVE_UP.getDirection())) {
 				// Make current piece free
-				swapHero(Movement.MOVE_UP.getDirection());
+				message = swapHero(Movement.MOVE_UP.getDirection());
 			} else
 				return "Hero can't move up!";
 		} else if (userInput.equals("s")) {
 			// Check if HashMap contains the key with value 1)
 			if (moves.containsKey(Movement.MOVE_DOWN.getDirection())) {
-				swapHero(Movement.MOVE_DOWN.getDirection());
+				message = swapHero(Movement.MOVE_DOWN.getDirection());
 			} else
 				return "Hero can't move down!";
 		} else if (userInput.equals("d")) {
 			// Check if HashMap contains the key with value 2)
 			if (moves.containsKey(Movement.MOVE_RIGHT.getDirection())) {
-				swapHero(Movement.MOVE_RIGHT.getDirection());
+				message = swapHero(Movement.MOVE_RIGHT.getDirection());
 			} else
 				return "Hero can't move right!";
 		} else if (userInput.equals("a")) {
 			// Check if HashMap contains the key with value 3)
 			if (moves.containsKey(Movement.MOVE_LEFT.getDirection())) {
-				swapHero(Movement.MOVE_LEFT.getDirection());
+				message = swapHero(Movement.MOVE_LEFT.getDirection());
 			} else
 				return "Hero can't move left!";
 		}
-		return "none";
+		return message;
 	}
 
-	public void moveDragon(Dragon dragon) {
+	public String moveDragon(Dragon dragon) {
 
 		Random random = new Random();
 		int previousX = dragon.getPosX();
 		int previousY = dragon.getPosY();
 		int nextX = 0, nextY = 0;
 		int direction = random.nextInt(4);
-		String nearSymbol;
+		String nearSymbol, message = null;
 
 		switch (direction) {
 		case (0):
@@ -163,10 +169,10 @@ public class Logic extends Maze {
 		}
 
 		nearSymbol = getMazePieceSymbol(nextX, nextY);
-		if ((nearSymbol.equals(PieceType.WALL.asString()))
-				|| (nearSymbol.equals(hero.showHero()))
-				|| (nearSymbol.equals(PieceType.EXIT.asString()))
-				|| nearDragons(nextX, nextY)) {
+		// Reject invalid Dragon moves
+		if (!nearSymbol.equals(PieceType.FREE.asString())
+				&& !nearSymbol.equals(PieceType.GROUND_EAGLE.asString())
+				&& !nearSymbol.equals(PieceType.SWORD.asString())) {
 			nextX = 0;
 			nextY = 0;
 		}
@@ -176,22 +182,32 @@ public class Logic extends Maze {
 			getMazePiece(previousX, previousY).setSymbol(
 					PieceType.FREE.asString());
 
-			if (dragon.getGuarding()) {
+			if (dragon.getGuarding()
+					&& (nextX != previousX || nextY != previousY)) {
 				getMazePiece(previousX, previousY).setSymbol(
 						PieceType.SWORD.asString());
 				dragon.setGuarding(false);
 			} else if ((getSword().getPosX() == nextX)
-					&& (getSword().getPosY() == nextY) && !hero.getArmed()) {
-				if (eagle.getState().equals(State.EAGLE_GROUND))
+					&& (getSword().getPosY() == nextY) && !hero.getArmed()
+					&& !dragon.getGuarding()) {
+				if (eagle.getState().equals(State.EAGLE_GROUND)
+						&& !eagle.getDead()) {
 					eagle.setDead(true);
-				if (!eagle.getState().equals(State.EAGLE_RETURNING))
 					dragon.setGuarding(true);
+					message = "Dragon killed the eagle!\n * Dragon is now guarding the sword";
+				} else if (eagle.getState().equals(State.EAGLE_RETURNING))
+					dragon.setGuarding(false);
+				else {
+					dragon.setGuarding(true);
+					message = "Dragon is now guarding the sword";
+				}
 			}
 			// Set entry piece symbol
 			getMazePiece(nextX, nextY).setSymbol(dragon.showDragon());
 			// Update dragon position
 			dragon.setPosition(nextX, nextY);
 		}
+		return message;
 	}
 
 	public String moveEagle() {
@@ -316,7 +332,7 @@ public class Logic extends Maze {
 				}
 			}
 		}
-		return "none";
+		return null;
 	}
 
 	public State checkGame() {
@@ -362,38 +378,81 @@ public class Logic extends Maze {
 		boolean heroArmado = hero.getArmed();
 
 		// Check if hero can move up
-		if (hero.getPosY() - 1 >= 0)
-			if (!(maze.get(hero.getPosY() - 1).get(hero.getPosX()).getSymbol()
-					.equals(PieceType.WALL.asString()))) {
-				// Confirms if hero is armed at exit
-				if (!((maze.get(hero.getPosY() - 1).get(hero.getPosX())
-						.getSymbol().equals(PieceType.EXIT.asString())) && !heroArmado))
-					validMoves.put(0, true);
-			}
+		if (hero.getPosY() - 1 >= 0) {
+			if (maze.get(hero.getPosY() - 1).get(hero.getPosX()).getSymbol()
+					.equals(PieceType.FREE.asString())
+					|| maze.get(hero.getPosY() - 1).get(hero.getPosX())
+							.getSymbol()
+							.equals(PieceType.GROUND_EAGLE.asString())
+					|| maze.get(hero.getPosY() - 1).get(hero.getPosX())
+							.getSymbol()
+							.equals(PieceType.PURSUING_EAGLE.asString())
+					|| maze.get(hero.getPosY() - 1).get(hero.getPosX())
+							.getSymbol().equals(PieceType.SWORD.asString()))
+				validMoves.put(0, true);
+			// Confirms if hero is armed at exit
+			else if ((maze.get(hero.getPosY() - 1).get(hero.getPosX())
+					.getSymbol().equals(PieceType.EXIT.asString()))
+					&& heroArmado)
+				validMoves.put(0, true);
+		}
 		// Check if hero can move down
-		if (hero.getPosY() + 1 < maze.size())
-			if (!(maze.get(hero.getPosY() + 1).get(hero.getPosX()).getSymbol()
-					.equals(PieceType.WALL.asString()))) {
-				if (!((maze.get(hero.getPosY() + 1).get(hero.getPosX())
-						.getSymbol().equals(PieceType.EXIT.asString())) && !heroArmado))
-					validMoves.put(1, true);
-			}
+		if (hero.getPosY() + 1 < maze.size()) {
+			if (maze.get(hero.getPosY() + 1).get(hero.getPosX()).getSymbol()
+					.equals(PieceType.FREE.asString())
+					|| maze.get(hero.getPosY() + 1).get(hero.getPosX())
+							.getSymbol()
+							.equals(PieceType.GROUND_EAGLE.asString())
+					|| maze.get(hero.getPosY() + 1).get(hero.getPosX())
+							.getSymbol()
+							.equals(PieceType.PURSUING_EAGLE.asString())
+					|| maze.get(hero.getPosY() + 1).get(hero.getPosX())
+							.getSymbol().equals(PieceType.SWORD.asString()))
+				validMoves.put(1, true);
+			// Confirms if hero is armed at exit
+			else if ((maze.get(hero.getPosY() + 1).get(hero.getPosX())
+					.getSymbol().equals(PieceType.EXIT.asString()))
+					&& heroArmado)
+				validMoves.put(1, true);
+		}
 		// Check if hero can move to the right
-		if (hero.getPosX() + 1 < maze.size())
-			if (!(maze.get(hero.getPosY()).get(hero.getPosX() + 1).getSymbol()
-					.equals(PieceType.WALL.asString()))) {
-				if (!((maze.get(hero.getPosY()).get(hero.getPosX() + 1)
-						.getSymbol().equals(PieceType.EXIT.asString())) && !heroArmado))
-					validMoves.put(2, true);
-			}
+		if (hero.getPosX() + 1 < maze.size()) {
+			if (maze.get(hero.getPosY()).get(hero.getPosX() + 1).getSymbol()
+					.equals(PieceType.FREE.asString())
+					|| maze.get(hero.getPosY()).get(hero.getPosX() + 1)
+							.getSymbol()
+							.equals(PieceType.GROUND_EAGLE.asString())
+					|| maze.get(hero.getPosY()).get(hero.getPosX() + 1)
+							.getSymbol()
+							.equals(PieceType.PURSUING_EAGLE.asString())
+					|| maze.get(hero.getPosY()).get(hero.getPosX() + 1)
+							.getSymbol().equals(PieceType.SWORD.asString()))
+				validMoves.put(2, true);
+			// Confirms if hero is armed at exit
+			else if ((maze.get(hero.getPosY()).get(hero.getPosX() + 1)
+					.getSymbol().equals(PieceType.EXIT.asString()))
+					&& heroArmado)
+				validMoves.put(2, true);
+		}
 		// Check if hero can move to the left
-		if (hero.getPosX() - 1 >= 0)
-			if (!(maze.get(hero.getPosY()).get(hero.getPosX() - 1).getSymbol()
-					.equals(PieceType.WALL.asString()))) {
-				if (!((maze.get(hero.getPosY()).get(hero.getPosX() - 1)
-						.getSymbol().equals(PieceType.EXIT.asString())) && !heroArmado))
-					validMoves.put(3, true);
-			}
+		if (hero.getPosX() - 1 >= 0) {
+			if (maze.get(hero.getPosY()).get(hero.getPosX() - 1).getSymbol()
+					.equals(PieceType.FREE.asString())
+					|| maze.get(hero.getPosY()).get(hero.getPosX() - 1)
+							.getSymbol()
+							.equals(PieceType.GROUND_EAGLE.asString())
+					|| maze.get(hero.getPosY()).get(hero.getPosX() - 1)
+							.getSymbol()
+							.equals(PieceType.PURSUING_EAGLE.asString())
+					|| maze.get(hero.getPosY()).get(hero.getPosX() - 1)
+							.getSymbol().equals(PieceType.SWORD.asString()))
+				validMoves.put(3, true);
+			// Confirms if hero is armed at exit
+			else if ((maze.get(hero.getPosY()).get(hero.getPosX() - 1)
+					.getSymbol().equals(PieceType.EXIT.asString()))
+					&& heroArmado)
+				validMoves.put(3, true);
+		}
 		return validMoves;
 	}
 
@@ -422,7 +481,8 @@ public class Logic extends Maze {
 	public boolean nearDragons(int posX, int posY) {
 		if (maze.get(posY).get(posX).getSymbol().equals(" d ")
 				|| maze.get(posY).get(posX).getSymbol().equals(" D ")
-				|| maze.get(posY).get(posX).getSymbol().equals(" F "))
+				|| maze.get(posY).get(posX).getSymbol().equals(" F ")
+				|| maze.get(posY).get(posX).getSymbol().equals(" f "))
 			return true;
 
 		return false;

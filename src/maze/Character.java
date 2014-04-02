@@ -24,8 +24,8 @@ public class Character {
 		return dead;
 	}
 
-	public void setDead(boolean morto) {
-		dead = morto;
+	public void setDead(boolean dead) {
+		this.dead = dead;
 	}
 
 	public void setPosition(int x, int y) {
