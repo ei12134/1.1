@@ -36,7 +36,7 @@ public class Logic extends Maze {
 	 * @param userInput
 	 *            the <code>String</code> previously entered by the player used
 	 *            to attempt to move the hero.
-	 * @return message <code>String</code> used to display relevant game events
+	 * @return message <code>String[]</code> used to display relevant game events
 	 */
 	public String[] playGame(String userInput) {
 
@@ -105,7 +105,7 @@ public class Logic extends Maze {
 	public String moveHero(String userInput, HashMap<Integer, Boolean> moves) {
 
 		String message = null;
-		// Release eagle
+		// Release the eagle
 		if (userInput.equals("e")) {
 			if (eagle.getDead())
 				return "Eagle is dead!";
@@ -121,7 +121,6 @@ public class Logic extends Maze {
 				return "Hero released the eagle";
 			}
 		}
-		// Mover player Up
 		if (userInput.equals("w")) {
 			// Check if HashMap contains the key with value 0)
 			if (moves.containsKey(Movement.MOVE_UP.getDirection())) {
