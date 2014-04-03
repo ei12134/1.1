@@ -20,8 +20,8 @@ public class Menu extends JPanel {
 	private static final long serialVersionUID = 1L;
 
 	public Menu() {
-		JButton jb = new JButton("MAPA TAMANHO21");
-
+		JButton randommap = new JButton("MAPA TAMANHO21");
+		JButton exitButton = new JButton("EXIT");
 //		
 //		jb.addItemListener(new ItemListener() {
 //			public void itemStateChanged(ItemEvent ev) {
@@ -42,17 +42,28 @@ public class Menu extends JPanel {
 
 		JInternalFrame f = new JInternalFrame();
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		f.getContentPane().add(jb);
+		f.getContentPane().add(randommap);
 		f.setSize(1024, 768);
 		//f.pack();
 		
 		f.setVisible(true);
 		menuFrame.add(f);
-		jb.addActionListener(new ActionListener() {
+		
+		//Called when the start random game button is clicked
+		randommap.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ev) {
 				startRandomBoard();
 			}
 		});
+		
+		//Called when the Exit button is clicked
+	//	exitButton.setLocation(30, 30);
+        exitButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent ev) {
+                System.exit(0);
+            }
+        });
 	}
 
 	public void startRandomBoard() {
