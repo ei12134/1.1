@@ -4,13 +4,14 @@ import java.util.HashMap;
 import java.util.Random;
 
 /**
- * Logic is the class involved in game processing moves of Characters and set
- * the game State
+ * Logic is the class involved in managing and validation of the movement by
+ * different <code>Characters</code> and update the game <code>State</code>
+ * accordingly
  * 
  * @author André Pinheiro
  * @author José Peixoto
  * @author Paulo Faria
- * @version Required?
+ * @version %I%, %G%
  */
 public class Logic extends Maze {
 
@@ -33,9 +34,9 @@ public class Logic extends Maze {
 	 * initial configuration variables
 	 * 
 	 * @param userInput
-	 *            the String previously entered by the player used to attempt to
-	 *            move the Hero.
-	 * @return message String used to display relevant game events
+	 *            the <code>String</code> previously entered by the player used
+	 *            to attempt to move the hero.
+	 * @return message <code>String</code> used to display relevant game events
 	 */
 	public String[] playGame(String userInput) {
 
@@ -45,13 +46,13 @@ public class Logic extends Maze {
 		int dragonState;
 		Random random = new Random();
 
-		HashMap<Integer, Boolean> validHeroMoves = getValidHeroMoves();
+		HashMap<Integer, Boolean> heroMoves = validHeroMoves();
 
 		if (userInput.equals("q"))
 			message[0] = "Abort";
 
 		if (!hero.getDead())
-			message[1] = moveHero(userInput, validHeroMoves);
+			message[1] = moveHero(userInput, heroMoves);
 
 		// Dragon(s) processing
 		for (int i = 0; i < dragons.size(); i++) {
@@ -90,15 +91,16 @@ public class Logic extends Maze {
 	}
 
 	/**
-	 * Processes a valid Hero move and deals with possible Hero related game
+	 * Processes a valid hero move and deals with possible hero related game
 	 * events
 	 * 
 	 * @param userInput
-	 *            the String previously entered by the player used to attempt to
-	 *            move the Hero.
+	 *            the <code>String</code> previously entered by the player used
+	 *            to attempt to move the hero.
 	 * @param moves
-	 *            HashMap previously generated only containing valid Hero moves
-	 * @return message String used to display relevant Hero events
+	 *            <code>HashMap</code> previously generated only containing
+	 *            valid hero moves
+	 * @return message <code>String</code> used to display relevant Hero events
 	 */
 	public String moveHero(String userInput, HashMap<Integer, Boolean> moves) {
 
@@ -150,12 +152,14 @@ public class Logic extends Maze {
 	}
 
 	/**
-	 * Processes a valid Dragon move and deals with possible Dragon related game
+	 * Processes a valid dragon move and deals with possible dragon related game
 	 * events
 	 * 
 	 * @param dragon
-	 *            one object Dragon of the ArrayList<Dragon> dragons
-	 * @return message String used to display relevant Dragon events
+	 *            one object of the class Dragon from the
+	 *            <code>ArrayList<Dragon> dragons</code>
+	 * @return message <code>String</code> used to display relevant dragon
+	 *         events
 	 */
 	public String moveDragon(Dragon dragon) {
 
@@ -237,10 +241,10 @@ public class Logic extends Maze {
 	}
 
 	/**
-	 * Processes a valid Eagle move and deals with possible Eagle related game
+	 * Processes a valid eagle move and deals with possible eagle related game
 	 * events
 	 * 
-	 * @return message String used to display relevant Eagle events
+	 * @return message <code>String</code> used to display relevant eagle events
 	 */
 	public String moveEagle() {
 		String previousPiece;
@@ -367,11 +371,11 @@ public class Logic extends Maze {
 	}
 
 	/**
-	 * Processes the possible game consequences after a round of all Character
+	 * Processes the possible game consequences after a round of Character
 	 * movements
 	 * 
-	 * @return State of the game after every Character movement is taken into
-	 *         account
+	 * @return <code>State</code> of the game after every Character movement is
+	 *         taken into account
 	 */
 	public State checkGame() {
 		State state = State.GAME_CONTINUE;
@@ -385,7 +389,8 @@ public class Logic extends Maze {
 			if (dragon != null) {
 				if (!hero.getArmed()) {
 					if (!dragon.getDead() && !dragon.getAsleep()) {
-						// If unarmed, hero dies and the game ends
+						// When near a dragon and unarmed, hero dies and the
+						// game ends
 						return State.HERO_DEAD;
 					}
 				}
@@ -404,12 +409,12 @@ public class Logic extends Maze {
 	}
 
 	/**
-	 * Checks each of the 4 positions around hero for availability and if adds
-	 * it to HasMap validMoves
+	 * Checks each of the 4 directions near the hero for valid positions adding
+	 * them to the HashMap validMoves
 	 * 
-	 * @return HashMap with possible positions for hero to move into
+	 * @return HashMap validMoves with possible positions for hero to move into
 	 */
-	public HashMap<Integer, Boolean> getValidHeroMoves() {
+	public HashMap<Integer, Boolean> validHeroMoves() {
 		HashMap<Integer, Boolean> validMoves = new HashMap<Integer, Boolean>();
 		boolean heroArmado = hero.getArmed();
 
@@ -493,9 +498,9 @@ public class Logic extends Maze {
 	}
 
 	/**
-	 * Checks for Dragons near the Hero
+	 * Checks for dragons near the hero
 	 * 
-	 * @return Dragon near the Hero
+	 * @return Dragon object near the hero or null if inexistent
 	 */
 	public Dragon nearDragon() {
 		// Generic position returning function
@@ -523,8 +528,10 @@ public class Logic extends Maze {
 	 * Checks if given Dragon is at the sword position
 	 * 
 	 * @param dragon
-	 *            one object Dragon of the ArrayList<Dragon> dragons
-	 * @return boolean with the validity of the function checks
+	 *            one object of the class Dragon from the
+	 *            <code>ArrayList<Dragon> dragons</code>
+	 * @return boolean <code>true</code> if dragon is at the sword position or
+	 *         <code>false</code> otherwise
 	 */
 	public boolean dragonAtSword(Dragon dragon) {
 		return (dragon.getPosX() == getSword().getPosX())
