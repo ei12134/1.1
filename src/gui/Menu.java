@@ -1,6 +1,9 @@
 package gui;
 
-import javax.swing.*;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JInternalFrame;
+import javax.swing.JPanel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -13,50 +16,55 @@ import java.awt.event.ItemListener;
 public class Menu extends JPanel {
 
 	private JPanel panel;
-	private JFrame frame;
+	private JFrame menuFrame;
 	private static final long serialVersionUID = 1L;
 
 	public Menu() {
-		JButton jb = new JButton("Press Me");
+		JButton jb = new JButton("MAPA TAMANHO21");
 
-		jb.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent ev) {
-				System.out.println("ActionEvent!");
-			}
-		});
-		jb.addItemListener(new ItemListener() {
-			public void itemStateChanged(ItemEvent ev) {
-				System.out.println("ItemEvent!");
-			}
-		});
-		jb.addChangeListener(new ChangeListener() {
-			public void stateChanged(ChangeEvent ev) {
-				System.out.println("ChangeEvent!");
-			}
-		});
+//		
+//		jb.addItemListener(new ItemListener() {
+//			public void itemStateChanged(ItemEvent ev) {
+//				System.out.println("ItemEvent!");
+//			}
+//		});
+//		jb.addChangeListener(new ChangeListener() {
+//			public void stateChanged(ChangeEvent ev) {
+//				System.out.println("ChangeEvent!");
+//			}
+//		});
 
-		JFrame g = new JFrame();
-		g.setSize(800, 600);
+		menuFrame = new JFrame();
+		menuFrame.setSize(1024, 768);
 		// f.pack();
-		g.setVisible(true);
+		menuFrame.setLocationRelativeTo(null);
+		menuFrame.setVisible(true);
 
 		JInternalFrame f = new JInternalFrame();
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		f.getContentPane().add(jb);
-		f.setSize(640, 480);
-		f.pack();
+		f.setSize(1024, 768);
+		//f.pack();
+		
 		f.setVisible(true);
-		g.add(f);
+		menuFrame.add(f);
+		jb.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent ev) {
+				startRandomBoard();
+			}
+		});
+	}
 
+	public void startRandomBoard() {
 		Board board = new Board(21);
 
-		g.add(board);
-		g.setTitle("Random Maze");
-		g.setResizable(false);
-		g.setContentPane(board);
-		g.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		g.setSize(new Dimension(32 * 21, 32 * 21));
-		g.setVisible(true);
+		menuFrame.add(board);
+		menuFrame.setTitle("Random Maze");
+		menuFrame.setResizable(false);
+		menuFrame.setContentPane(board);
+		menuFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		menuFrame.setSize(new Dimension(1024, 768));
+		menuFrame.setVisible(true);
 
 	}
 }
