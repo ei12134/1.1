@@ -1,56 +1,62 @@
 package gui;
 
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 
-public class Menu extends JFrame{
-    private JButton randomGameButton;
-    private JPanel panel1;
-    private JButton defaultGameButton;
-    private JButton exitButton;
+public class Menu extends JPanel {
 
+	private JPanel panel;
+	private JFrame frame;
+	private static final long serialVersionUID = 1L;
 
-    public Menu(){
-        super("Menu");
-        setContentPane(panel1);
-        pack();
-        setSize(new Dimension(800, 600));
-        setResizable(false);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setVisible(true);
+	public Menu() {
+		JButton jb = new JButton("Press Me");
 
+		jb.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent ev) {
+				System.out.println("ActionEvent!");
+			}
+		});
+		jb.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent ev) {
+				System.out.println("ItemEvent!");
+			}
+		});
+		jb.addChangeListener(new ChangeListener() {
+			public void stateChanged(ChangeEvent ev) {
+				System.out.println("ChangeEvent!");
+			}
+		});
 
-        //Called when the Exit button is clicked
-        exitButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                System.exit(0);
-            }
-        });
+		JFrame g = new JFrame();
+		g.setSize(800, 600);
+		// f.pack();
+		g.setVisible(true);
 
+		JInternalFrame f = new JInternalFrame();
+		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		f.getContentPane().add(jb);
+		f.setSize(640, 480);
+		f.pack();
+		f.setVisible(true);
+		g.add(f);
 
-        //Called when the start random game button is clicked
-        randomGameButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                startRandomBoard();
-            }
-        });
-    }
+		Board board = new Board(21);
 
+		g.add(board);
+		g.setTitle("Random Maze");
+		g.setResizable(false);
+		g.setContentPane(board);
+		g.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		g.setSize(new Dimension(32 * 21, 32 * 21));
+		g.setVisible(true);
 
-    public void startRandomBoard() {
-        Board board = new Board(21);
-
-        JFrame boardFrame = new JFrame();
-        boardFrame.add(board);
-        boardFrame.setTitle("Random Maze");
-        boardFrame.setResizable(false);
-        boardFrame.setContentPane(board);
-        boardFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        boardFrame.setSize(new Dimension(32 * 21, 32 * 21));
-        boardFrame.setVisible(true);
-    }
+	}
 }
