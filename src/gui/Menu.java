@@ -12,7 +12,7 @@ public class Menu {
 	private JButton standardMaze;
 	private JButton randomMaze;
 	private JButton exit;
-	private Maze board;
+	private Maze maze;
 
 	public Menu() {
 		standardMaze = new JButton("Standard maze");
@@ -32,13 +32,13 @@ public class Menu {
 		// Button action when clicked
 		standardMaze.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ev) {
-				startMaze();
+				startMaze(10);
 			}
 		});
 
 		randomMaze.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ev) {
-				startMaze();
+				startMaze(21);
 			}
 		});
 
@@ -52,12 +52,12 @@ public class Menu {
 		});
 	}
 
-	public void startMaze() {
-		board = new Maze(21);
-		menuFrame.add(board);
+	public void startMaze(int boardSize) {
+		maze = new Maze(boardSize);
+		menuFrame.add(maze);
 		menuFrame.setTitle("Random Maze");
 		menuFrame.setResizable(false);
-		menuFrame.setContentPane(board);
+		menuFrame.setContentPane(maze);
 		menuFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		menuFrame.setSize(new Dimension(1280, 720));
 		menuFrame.setVisible(true);

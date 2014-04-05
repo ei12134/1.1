@@ -514,7 +514,15 @@ public class Logic extends Maze {
 
 			if (heroX + 1 == dragonX && heroY == dragonY)
 				return dragon;
+			else if (heroX + 1 == dragonX && heroY + 1 == dragonY)
+				return dragon;
+			else if (heroX + 1 == dragonX && heroY - 1 == dragonY)
+				return dragon;
 			else if (heroX - 1 == dragonX && heroY == dragonY)
+				return dragon;
+			else if (heroX - 1 == dragonX && heroY - 1 == dragonY)
+				return dragon;
+			else if (heroX - 1 == dragonX && heroY + 1 == dragonY)
 				return dragon;
 			else if (heroX == dragonX && heroY - 1 == dragonY)
 				return dragon;
