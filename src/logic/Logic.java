@@ -36,12 +36,13 @@ public class Logic extends Maze {
 	 * @param userInput
 	 *            the <code>String</code> previously entered by the player used
 	 *            to attempt to move the hero.
-	 * @return message <code>String[]</code> used to display relevant game events
+	 * @return message <code>String[]</code> used to display relevant game
+	 *         events
 	 */
 	public String[] playGame(String userInput) {
 
-		// [0] General messages ; [1] Hero messages ; [2] Dragon messages ; [3]
-		// Eagle messages
+		// [0] general messages ; [1] hero messages ; [2] dragon messages ; [3]
+		// eagle messages
 		String message[] = new String[] { null, null, null, null };
 		int dragonState;
 		Random random = new Random();
@@ -155,8 +156,8 @@ public class Logic extends Maze {
 	 * events
 	 * 
 	 * @param dragon
-	 *            one object of the class Dragon from the
-	 *            <code>ArrayList<Dragon> dragons</code>
+	 *            one object of the class Dragon from the <code>ArrayList</code>
+	 *            dragons
 	 * @return message <code>String</code> used to display relevant dragon
 	 *         events
 	 */
@@ -527,8 +528,8 @@ public class Logic extends Maze {
 	 * Checks if given Dragon is at the sword position
 	 * 
 	 * @param dragon
-	 *            one object of the class Dragon from the
-	 *            <code>ArrayList<Dragon> dragons</code>
+	 *            one object of the class Dragon from the <code>ArrayList</code>
+	 *            dragons
 	 * @return boolean <code>true</code> if dragon is at the sword position or
 	 *         <code>false</code> otherwise
 	 */
