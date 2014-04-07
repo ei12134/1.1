@@ -2,13 +2,14 @@ package gui;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class Menu {
 
-	private JFrame menuFrame;
+	private JFrame menu;
 	private JButton standardMaze;
 	private JButton randomMaze;
 	private JButton exit;
@@ -19,15 +20,14 @@ public class Menu {
 		randomMaze = new JButton("Random maze");
 		exit = new JButton("Exit");
 
-		menuFrame = new JFrame();
-		menuFrame.setSize(1280, 720);
-		menuFrame.setLocationRelativeTo(null);
-		menuFrame.setVisible(true);
+		menu = new JFrame();
+		menu.setSize(1024, 768);
 
-		menuFrame.add(standardMaze);
-		menuFrame.add(randomMaze);
-		menuFrame.add(exit);
-		menuFrame.setLayout(new FlowLayout());
+		menu.setLayout(new FlowLayout());
+		menu.add(standardMaze);
+		menu.add(randomMaze);
+		menu.add(exit);
+		menu.setVisible(true);
 
 		// Button action when clicked
 		standardMaze.addActionListener(new ActionListener() {
@@ -52,14 +52,19 @@ public class Menu {
 		});
 	}
 
+	public void closePanel() {
+		menu.remove(maze);
+	}
+
 	public void startMaze(int boardSize) {
-		maze = new Maze(boardSize);
-		menuFrame.add(maze);
-		menuFrame.setTitle("Random Maze");
-		menuFrame.setResizable(false);
-		menuFrame.setContentPane(maze);
-		menuFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		menuFrame.setSize(new Dimension(1280, 720));
-		menuFrame.setVisible(true);
+		maze = new Maze(boardSize, menu);
+		menu.add(maze);
+		menu.setTitle("Random Maze");
+		menu.setResizable(false);
+		menu.setContentPane(maze);
+		menu.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		menu.setSize(new Dimension(1024, 768));
+		menu.setVisible(true);
+		maze.requestFocusInWindow();
 	}
 }

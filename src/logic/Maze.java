@@ -230,6 +230,10 @@ public class Maze {
 		return sword;
 	}
 
+	public void setMaze(ArrayList<ArrayList<Piece>> maze) {
+		this.maze = maze;
+	}
+
 	public ArrayList<ArrayList<Piece>> getMaze() {
 		return maze;
 	}
