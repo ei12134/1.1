@@ -70,10 +70,12 @@ public class Logic extends Maze {
 					getMazePiece(dragon.getPosX(), dragon.getPosY()).setSymbol(
 							dragon.showDragon());
 				} else if (dragonStrategy != 0)
-					if (message[2] == null)
+					if (message[2] == null) {
 						message[2] = moveDragon(dragon);
-					else
-						moveDragon(dragon);
+					}
+					else {
+						moveDragon(dragon);	
+					}
 			}
 		}
 		if (!eagle.getDead())
@@ -82,11 +84,11 @@ public class Logic extends Maze {
 		// Check game status
 		State state = checkGame();
 		if (state.equals(State.HERO_WON))
-			message[0] = "Hero won :)";
+			message[0] = State.HERO_WON.toString();
 		else if (state.equals(State.HERO_DEAD))
-			message[0] = "Hero died!";
+			message[0] = State.HERO_DEAD.toString();
 		else if (state.equals(State.DRAGON_DEAD))
-			message[0] = "Hero killed a dragon";
+			message[0] = State.DRAGON_DEAD.toString();
 
 		return message;
 	}

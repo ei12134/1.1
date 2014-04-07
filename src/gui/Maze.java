@@ -3,23 +3,19 @@ package gui;
 import logic.Logic;
 import logic.Piece;
 import logic.PieceType;
+import logic.State;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Scanner;
 
-import javax.swing.BorderFactory;
-import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 public class Maze extends JPanel implements ActionListener, KeyListener {
@@ -28,14 +24,24 @@ public class Maze extends JPanel implements ActionListener, KeyListener {
 	private Logic logic;
 	private Menu menu;
 	private int boardSize, pixelsPerTile;
-	private Image wall, path, sword, hero, hero_armed, dragon, exit;
-	private Scanner scanner;
-	private JButton abortButton;
+	private Image wall, path, hero, hero_armed, dragon, exit ,Sword2;
+	private boolean playerCanMove;
+	private HashMap<String, Integer> gameKeys;
+	private GameKeyboard keyboardKeys;
+	
 
 	public Maze(int boardSize, Menu menu) {
+		playerCanMove = true;
+		keyboardKeys = new GameKeyboard();
+		keyboardKeys.initializeKeys();
+		keyboardKeys.readKeys();
+		gameKeys = new HashMap<String, Integer>();
+		gameKeys = keyboardKeys.getKeys();
+		
 		wall = new ImageIcon("src//png//wall.png").getImage();
 		path = new ImageIcon("src//png/path.png").getImage();
-		sword = new ImageIcon("src//png/sword.png").getImage();
+		//sword = new ImageIcon("src//png/sword.png").getImage();
+		Sword2 = new ImageIcon("src//png/Gold-Sword-icon.png").getImage();
 		exit = new ImageIcon("src//png/exit.png").getImage();
 		dragon = new ImageIcon("src//png/dragon.png").getImage();
 		hero = new ImageIcon("src//png/hero.png").getImage();
@@ -44,15 +50,6 @@ public class Maze extends JPanel implements ActionListener, KeyListener {
 		pixelsPerTile = 768 / boardSize;
 		
 		this.menu = menu;
-
-		abortButton = new JButton("Abort");
-
-		this.setLayout(null);
-		abortButton.setBounds(768, 704, 256, 64);
-		this.add(abortButton);
-
-		abortButton.setVisible(true);
-
 		addKeyListener(this);
 
 		if (boardSize == 10)
@@ -61,24 +58,30 @@ public class Maze extends JPanel implements ActionListener, KeyListener {
 			logic = new Logic(boardSize, 3, 2);
 	}
 
+	
 	public void keyPressed(KeyEvent e) {
+		String state[] = new String[4];
 		// Invoked when a key has been pressed.
-		if (e.getKeyCode() == KeyEvent.VK_UP) {
-			logic.playGame("w");
-			repaint();
-		} else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-			logic.playGame("s");
-			repaint();
-		} else if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-			logic.playGame("a");
-			repaint();
-		} else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-			logic.playGame("d");
-			repaint();
-		} else if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
-			//this.removeKeyListener(this);
-			menu.closePanel();
+		if(playerCanMove) {
+			if (e.getKeyCode() == gameKeys.get("up")) {
+				state = logic.playGame("w");
+				repaint();
+			} else if (e.getKeyCode() == gameKeys.get("down")) {
+				state = logic.playGame("s");
+				repaint();
+			} else if (e.getKeyCode() == gameKeys.get("right")) {
+				state = logic.playGame("d");
+				repaint();
+			} else if (e.getKeyCode() == gameKeys.get("left")) {
+				state = logic.playGame("a");
+				repaint();
+			}
 		}
+		if (e.getKeyCode() == KeyEvent.VK_ESCAPE)
+			menu.closePanel();
+		
+		if(state[0] != null)
+			analyzeState(state[0]);
 	}
 
 	public void keyReleased(KeyEvent e) {
@@ -131,7 +134,7 @@ public class Maze extends JPanel implements ActionListener, KeyListener {
 
 				else if (getPiece(y, x).getSymbol().equals(
 						PieceType.SWORD.asString()))
-					g.drawImage(sword, pixelsPerTile * y, pixelsPerTile
+					g.drawImage(Sword2, pixelsPerTile * y, pixelsPerTile
 							* linePixel, pixelsPerTile * y + pixelsPerTile,
 							pixelsPerTile * linePixel + pixelsPerTile, 0, 0,
 							512, 512, null);
@@ -156,34 +159,11 @@ public class Maze extends JPanel implements ActionListener, KeyListener {
 		return logic.getMaze().get(y).get(x);
 	}
 
-	public void openFile() {
-		try {
-			scanner = new Scanner(new File("src//png//Map.txt"));
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+	
+	public void analyzeState(String state) {
+		if(state.equals(State.HERO_DEAD.toString())) {
+			JOptionPane.showMessageDialog(null, "O herói morreu!");
+			playerCanMove = false;
 		}
-	}
-
-	// public void readFile() {
-	// HashMap<java.lang.Character, String> pieces = new
-	// HashMap<java.lang.Character, String>();
-	// pieces.put('X', PieceType.WALL.asString());
-	// pieces.put('F', PieceType.FREE.asString());
-	//
-	// int i = 0;
-	// while (scanner.hasNext()) {
-	// ArrayList<Piece> row = new ArrayList<Piece>();
-	// String s = scanner.next();
-	// for (int j = 0; j < s.length(); j++)
-	// row.add(new Piece(i, j, pieces.get(s.charAt(j))));
-	// maze.add(row);
-	// i++;
-	// }
-	// scanner.close();
-	// }
-
-	public void closeFile() {
-
 	}
 }

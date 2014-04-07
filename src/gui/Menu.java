@@ -13,23 +13,25 @@ public class Menu {
 	private JButton standardMaze;
 	private JButton randomMaze;
 	private JButton exit;
+	private JButton settings;
 	private Maze maze;
+	private Dimension dimension;
 
 	public Menu() {
 		standardMaze = new JButton("Standard maze");
 		randomMaze = new JButton("Random maze");
 		exit = new JButton("Exit");
+		settings = new JButton("Settings");
+
+		dimension = new Dimension(768, 768);
 
 		menu = new JFrame();
-		menu.setSize(1024, 768);
 
-		menu.setLayout(new FlowLayout());
-		menu.add(standardMaze);
-		menu.add(randomMaze);
-		menu.add(exit);
+		menu.setLayout(new GridBagLayout());
 		menu.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		menu.setSize(new Dimension(1024, 768));
-		menu.setVisible(true);
+
+		// Set up the content pane.
+		showMenuFrame();
 
 		// Button action when clicked
 		standardMaze.addActionListener(new ActionListener() {
@@ -54,11 +56,38 @@ public class Menu {
 		});
 	}
 
-	public void closePanel() {
-		maze.setVisible(false);
-		menu.remove(maze);
+	public void setMenuFrame(Container pane) {
+		GridBagConstraints style = new GridBagConstraints();
+		style.fill = GridBagConstraints.BOTH;
+		style.weightx = 0.5;
+		style.weighty = 0.5;
+		style.gridheight = 3;
+		style.gridwidth = 3;
+		style.gridx = 0;
+		style.insets = new Insets(64, 256, 64, 256);
+		menu.add(standardMaze, style);
+		menu.add(randomMaze, style);
+		menu.add(settings, style);
+		menu.add(exit, style);
+	}
+
+	private void showMenuFrame() {
+		// Set up the content pane.
+		setMenuFrame(menu.getContentPane());
+		// Display the window.
+		menu.pack();
+		menu.setSize(dimension);
+		menu.setLocationRelativeTo(null);
 		menu.setVisible(true);
-		menu.requestFocusInWindow();
+	}
+
+	public void closePanel() {
+		menu.setVisible(false);
+		menu.removeAll();
+		menu = new JFrame();
+		menu.setLayout(new GridBagLayout());
+		menu.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		showMenuFrame();
 	}
 
 	public void startMaze(int boardSize) {
