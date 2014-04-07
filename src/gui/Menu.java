@@ -6,6 +6,10 @@ import javax.swing.JFrame;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+
+import logic.Maze;
+import logic.Piece;
 
 public class Menu {
 
@@ -14,7 +18,8 @@ public class Menu {
 	private JButton randomMaze;
 	private JButton exit;
 	private JButton settings;
-	private Maze maze;
+	private JButton loadGame;
+	private MazeUI maze;
 	private Dimension dimension;
 
 	public Menu() {
@@ -22,6 +27,7 @@ public class Menu {
 		randomMaze = new JButton("Random maze");
 		exit = new JButton("Exit");
 		settings = new JButton("Settings");
+		loadGame = new JButton("Load Game");
 
 		dimension = new Dimension(768, 768);
 
@@ -45,6 +51,23 @@ public class Menu {
 				startMaze(21);
 			}
 		});
+		
+		
+		loadGame.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				logic.Maze m = new logic.Maze();
+				GameIO io = new GameIO();
+				ArrayList<ArrayList<Piece>> tmp = io.readFile("puzzle.lpoo");
+				for (int i = 0; i < tmp.size(); i++) {
+					ArrayList<Piece> linhamaze = tmp.get(i);
+					for (int j = 0; j < tmp.get(i).size(); j++)
+						System.out.print(linhamaze.get(j).getSymbol());
+					System.out.println();
+				}
+			}
+		});
 
 		// Called when the Exit button is clicked
 		// exitButton.setLocation(30, 30);
@@ -64,9 +87,10 @@ public class Menu {
 		style.gridheight = 3;
 		style.gridwidth = 3;
 		style.gridx = 0;
-		style.insets = new Insets(64, 256, 64, 256);
+		style.insets = new Insets(32, 256, 32, 256);
 		menu.add(standardMaze, style);
 		menu.add(randomMaze, style);
+		menu.add(loadGame, style);
 		menu.add(settings, style);
 		menu.add(exit, style);
 	}
@@ -91,7 +115,7 @@ public class Menu {
 	}
 
 	public void startMaze(int boardSize) {
-		maze = new Maze(boardSize, this);
+		maze = new MazeUI(boardSize, this);
 		menu.add(maze);
 		menu.setTitle("Maze Game");
 		menu.setResizable(false);

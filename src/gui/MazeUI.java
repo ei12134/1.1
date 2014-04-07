@@ -1,24 +1,19 @@
 package gui;
 
-import logic.Logic;
-import logic.Piece;
-import logic.PieceType;
-import logic.State;
-
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-public class Maze extends JPanel implements ActionListener, KeyListener {
+import logic.*;
+
+public class MazeUI extends JPanel implements ActionListener, KeyListener {
 
 	private static final long serialVersionUID = 1L;
 	private Logic logic;
@@ -30,7 +25,7 @@ public class Maze extends JPanel implements ActionListener, KeyListener {
 	private GameKeyboard keyboardKeys;
 	
 
-	public Maze(int boardSize, Menu menu) {
+	public MazeUI(int boardSize, Menu menu) {
 		playerCanMove = true;
 		keyboardKeys = new GameKeyboard();
 		keyboardKeys.initializeKeys();

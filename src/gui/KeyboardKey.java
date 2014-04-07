@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 
 @SuppressWarnings("serial")
-public class KeyboardKey implements Serializable{
+public class KeyboardKey implements Serializable {
 
 	private String command;
 	private int commandInt;

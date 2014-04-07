@@ -1,6 +1,8 @@
 package logic;
 
-public class Piece {
+import java.io.Serializable;
+
+public class Piece implements Serializable{
 
 	private int posX;
 	private int posY;
