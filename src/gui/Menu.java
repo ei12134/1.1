@@ -27,6 +27,8 @@ public class Menu {
 		menu.add(standardMaze);
 		menu.add(randomMaze);
 		menu.add(exit);
+		menu.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		menu.setSize(new Dimension(1024, 768));
 		menu.setVisible(true);
 
 		// Button action when clicked
@@ -53,18 +55,18 @@ public class Menu {
 	}
 
 	public void closePanel() {
+		maze.setVisible(false);
 		menu.remove(maze);
+		menu.setVisible(true);
+		menu.requestFocusInWindow();
 	}
 
 	public void startMaze(int boardSize) {
-		maze = new Maze(boardSize, menu);
+		maze = new Maze(boardSize, this);
 		menu.add(maze);
-		menu.setTitle("Random Maze");
+		menu.setTitle("Maze Game");
 		menu.setResizable(false);
 		menu.setContentPane(maze);
-		menu.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		menu.setSize(new Dimension(1024, 768));
-		menu.setVisible(true);
 		maze.requestFocusInWindow();
 	}
 }

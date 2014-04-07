@@ -15,7 +15,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
 
+import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -27,8 +30,9 @@ public class Maze extends JPanel implements ActionListener, KeyListener {
 	private int boardSize, pixelsPerTile;
 	private Image wall, path, sword, hero, hero_armed, dragon, exit;
 	private Scanner scanner;
+	private JButton abortButton;
 
-	public Maze(int boardSize, JFrame menu) {
+	public Maze(int boardSize, Menu menu) {
 		wall = new ImageIcon("src//png//wall.png").getImage();
 		path = new ImageIcon("src//png/path.png").getImage();
 		sword = new ImageIcon("src//png/sword.png").getImage();
@@ -38,6 +42,16 @@ public class Maze extends JPanel implements ActionListener, KeyListener {
 		hero_armed = new ImageIcon("src//png/hero_armed.png").getImage();
 		this.boardSize = boardSize;
 		pixelsPerTile = 768 / boardSize;
+		
+		this.menu = menu;
+
+		abortButton = new JButton("Abort");
+
+		this.setLayout(null);
+		abortButton.setBounds(768, 704, 256, 64);
+		this.add(abortButton);
+
+		abortButton.setVisible(true);
 
 		addKeyListener(this);
 
@@ -62,7 +76,8 @@ public class Maze extends JPanel implements ActionListener, KeyListener {
 			logic.playGame("d");
 			repaint();
 		} else if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
-
+			//this.removeKeyListener(this);
+			menu.closePanel();
 		}
 	}
 
@@ -109,7 +124,7 @@ public class Maze extends JPanel implements ActionListener, KeyListener {
 
 				else if (getPiece(y, x).getSymbol().equals(
 						PieceType.HERO_ARMED.asString()))
-					g.drawImage(hero, pixelsPerTile * y, pixelsPerTile
+					g.drawImage(hero_armed, pixelsPerTile * y, pixelsPerTile
 							* linePixel, pixelsPerTile * y + pixelsPerTile,
 							pixelsPerTile * linePixel + pixelsPerTile, 0, 0,
 							512, 512, null);
