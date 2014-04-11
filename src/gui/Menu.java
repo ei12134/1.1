@@ -1,13 +1,19 @@
 package gui;
 
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
+import logic.Dragon;
+import logic.Logic;
 import logic.Maze;
 import logic.Piece;
 
@@ -21,7 +27,9 @@ public class Menu {
 	private JButton loadGame;
 	private MazeUI maze;
 	private Dimension dimension;
-
+	private Logic logic;
+	private int dragonStrategy=0;
+	
 	public Menu() {
 		standardMaze = new JButton("Standard maze");
 		randomMaze = new JButton("Random maze");
@@ -51,10 +59,9 @@ public class Menu {
 				startMaze(21);
 			}
 		});
-		
-		
+
 		loadGame.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				logic.Maze m = new logic.Maze();
@@ -66,6 +73,43 @@ public class Menu {
 						System.out.print(linhamaze.get(j).getSymbol());
 					System.out.println();
 				}
+			}
+		});
+		settings.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent ev) {
+				final JOptionPane optionPane = new JOptionPane("Settings");
+				Object[] DragonStrats = { "Parado", "RandomMove",
+						"Random move + sleeping" };
+				String initialSelection = "Parado";
+				Object selection = JOptionPane.showInputDialog(null,
+						"What DragonStrategy do you want?", "Settings",
+						JOptionPane.QUESTION_MESSAGE, null, DragonStrats,
+						initialSelection);
+				//System.out.println(selection);
+				if(selection.equals("Parado")) {
+					  // dragonStrategy
+					dragonStrategy=0;
+					logic = new Logic(11, 3, dragonStrategy);
+				}
+				else if(selection.equals("RandomMove")){
+					dragonStrategy=1;
+					logic = new Logic(11, 3, dragonStrategy);
+				}
+				else {
+					dragonStrategy=2;
+					logic = new Logic(11, 3, dragonStrategy);
+				}
+				
+				JDialog d = new JDialog(menu, "Settings", true);
+				d.setContentPane(optionPane);
+				d.setSize(new Dimension(400, 300));
+				d.setLocationRelativeTo(menu);
+			
+				//d.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+				//CRASHA quando se clica na X para sair
+				closePanel();
+				
 			}
 		});
 
@@ -106,20 +150,36 @@ public class Menu {
 	}
 
 	public void closePanel() {
-		menu.setVisible(false);
-		menu.removeAll();
-		menu = new JFrame();
-		menu.setLayout(new GridBagLayout());
-		menu.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		showMenuFrame();
+		maze.setVisible(false);
+		
+		menu.getContentPane().remove(maze);
+		menu.pack();
+		menu.setVisible(true);
+		//menu.setContentPane(menu);
+//		menu.removeAll();
+//		menu = new JFrame();
+//		menu.setLayout(new GridBagLayout());
+//		menu.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	//showMenuFrame();
 	}
 
 	public void startMaze(int boardSize) {
 		maze = new MazeUI(boardSize, this);
-		menu.add(maze);
+		menu.getContentPane().add(maze);
 		menu.setTitle("Maze Game");
 		menu.setResizable(false);
 		menu.setContentPane(maze);
 		maze.requestFocusInWindow();
 	}
+
+	// Acrescentar um botão para configurar opções do jogo, dando acesso a uma
+	// janela de diálogo
+	// modal (JDialog) onde é possível configurar o tamanho do labirinto, o
+	// número de dragões, o
+	// modo de movimentação do dragão (pode adormecer ou não) e as teclas de
+	// comando a utilizar. À
+	// excepção das teclas de comando, estas opções têm efeito na próxima vez
+	// que for gerado um
+	// // labirinto.
+
 }
