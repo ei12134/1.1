@@ -1,69 +1,71 @@
 package gui;
 
 import javax.swing.JButton;
-import javax.swing.JDialog;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JTextField;
+import javax.swing.JPanel;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-import logic.Dragon;
-import logic.Logic;
-import logic.Maze;
 import logic.Piece;
 
-public class Menu {
+public class Menu extends JFrame {
 
-	private JFrame menu;
+	private static final long serialVersionUID = 1L;
+	private JPanel menuPanel;
+	private Settings settingsPanel;
 	private JButton standardMaze;
 	private JButton randomMaze;
 	private JButton exit;
 	private JButton settings;
-	private JButton loadGame;
+	private JButton load;
 	private MazeUI maze;
 	private Dimension dimension;
-	private Logic logic;
-	private int dragonStrategy = 0;
+	private int dragonCounter = 1, dragonStrategy = 1, mazeSize = 13;
 
 	public Menu() {
+		// Menu Buttons
 		standardMaze = new JButton("Standard maze");
 		randomMaze = new JButton("Random maze");
 		exit = new JButton("Exit");
 		settings = new JButton("Settings");
-		loadGame = new JButton("Load Game");
-
+		load = new JButton("Load Game");
 		dimension = new Dimension(768, 768);
+		menuPanel = new JPanel();
+		this.setTitle("Maze Game");
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-		menu = new JFrame();
+		// Set up menu and settings panels
+		setMenuPanel();
+		settingsPanel = new Settings(this, dimension);
+		settingsPanel.setSettingsPanel();
+		showPanel(menuPanel);
 
-		// Set up the content pane.
-		setMenuFrame(menu.getContentPane());
-		// Set up the content pane.
-		showMenuFrame();
-
-		// Button action when clicked
+		// Button actions
 		standardMaze.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ev) {
-				startMaze(10);
+				startMaze(10, 1, 1);
 			}
 		});
 
 		randomMaze.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ev) {
-				startMaze(21);
+				startMaze(mazeSize, dragonCounter, dragonStrategy);
 			}
 		});
 
-		loadGame.addActionListener(new ActionListener() {
-
+		load.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				logic.Maze m = new logic.Maze();
+				/*
+				 * Acho que teremos de criar um novo construtor em MazeUI e
+				 * passaremos este arraylist. Só não sei como vamos inferir o
+				 * dragonStrategy sem guardar essa informação ao fazer save -
+				 * dragonCounter parece facil
+				 */
+				// logic.Maze m = new logic.Maze();
 				GameIO io = new GameIO();
 				ArrayList<ArrayList<Piece>> tmp = io.readFile("puzzle.lpoo");
 				for (int i = 0; i < tmp.size(); i++) {
@@ -74,44 +76,15 @@ public class Menu {
 				}
 			}
 		});
+
 		settings.addActionListener(new ActionListener() {
 			@Override
-			public void actionPerformed(ActionEvent ev) {
-				final JOptionPane optionPane = new JOptionPane("Settings");
-				Object[] DragonStrats = { "Parado", "RandomMove",
-						"Random move + sleeping" };
-				String initialSelection = "Parado";
-				Object selection = JOptionPane.showInputDialog(null,
-						"What DragonStrategy do you want?", "Settings",
-						JOptionPane.QUESTION_MESSAGE, null, DragonStrats,
-						initialSelection);
-				// System.out.println(selection);
-				if (selection.equals("Parado")) {
-					// dragonStrategy
-					dragonStrategy = 0;
-					logic = new Logic(11, 3, dragonStrategy);
-				} else if (selection.equals("RandomMove")) {
-					dragonStrategy = 1;
-					logic = new Logic(11, 3, dragonStrategy);
-				} else {
-					dragonStrategy = 2;
-					logic = new Logic(11, 3, dragonStrategy);
-				}
-
-				JDialog d = new JDialog(menu, "Settings", true);
-				d.setContentPane(optionPane);
-				d.setSize(new Dimension(400, 300));
-				d.setLocationRelativeTo(menu);
-
-				// d.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-				// CRASHA quando se clica na X para sair
-				closePanel();
-
+			public void actionPerformed(ActionEvent arg0) {
+				settingsPanel.closeMenuPanel();
+				settingsPanel.setSettingsPanel();
+				showPanel(settingsPanel);
 			}
 		});
-
-		// Called when the Exit button is clicked
-		// exitButton.setLocation(30, 30);
 		exit.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent ev) {
@@ -120,9 +93,9 @@ public class Menu {
 		});
 	}
 
-	public void setMenuFrame(Container pane) {
-		menu.setLayout(new GridBagLayout());
-		menu.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	public void setMenuPanel() {
+		menuPanel.setSize(dimension);
+		menuPanel.setLayout(new GridBagLayout());
 		GridBagConstraints style = new GridBagConstraints();
 		style.fill = GridBagConstraints.BOTH;
 		style.weightx = 0.5;
@@ -131,44 +104,64 @@ public class Menu {
 		style.gridwidth = 3;
 		style.gridx = 0;
 		style.insets = new Insets(32, 256, 32, 256);
-		pane.add(standardMaze, style);
-		pane.add(randomMaze, style);
-		pane.add(loadGame, style);
-		pane.add(settings, style);
-		pane.add(exit, style);
+		menuPanel.add(standardMaze, style);
+		menuPanel.add(randomMaze, style);
+		menuPanel.add(load, style);
+		menuPanel.add(settings, style);
+		menuPanel.add(exit, style);
+		menuPanel.setVisible(true);
 	}
 
-	private void showMenuFrame() {
-		// Display the window.
-		menu.pack();
-		menu.setSize(dimension);
-		menu.setLocationRelativeTo(null);
-		menu.setVisible(true);
+	public void showPanel(JPanel panel) {
+		this.add(panel);
+		this.setSize(dimension);
+		this.setLocationRelativeTo(null);
+		this.setVisible(true);
 	}
 
-	public void closePanel() {
+	public void closeMazeUI() {
 		maze.setVisible(false);
-		menu.getContentPane().remove(maze);
-		showMenuFrame();
+		this.remove(maze);
+		showPanel(menuPanel);
+		this.setVisible(true);
 	}
 
-	public void startMaze(int boardSize) {
-		maze = new MazeUI(boardSize, this);
-		menu.getContentPane().add(maze);
-		menu.setTitle("Maze Game");
-		menu.setResizable(false);
-		menu.setContentPane(maze);
+	public void startMaze(int boardSize, int dragonCounter, int dragonStrategy) {
+		maze = new MazeUI(boardSize, this, dragonCounter, dragonStrategy);
+		this.remove(menuPanel);
+		showPanel(maze);
 		maze.requestFocusInWindow();
 	}
 
-	// Acrescentar um botão para configurar opções do jogo, dando acesso a uma
-	// janela de diálogo
-	// modal (JDialog) onde é possível configurar o tamanho do labirinto, o
-	// número de dragões, o
-	// modo de movimentação do dragão (pode adormecer ou não) e as teclas de
-	// comando a utilizar. À
-	// excepção das teclas de comando, estas opções têm efeito na próxima vez
-	// que for gerado um
-	// // labirinto.
+	public JPanel getMenuPanel() {
+		return menuPanel;
+	}
 
+	public void setDragonCounter(int dragonCounter) {
+		this.dragonCounter = dragonCounter;
+	}
+
+	public void setDragonStrategy(int dragonStrategy) {
+		this.dragonStrategy = dragonStrategy;
+	}
+
+	public void setMazeSize(int mazeSize) {
+		this.mazeSize = mazeSize;
+	}
+	
+	public int getMazeSize() {
+		return mazeSize;
+	}
+	
+	public Settings getSettingsPanel() {
+		return settingsPanel;
+	}
+	/*
+	 * Acrescentar um botão para configurar opções do jogo, dando acesso a uma
+	 * janela de diálogo modal (JDialog) onde é possível configurar o tamanho do
+	 * labirinto, o número de dragões, o modo de movimentação do dragão (pode
+	 * adormecer ou não) e as teclas de comando a utilizar. À excepção das
+	 * teclas de comando, estas opções têm efeito na próxima vez que for gerado
+	 * um labirinto.
+	 */
 }
