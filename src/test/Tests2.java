@@ -25,7 +25,6 @@ public class Tests2 {
 		ArrayList<Dragon> dragons = new ArrayList<Dragon>();
 		dragons.add(new Dragon(4, 5));
 		j1.setDragons(dragons);
-		j1.setHero(new Hero(1, 1));
 
 		while (j1.getDragons().get(0).getPosY() == 5)
 			j1.moveDragon(j1.getDragons().get(0));
@@ -44,13 +43,15 @@ public class Tests2 {
 		ArrayList<Dragon> dragons = new ArrayList<Dragon>();
 		dragons.add(new Dragon(4, 5));
 		j1.setDragons(dragons);
-		j1.setHero(new Hero(1, 1));
 
 		assertFalse(j1.getDragons().get(0).getAsleep());
 		j1.getDragons().get(0).setAsleep(true);
 		assertTrue(j1.getDragons().get(0).getAsleep());
 	}
 
+	/*
+	 * testar se o herói mata bem todos os dragões ,quando cercado
+	 */
 	@Test
 	public void testWithTonsofDragons() {
 		Logic j1 = new Logic();
