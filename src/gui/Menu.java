@@ -137,6 +137,14 @@ public class Menu extends JFrame {
 		return menuPanel;
 	}
 
+	public int getDragonStrategy() {
+		return dragonStrategy;
+	}
+
+	public int getDragonCounter() {
+		return dragonCounter;
+	}
+
 	public void setDragonCounter(int dragonCounter) {
 		this.dragonCounter = dragonCounter;
 	}
@@ -148,11 +156,11 @@ public class Menu extends JFrame {
 	public void setMazeSize(int mazeSize) {
 		this.mazeSize = mazeSize;
 	}
-	
+
 	public int getMazeSize() {
 		return mazeSize;
 	}
-	
+
 	public Settings getSettingsPanel() {
 		return settingsPanel;
 	}
