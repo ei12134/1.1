@@ -22,6 +22,16 @@ public class GameKeyboard {
 		try {
 			outStream = new FileOutputStream(filename);
 			objStream = new ObjectOutputStream(outStream);
+			// default ones don't overwrite
+			objStream.writeObject(new KeyboardKey("up_arrow", KeyEvent.VK_UP));
+			objStream.writeObject(new KeyboardKey("down_arrow",
+					KeyEvent.VK_DOWN));
+			objStream.writeObject(new KeyboardKey("left_arrow",
+					KeyEvent.VK_LEFT));
+			objStream.writeObject(new KeyboardKey("right_arrow",
+					KeyEvent.VK_RIGHT));
+
+			// allow to customize
 			objStream.writeObject(new KeyboardKey("up", KeyEvent.VK_W));
 			objStream.writeObject(new KeyboardKey("down", KeyEvent.VK_S));
 			objStream.writeObject(new KeyboardKey("left", KeyEvent.VK_A));
@@ -42,7 +52,7 @@ public class GameKeyboard {
 			objInStream = new ObjectInputStream(inStream);
 
 			KeyboardKey tmp;
-			for (int i = 0; i < 5; i++) {
+			for (int i = 0; i < 9; i++) {
 				tmp = (KeyboardKey) objInStream.readObject();
 				keys.put(tmp.getCommand(), tmp.getCommandChar());
 			}

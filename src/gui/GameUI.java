@@ -75,16 +75,20 @@ public class GameUI extends JPanel implements ActionListener, KeyListener {
 		String state[] = new String[4];
 		// Invoked when a key has been pressed.
 		if (playerCanMove) {
-			if (e.getKeyCode() == gameKeys.get("up")) {
+			if (e.getKeyCode() == gameKeys.get("up")
+					|| e.getKeyCode() == gameKeys.get("up_arrow")) {
 				state = logic.playGame("w");
 				repaint();
-			} else if (e.getKeyCode() == gameKeys.get("down")) {
+			} else if (e.getKeyCode() == gameKeys.get("down")
+					|| e.getKeyCode() == gameKeys.get("down_arrow")) {
 				state = logic.playGame("s");
 				repaint();
-			} else if (e.getKeyCode() == gameKeys.get("right")) {
+			} else if (e.getKeyCode() == gameKeys.get("right")
+					|| e.getKeyCode() == gameKeys.get("right_arrow")) {
 				state = logic.playGame("d");
 				repaint();
-			} else if (e.getKeyCode() == gameKeys.get("left")) {
+			} else if (e.getKeyCode() == gameKeys.get("left")
+					|| e.getKeyCode() == gameKeys.get("left_arrow")) {
 				state = logic.playGame("a");
 				repaint();
 			} else if (e.getKeyCode() == gameKeys.get("eagle")) {
