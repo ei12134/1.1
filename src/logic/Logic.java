@@ -72,9 +72,8 @@ public class Logic extends Maze {
 				} else if (dragonStrategy != 0)
 					if (message[2] == null) {
 						message[2] = moveDragon(dragon);
-					}
-					else {
-						moveDragon(dragon);	
+					} else {
+						moveDragon(dragon);
 					}
 			}
 		}
@@ -270,6 +269,8 @@ public class Logic extends Maze {
 					if (getMazePiece(eagle.getPosX(), eagle.getPosY())
 							.getSymbol().contains("F")) {
 						eagle.setDead(true);
+						getMazePiece(eagle.getPosX(), eagle.getPosY())
+								.setSymbol(" F ");
 						return "Eagle died!";
 					}
 					// Free sword
@@ -385,8 +386,9 @@ public class Logic extends Maze {
 				&& hero.getArmed()) {
 			return State.HERO_WON;
 		}
+
 		Dragon dragon;
-		for (int i = 0; i < dragons.size(); i++) {
+		do {
 			dragon = nearDragon();
 			if (dragon != null) {
 				if (!hero.getArmed()) {
@@ -406,7 +408,7 @@ public class Logic extends Maze {
 					state = State.DRAGON_DEAD;
 				}
 			}
-		}
+		} while (dragon != null);
 		return state;
 	}
 

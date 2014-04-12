@@ -241,6 +241,11 @@ public class Maze {
 	public Hero getHero() {
 		return hero;
 	}
+	
+	public Eagle getEagle() {
+		return eagle;
+	}
+
 
 	public void setHero(Hero hero) {
 		this.hero = hero;
@@ -248,5 +253,9 @@ public class Maze {
 
 	public void setDragons(ArrayList<Dragon> dragons) {
 		this.dragons = dragons;
+	}
+	
+	public ArrayList<Dragon> getDragons() {
+		return dragons;
 	}
 }

@@ -28,8 +28,8 @@ public class Menu {
 	private MazeUI maze;
 	private Dimension dimension;
 	private Logic logic;
-	private int dragonStrategy=0;
-	
+	private int dragonStrategy = 0;
+
 	public Menu() {
 		standardMaze = new JButton("Standard maze");
 		randomMaze = new JButton("Random maze");
@@ -41,9 +41,8 @@ public class Menu {
 
 		menu = new JFrame();
 
-		menu.setLayout(new GridBagLayout());
-		menu.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
+		// Set up the content pane.
+		setMenuFrame(menu.getContentPane());
 		// Set up the content pane.
 		showMenuFrame();
 
@@ -86,30 +85,28 @@ public class Menu {
 						"What DragonStrategy do you want?", "Settings",
 						JOptionPane.QUESTION_MESSAGE, null, DragonStrats,
 						initialSelection);
-				//System.out.println(selection);
-				if(selection.equals("Parado")) {
-					  // dragonStrategy
-					dragonStrategy=0;
+				// System.out.println(selection);
+				if (selection.equals("Parado")) {
+					// dragonStrategy
+					dragonStrategy = 0;
+					logic = new Logic(11, 3, dragonStrategy);
+				} else if (selection.equals("RandomMove")) {
+					dragonStrategy = 1;
+					logic = new Logic(11, 3, dragonStrategy);
+				} else {
+					dragonStrategy = 2;
 					logic = new Logic(11, 3, dragonStrategy);
 				}
-				else if(selection.equals("RandomMove")){
-					dragonStrategy=1;
-					logic = new Logic(11, 3, dragonStrategy);
-				}
-				else {
-					dragonStrategy=2;
-					logic = new Logic(11, 3, dragonStrategy);
-				}
-				
+
 				JDialog d = new JDialog(menu, "Settings", true);
 				d.setContentPane(optionPane);
 				d.setSize(new Dimension(400, 300));
 				d.setLocationRelativeTo(menu);
-			
-				//d.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-				//CRASHA quando se clica na X para sair
+
+				// d.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+				// CRASHA quando se clica na X para sair
 				closePanel();
-				
+
 			}
 		});
 
@@ -124,6 +121,8 @@ public class Menu {
 	}
 
 	public void setMenuFrame(Container pane) {
+		menu.setLayout(new GridBagLayout());
+		menu.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		GridBagConstraints style = new GridBagConstraints();
 		style.fill = GridBagConstraints.BOTH;
 		style.weightx = 0.5;
@@ -132,16 +131,14 @@ public class Menu {
 		style.gridwidth = 3;
 		style.gridx = 0;
 		style.insets = new Insets(32, 256, 32, 256);
-		menu.add(standardMaze, style);
-		menu.add(randomMaze, style);
-		menu.add(loadGame, style);
-		menu.add(settings, style);
-		menu.add(exit, style);
+		pane.add(standardMaze, style);
+		pane.add(randomMaze, style);
+		pane.add(loadGame, style);
+		pane.add(settings, style);
+		pane.add(exit, style);
 	}
 
 	private void showMenuFrame() {
-		// Set up the content pane.
-		setMenuFrame(menu.getContentPane());
 		// Display the window.
 		menu.pack();
 		menu.setSize(dimension);
@@ -151,16 +148,8 @@ public class Menu {
 
 	public void closePanel() {
 		maze.setVisible(false);
-		
 		menu.getContentPane().remove(maze);
-		menu.pack();
-		menu.setVisible(true);
-		//menu.setContentPane(menu);
-//		menu.removeAll();
-//		menu = new JFrame();
-//		menu.setLayout(new GridBagLayout());
-//		menu.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	//showMenuFrame();
+		showMenuFrame();
 	}
 
 	public void startMaze(int boardSize) {
