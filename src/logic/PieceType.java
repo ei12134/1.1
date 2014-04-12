@@ -2,9 +2,11 @@ package logic;
 
 public enum PieceType {
 
-	FREE("   "), WALL(" X "), EXIT(" S "), HERO(" HG"), HERO_ARMED(" AG"), SWORD(
-			" E "), GROUND_EAGLE("E G"), PURSUING_EAGLE("  G"), DRAGON(" D "), DRAGON_GUARDING(
-			" F "), DRAGON_ASLEEP(" d "), DRAGON_ASLEEP_GUARDING(" f ");
+	FREE("   "), WALL(" X "), EXIT(" S "), HERO_UNARMED(" H "), HERO_ARMED(
+			" A "), HERO_UNARMED_EAGLE(" HG"), HERO_ARMED_EAGLE(" AG"), SWORD(
+			" E "), GROUND_EAGLE("E G"), PURSUING_EAGLE("  G"), PURSUING_WALL_EAGLE(
+			" XG"), DRAGON(" D "), DRAGON_GUARDING(" F "), DRAGON_ASLEEP(" d "), DRAGON_GUARDING_ASLEEP(
+			" f ");
 
 	private final String asString;
 

@@ -26,6 +26,7 @@ public class GameKeyboard {
 			objStream.writeObject(new KeyboardKey("down", KeyEvent.VK_S));
 			objStream.writeObject(new KeyboardKey("left", KeyEvent.VK_A));
 			objStream.writeObject(new KeyboardKey("right", KeyEvent.VK_D));
+			objStream.writeObject(new KeyboardKey("eagle", KeyEvent.VK_E));
 
 			objStream.close();
 		} catch (Exception e) {
@@ -41,7 +42,7 @@ public class GameKeyboard {
 			objInStream = new ObjectInputStream(inStream);
 
 			KeyboardKey tmp;
-			for (int i = 0; i < 4; i++) {
+			for (int i = 0; i < 5; i++) {
 				tmp = (KeyboardKey) objInStream.readObject();
 				keys.put(tmp.getCommand(), tmp.getCommandChar());
 			}

@@ -21,7 +21,7 @@ public class Menu extends JFrame {
 	private JButton exit;
 	private JButton settings;
 	private JButton load;
-	private MazeUI maze;
+	private GameUI maze;
 	private Dimension dimension;
 	private int dragonCounter = 1, dragonStrategy = 1, mazeSize = 13;
 
@@ -32,7 +32,7 @@ public class Menu extends JFrame {
 		exit = new JButton("Exit");
 		settings = new JButton("Settings");
 		load = new JButton("Load Game");
-		dimension = new Dimension(768, 768);
+		dimension = new Dimension(720, 720);
 		menuPanel = new JPanel();
 		this.setTitle("Maze Game");
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -102,7 +102,7 @@ public class Menu extends JFrame {
 		style.weighty = 0.5;
 		style.gridheight = 3;
 		style.gridwidth = 3;
-		style.gridx = 0;
+		style.gridx = 1;
 		style.insets = new Insets(32, 256, 32, 256);
 		menuPanel.add(standardMaze, style);
 		menuPanel.add(randomMaze, style);
@@ -127,7 +127,8 @@ public class Menu extends JFrame {
 	}
 
 	public void startMaze(int boardSize, int dragonCounter, int dragonStrategy) {
-		maze = new MazeUI(boardSize, this, dragonCounter, dragonStrategy);
+		maze = new GameUI(boardSize, this, dragonCounter, dragonStrategy,
+				dimension);
 		this.remove(menuPanel);
 		showPanel(maze);
 		maze.requestFocusInWindow();
@@ -164,12 +165,4 @@ public class Menu extends JFrame {
 	public Settings getSettingsPanel() {
 		return settingsPanel;
 	}
-	/*
-	 * Acrescentar um botão para configurar opções do jogo, dando acesso a uma
-	 * janela de diálogo modal (JDialog) onde é possível configurar o tamanho do
-	 * labirinto, o número de dragões, o modo de movimentação do dragão (pode
-	 * adormecer ou não) e as teclas de comando a utilizar. À excepção das
-	 * teclas de comando, estas opções têm efeito na próxima vez que for gerado
-	 * um labirinto.
-	 */
 }
