@@ -20,10 +20,10 @@ public class GameUI extends JPanel implements ActionListener, KeyListener {
 	private Menu menu;
 	private Dimension dimension;
 	private int boardSize, widthPixelsPerTile, heightPixelsPerTile;
-	private Image wall, wall_red, wall_brown, wall_green, path, hero_unarmed,
-			hero_armed, hero_unarmed_eagle, hero_armed_eagle, dragon,
-			dragon_guarding, dragon_asleep, dragon_guarding_asleep, exit,
-			sword, eagle, eagle_returning_sword;
+	private Image wall, wall_red, wall_brown, wall_green, wall_black, path,
+			hero_unarmed, hero_armed, hero_unarmed_eagle, hero_armed_eagle,
+			dragon, dragon_guarding, dragon_asleep, dragon_guarding_asleep,
+			exit, sword, eagle, eagle_returning_sword;
 	private boolean playerCanMove;
 	private HashMap<String, Integer> gameKeys;
 	private GameKeyboard keyboardKeys;
@@ -41,6 +41,7 @@ public class GameUI extends JPanel implements ActionListener, KeyListener {
 		wall_red = new ImageIcon("src//png//wall_red.png").getImage();
 		wall_green = new ImageIcon("src//png//wall_green.png").getImage();
 		wall_brown = new ImageIcon("src//png//wall_brown.png").getImage();
+		wall_black = new ImageIcon("src//png//wall_black.png").getImage();
 		path = new ImageIcon("src//png/path.png").getImage();
 		sword = new ImageIcon("src//png/sword.png").getImage();
 		exit = new ImageIcon("src//png/exit.png").getImage();
@@ -105,21 +106,26 @@ public class GameUI extends JPanel implements ActionListener, KeyListener {
 				repaint();
 			}
 		}
-		if (e.getKeyCode() == KeyEvent.VK_ESCAPE)
-			menu.closeMazeUI();
+		if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+			Object[] options = { "Yes", "No" };
+			int confirm = JOptionPane.showOptionDialog(null,
+					"Are you sure you want to abort the game?", "Abort game",
+					JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE,
+					null, options, options[1]);
+
+			if (confirm == 0)
+				menu.closeMazeUI();
+		}
 
 		if (state[0] != null)
 			analyzeState(state[0]);
 	}
 
 	public void keyReleased(KeyEvent e) {
-		// Invoked when a key has been released.
 	}
 
 	@Override
-	public void keyTyped(KeyEvent arg0) {
-		// TODO Auto-generated method stub
-
+	public void keyTyped(KeyEvent e) {
 	}
 
 	@Override
@@ -383,13 +389,13 @@ public class GameUI extends JPanel implements ActionListener, KeyListener {
 
 	public void changeWallColor(boolean next) {
 		if (next) {
-			if (wallConfig >= 2)
+			if (wallConfig >= 3)
 				wallConfig = 0;
 			else
 				wallConfig++;
 		} else {
 			if (wallConfig <= 0)
-				wallConfig = 2;
+				wallConfig = 3;
 			else
 				wallConfig--;
 		}
@@ -402,6 +408,9 @@ public class GameUI extends JPanel implements ActionListener, KeyListener {
 			break;
 		case 2:
 			wall = wall_brown;
+			break;
+		case 3:
+			wall = wall_black;
 			break;
 		default:
 			break;

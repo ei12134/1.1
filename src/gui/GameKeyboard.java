@@ -39,8 +39,8 @@ public class GameKeyboard {
 			objStream.writeObject(new KeyboardKey("left", KeyEvent.VK_A));
 			objStream.writeObject(new KeyboardKey("right", KeyEvent.VK_D));
 			objStream.writeObject(new KeyboardKey("eagle", KeyEvent.VK_E));
-
 			objStream.close();
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

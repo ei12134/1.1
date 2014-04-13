@@ -2,19 +2,22 @@ package gui;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.ArrayList;
 
 import logic.Piece;
 
-public class Menu extends JFrame {
+public class Menu extends JPanel implements KeyListener {
 
 	private static final long serialVersionUID = 1L;
-	private JPanel menuPanel;
+	private JFrame frame;
 	private Settings settingsPanel;
 	private JButton standardMaze;
 	private JButton randomMaze;
@@ -25,7 +28,7 @@ public class Menu extends JFrame {
 	private Dimension dimension;
 	private int dragonCounter = 1, dragonStrategy = 1, mazeSize = 13;
 
-	public Menu() {
+	public Menu(JFrame frame) {
 		// Menu Buttons
 		standardMaze = new JButton("Standard maze");
 		randomMaze = new JButton("Random maze");
@@ -33,15 +36,15 @@ public class Menu extends JFrame {
 		settings = new JButton("Settings");
 		load = new JButton("Load Game");
 		dimension = new Dimension(720, 720);
-		menuPanel = new JPanel();
-		this.setTitle("Maze Game");
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.frame = frame;
+
+		addKeyListener(this);
 
 		// Set up menu and settings panels
 		setMenuPanel();
 		settingsPanel = new Settings(this, dimension);
 		settingsPanel.setSettingsPanel();
-		showPanel(menuPanel);
+		showPanel(this);
 
 		// Button actions
 		standardMaze.addActionListener(new ActionListener() {
@@ -86,16 +89,27 @@ public class Menu extends JFrame {
 			}
 		});
 		exit.addActionListener(new ActionListener() {
+
 			@Override
 			public void actionPerformed(ActionEvent ev) {
-				System.exit(0);
+
+				Object[] options = { "Yes", "No" };
+				int confirm = JOptionPane
+						.showOptionDialog(null,
+								"Are you sure you want to quit?", "Exit game",
+								JOptionPane.YES_NO_OPTION,
+								JOptionPane.QUESTION_MESSAGE, null, options,
+								options[1]);
+
+				if (confirm == 0)
+					System.exit(0);
 			}
 		});
 	}
 
 	public void setMenuPanel() {
-		menuPanel.setSize(dimension);
-		menuPanel.setLayout(new GridBagLayout());
+		setSize(dimension);
+		setLayout(new GridBagLayout());
 		GridBagConstraints style = new GridBagConstraints();
 		style.fill = GridBagConstraints.BOTH;
 		style.weightx = 0.5;
@@ -104,38 +118,39 @@ public class Menu extends JFrame {
 		style.gridwidth = 3;
 		style.gridx = 1;
 		style.insets = new Insets(32, 256, 32, 256);
-		menuPanel.add(standardMaze, style);
-		menuPanel.add(randomMaze, style);
-		menuPanel.add(load, style);
-		menuPanel.add(settings, style);
-		menuPanel.add(exit, style);
-		menuPanel.setVisible(true);
+		add(standardMaze, style);
+		add(randomMaze, style);
+		add(load, style);
+		add(settings, style);
+		add(exit, style);
+		setVisible(true);
 	}
 
 	public void showPanel(JPanel panel) {
-		this.add(panel);
-		this.setSize(dimension);
-		this.setLocationRelativeTo(null);
-		this.setVisible(true);
+		frame.add(panel);
+		frame.setSize(dimension);
+		frame.setLocationRelativeTo(null);
+		frame.setVisible(true);
+		this.requestFocusInWindow();
 	}
 
 	public void closeMazeUI() {
 		maze.setVisible(false);
-		this.remove(maze);
-		showPanel(menuPanel);
-		this.setVisible(true);
+		frame.remove(maze);
+		showPanel(this);
+		frame.setVisible(true);
 	}
 
 	public void startMaze(int boardSize, int dragonCounter, int dragonStrategy) {
 		maze = new GameUI(boardSize, this, dragonCounter, dragonStrategy,
 				dimension);
-		this.remove(menuPanel);
+		frame.remove(this);
 		showPanel(maze);
 		maze.requestFocusInWindow();
 	}
 
-	public JPanel getMenuPanel() {
-		return menuPanel;
+	public JFrame getFrame() {
+		return frame;
 	}
 
 	public int getDragonStrategy() {
@@ -164,5 +179,31 @@ public class Menu extends JFrame {
 
 	public Settings getSettingsPanel() {
 		return settingsPanel;
+	}
+
+	@Override
+	public void keyPressed(KeyEvent e) {
+		if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+			Object[] options = { "Yes", "No" };
+			int confirm = JOptionPane.showOptionDialog(null,
+					"Are you sure you want to quit?", "Exit game",
+					JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE,
+					null, options, options[1]);
+
+			if (confirm == 0)
+				System.exit(0);
+		}
+	}
+
+	@Override
+	public void keyReleased(KeyEvent arg0) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void keyTyped(KeyEvent arg0) {
+		// TODO Auto-generated method stub
+
 	}
 }

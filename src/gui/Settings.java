@@ -8,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
@@ -15,6 +16,7 @@ public class Settings extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	private Menu menu;
+	private JFrame frame;
 	private JButton size;
 	private JButton counter;
 	private JButton strategy;
@@ -24,6 +26,7 @@ public class Settings extends JPanel {
 
 	public Settings(final Menu menu, Dimension dimension) {
 		this.menu = menu;
+		this.frame = menu.getFrame();
 		this.dimension = dimension;
 		size = new JButton("Maze size");
 		counter = new JButton("Number of Dragons");
@@ -50,6 +53,10 @@ public class Settings extends JPanel {
 						newSize = menu.getMazeSize();
 				} while (newSize % 2 == 0 || newSize < 7);
 
+				if (newSize < menu.getMazeSize()
+						&& menu.getDragonCounter() >= newSize / 2)
+					menu.setDragonCounter(newSize / 2 - 1);
+
 				menu.setMazeSize(newSize);
 			}
 		});
@@ -67,7 +74,7 @@ public class Settings extends JPanel {
 									null,
 									(Object) "Enter number of Dragons\n(< "
 											+ Integer.toString(menu
-													.getMazeSize()) + "):",
+													.getMazeSize() / 2) + "):",
 									"Random maze dragon counter",
 									JOptionPane.OK_CANCEL_OPTION, null, null,
 									beginSize);
@@ -77,7 +84,7 @@ public class Settings extends JPanel {
 					else
 						newCounter = menu.getDragonCounter();
 
-				} while (newCounter >= mazeSize);
+				} while (newCounter >= mazeSize / 2);
 				menu.setDragonCounter(newCounter);
 			}
 		});
@@ -137,7 +144,7 @@ public class Settings extends JPanel {
 		style.weighty = 0.5;
 		style.gridheight = 3;
 		style.gridwidth = 3;
-		style.gridx = 0;
+		style.gridx = 1;
 		style.insets = new Insets(32, 256, 32, 256);
 		this.add(size, style);
 		this.add(counter, style);
@@ -150,11 +157,11 @@ public class Settings extends JPanel {
 	public void closeSettingsPanel() {
 		this.setVisible(false);
 		menu.remove(this);
-		menu.showPanel(menu.getMenuPanel());
+		menu.showPanel(menu);
 		menu.setVisible(true);
 	}
 
 	public void closeMenuPanel() {
-		menu.remove(menu.getMenuPanel());
+		frame.remove(menu);
 	}
 }
