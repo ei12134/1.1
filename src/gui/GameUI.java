@@ -23,7 +23,7 @@ public class GameUI extends JPanel implements ActionListener, KeyListener {
 	private Image wall, wall_red, wall_brown, wall_green, path, hero_unarmed,
 			hero_armed, hero_unarmed_eagle, hero_armed_eagle, dragon,
 			dragon_guarding, dragon_asleep, dragon_guarding_asleep, exit,
-			sword, eagle;
+			sword, eagle, eagle_returning_sword;
 	private boolean playerCanMove;
 	private HashMap<String, Integer> gameKeys;
 	private GameKeyboard keyboardKeys;
@@ -57,6 +57,8 @@ public class GameUI extends JPanel implements ActionListener, KeyListener {
 		hero_unarmed = new ImageIcon("src//png/hero_unarmed.png").getImage();
 		hero_armed = new ImageIcon("src//png/hero_armed.png").getImage();
 		eagle = new ImageIcon("src//png/eagle.png").getImage();
+		eagle_returning_sword = new ImageIcon(
+				"src//png/eagle_returning_sword.png").getImage();
 		this.boardSize = boardSize;
 		this.dimension = dimension;
 		widthPixelsPerTile = dimension.width / boardSize;
@@ -91,7 +93,8 @@ public class GameUI extends JPanel implements ActionListener, KeyListener {
 					|| e.getKeyCode() == gameKeys.get("left_arrow")) {
 				state = logic.playGame("a");
 				repaint();
-			} else if (e.getKeyCode() == gameKeys.get("eagle")) {
+			} else if (e.getKeyCode() == gameKeys.get("eagle")
+					|| e.getKeyCode() == gameKeys.get("eagle_spacebar")) {
 				state = logic.playGame("e");
 				repaint();
 			} else if (e.getKeyCode() == KeyEvent.VK_PLUS) {
@@ -308,7 +311,9 @@ public class GameUI extends JPanel implements ActionListener, KeyListener {
 									* y + widthPixelsPerTile,
 							heightPixelsPerTile * linePixel
 									+ heightPixelsPerTile, 0, 0, 720, 720, null);
-				} else if (getPiece(y, x).getSymbol().equals(
+				}
+				// Eagle
+				else if (getPiece(y, x).getSymbol().equals(
 						PieceType.PURSUING_EAGLE.asString())) {
 
 					g.drawImage(path, widthPixelsPerTile * y,
@@ -328,6 +333,29 @@ public class GameUI extends JPanel implements ActionListener, KeyListener {
 				} else if (getPiece(y, x).getSymbol().equals(
 						PieceType.PURSUING_WALL_EAGLE.asString())) {
 					g.drawImage(eagle, widthPixelsPerTile * y,
+							heightPixelsPerTile * linePixel, widthPixelsPerTile
+									* y + widthPixelsPerTile,
+							heightPixelsPerTile * linePixel
+									+ heightPixelsPerTile, 0, 0, 720, 720, null);
+				} else if (getPiece(y, x).getSymbol().equals(
+						PieceType.RETURNING_WALL_EAGLE.asString())) {
+					g.drawImage(eagle_returning_sword, widthPixelsPerTile * y,
+							heightPixelsPerTile * linePixel, widthPixelsPerTile
+									* y + widthPixelsPerTile,
+							heightPixelsPerTile * linePixel
+									+ heightPixelsPerTile, 0, 0, 720, 720, null);
+				} else if (getPiece(y, x).getSymbol().equals(
+						PieceType.GROUND_EAGLE.asString())) {
+					g.drawImage(path, widthPixelsPerTile * y,
+							heightPixelsPerTile * linePixel, widthPixelsPerTile
+									* y + widthPixelsPerTile,
+							heightPixelsPerTile * linePixel
+									+ heightPixelsPerTile, widthPixelsPerTile
+									* y, heightPixelsPerTile * linePixel,
+							widthPixelsPerTile * y + widthPixelsPerTile,
+							heightPixelsPerTile * linePixel
+									+ heightPixelsPerTile, null);
+					g.drawImage(eagle_returning_sword, widthPixelsPerTile * y,
 							heightPixelsPerTile * linePixel, widthPixelsPerTile
 									* y + widthPixelsPerTile,
 							heightPixelsPerTile * linePixel
@@ -382,8 +410,13 @@ public class GameUI extends JPanel implements ActionListener, KeyListener {
 
 	public void analyzeState(String state) {
 		if (state.equals(State.HERO_DEAD.toString())) {
-			JOptionPane.showMessageDialog(null, "O herói morreu!");
+			JOptionPane.showMessageDialog(null, "Hero died!");
 			playerCanMove = false;
+			menu.closeMazeUI();
+		} else if (state.equals(State.HERO_WON.toString())) {
+			JOptionPane.showMessageDialog(null, "Hero won!");
+			playerCanMove = false;
+			menu.closeMazeUI();
 		}
 	}
 }

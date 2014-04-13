@@ -30,6 +30,8 @@ public class GameKeyboard {
 					KeyEvent.VK_LEFT));
 			objStream.writeObject(new KeyboardKey("right_arrow",
 					KeyEvent.VK_RIGHT));
+			objStream.writeObject(new KeyboardKey("eagle_spacebar",
+					KeyEvent.VK_SPACE));
 
 			// allow to customize
 			objStream.writeObject(new KeyboardKey("up", KeyEvent.VK_W));
@@ -52,7 +54,7 @@ public class GameKeyboard {
 			objInStream = new ObjectInputStream(inStream);
 
 			KeyboardKey tmp;
-			for (int i = 0; i < 9; i++) {
+			for (int i = 0; i < 10; i++) {
 				tmp = (KeyboardKey) objInStream.readObject();
 				keys.put(tmp.getCommand(), tmp.getCommandChar());
 			}

@@ -263,25 +263,9 @@ public class Logic extends Maze {
 			if (!hero.getDead()) {
 				int deltaX = getSword().getPosX() - eagle.getPosX();
 				int deltaY = getSword().getPosY() - eagle.getPosY();
-				// Descend at arrival to the sword position
-				if (deltaX == 0 && deltaY == 0) {
-					// Dragon guarding sword at arrival position
-					if (getMazePiece(eagle.getPosX(), eagle.getPosY())
-							.getSymbol().contains("F")) {
-						eagle.setDead(true);
-						getMazePiece(eagle.getPosX(), eagle.getPosY())
-								.setSymbol(" F ");
-						return "Eagle died!";
-					}
-					// Free sword
-					else {
-						getMazePiece(eagle.getPosX(), eagle.getPosY())
-								.setSymbol("E G");
-						eagle.setState(State.EAGLE_RETURNING);
-					}
-				}
+
 				// Eagle movement in pursuit of the sword
-				else {
+				if (deltaX != 0 || deltaY != 0) {
 					if (Math.abs(deltaX) > Math.abs(deltaY)) {
 						if (deltaX < 0) {
 							nextX = eagle.getPosX() - 1;
@@ -310,6 +294,27 @@ public class Logic extends Maze {
 					// Update eagle position
 					eagle.setPosition(nextX, nextY);
 				}
+
+				deltaX = getSword().getPosX() - eagle.getPosX();
+				deltaY = getSword().getPosY() - eagle.getPosY();
+
+				// Descend at arrival to the sword position
+				if (deltaX == 0 && deltaY == 0) {
+					// Dragon guarding sword at arrival position
+					if (getMazePiece(eagle.getPosX(), eagle.getPosY())
+							.getSymbol().contains("F")) {
+						eagle.setDead(true);
+						getMazePiece(eagle.getPosX(), eagle.getPosY())
+								.setSymbol(" F ");
+						return "Eagle died!";
+					}
+					// Free sword
+					else {
+						getMazePiece(eagle.getPosX(), eagle.getPosY())
+								.setSymbol("E G");
+						eagle.setState(State.EAGLE_RETURNING);
+					}
+				}
 			}
 		}
 		// Calculate distance between the eagle and the hero
@@ -318,24 +323,8 @@ public class Logic extends Maze {
 				int deltaX = eagle.getHeroX() - eagle.getPosX();
 				int deltaY = eagle.getHeroY() - eagle.getPosY();
 
-				// Descend at arrival to the hero position
-				if (deltaX == 0 && deltaY == 0) {
-					if (eagle.getHeroX() != hero.getPosX()
-							|| eagle.getHeroY() != hero.getPosY()) {
-						eagle.setState(State.EAGLE_GROUND);
-						return "Hero was not on the same spot - Eagle is in the ground!";
-					} else {
-						hero.setEagle(true);
-						hero.setArmed(true);
-						eagle.setState(State.EAGLE_PURSUING);
-						getMazePiece(hero.getPosX(), hero.getPosY()).setSymbol(
-								hero.showHero());
-						return "Eagle returned successfuly and hero is now armed";
-
-					}
-				}
 				// Eagle movement in pursuit of the hero
-				else {
+				if (deltaX != 0 || deltaY != 0) {
 					if (Math.abs(deltaX) > Math.abs(deltaY)) {
 
 						if (deltaX < 0) {
@@ -367,6 +356,26 @@ public class Logic extends Maze {
 					// Update eagle and sword positions
 					eagle.setPosition(nextX, nextY);
 					getSword().setPosition(nextX, nextY);
+				}
+
+				deltaX = eagle.getHeroX() - eagle.getPosX();
+				deltaY = eagle.getHeroY() - eagle.getPosY();
+
+				// Descend at arrival to the hero position
+				if (deltaX == 0 && deltaY == 0) {
+					if (eagle.getHeroX() != hero.getPosX()
+							|| eagle.getHeroY() != hero.getPosY()) {
+						eagle.setState(State.EAGLE_GROUND);
+						return "Hero was not on the same spot - Eagle is in the ground!";
+					} else {
+						hero.setEagle(true);
+						hero.setArmed(true);
+						eagle.setState(State.EAGLE_PURSUING);
+						getMazePiece(hero.getPosX(), hero.getPosY()).setSymbol(
+								hero.showHero());
+						return "Eagle returned successfuly and hero is now armed";
+
+					}
 				}
 			}
 		}
