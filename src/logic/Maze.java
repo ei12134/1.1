@@ -5,6 +5,13 @@ import algorithms.Algorithm;
 import java.util.ArrayList;
 import java.util.Random;
 
+/**
+ * Maze is the class used to store the maze and all its pieces.
+ * 
+ * @author André Pinheiro
+ * @author José Peixoto
+ * @author Paulo Faria
+ */
 public class Maze {
 
 	protected ArrayList<ArrayList<Piece>> maze;
@@ -14,6 +21,9 @@ public class Maze {
 	protected Piece exit;
 	protected Piece sword;
 
+	/**
+	 * Default constructor used to create a standard maze.
+	 */
 	public Maze() {
 		maze = new ArrayList<ArrayList<Piece>>();
 		hero = new Hero(1, 1);
@@ -23,6 +33,14 @@ public class Maze {
 		startDefaultMaze();
 	}
 
+	/**
+	 * Constructor of the random maze with custom maze size and dragon counter.
+	 * 
+	 * @param mazeSize
+	 *            user defined maze size
+	 * @param dragonCounter
+	 *            user define dragon counter
+	 */
 	public Maze(int mazeSize, int dragonCounter) {
 		maze = new ArrayList<ArrayList<Piece>>();
 		hero = new Hero(0, 0);
@@ -125,7 +143,11 @@ public class Maze {
 	}
 
 	/**
-	 * Swaps hero position with a given valid direction
+	 * Exchanges positions between the hero and a valid near piece.
+	 * 
+	 * @param direction
+	 *            hero move direction
+	 * @return message related to the hero move, null if none
 	 */
 	public String swapHero(int direction) {
 
@@ -182,6 +204,11 @@ public class Maze {
 		return message;
 	}
 
+	/**
+	 * Searches for available position used to place new game components.
+	 * 
+	 * @return free available Piece of the maze
+	 */
 	public Piece getAvailablePosition() {
 		int randomX = 0, randomY = 0;
 		Random r = new Random();
@@ -197,6 +224,12 @@ public class Maze {
 		return null;
 	}
 
+	/**
+	 * Adds user defined number of dragons.
+	 * 
+	 * @param dragonCounter
+	 *            number of dragons to add
+	 */
 	public void addDragons(int dragonCounter) {
 		for (int i = 0; i < dragonCounter; i++) {
 			Piece newDragonPiece = getAvailablePosition();
@@ -210,52 +243,122 @@ public class Maze {
 		}
 	}
 
-	public int getExitX() {
-		return exit.getPosX();
-	}
-
-	public int getExitY() {
-		return exit.getPosY();
-	}
-
-	public String getMazePieceSymbol(int x, int y) {
-		return maze.get(y).get(x).getSymbol();
-	}
-
-	public Piece getMazePiece(int x, int y) {
-		return maze.get(y).get(x);
-	}
-
-	public Piece getSword() {
-		return sword;
-	}
-
-	public void setMaze(ArrayList<ArrayList<Piece>> maze) {
-		this.maze = maze;
-	}
-
+	/**
+	 * Gets 2 dimensional <code>ArrayList</code> containing all the maze Pieces.
+	 * 
+	 * @return maze
+	 */
 	public ArrayList<ArrayList<Piece>> getMaze() {
 		return maze;
 	}
 
+	/**
+	 * Gets exit X position.
+	 * 
+	 * @return exit X position
+	 */
+	public int getExitX() {
+		return exit.getPosX();
+	}
+
+	/**
+	 * Gets exit Y position.
+	 * 
+	 * @return exit Y position
+	 */
+	public int getExitY() {
+		return exit.getPosY();
+	}
+
+	/**
+	 * Gets maze symbol from given coordinates.
+	 * 
+	 * @param x
+	 *            X position
+	 * @param y
+	 *            Y position
+	 * @return maze symbol in x,y position
+	 */
+	public String getMazePieceSymbol(int x, int y) {
+		return maze.get(y).get(x).getSymbol();
+	}
+
+	/**
+	 * Gets maze <code>Piece</code> from given coordinates.
+	 * 
+	 * @param x
+	 *            Piece X position
+	 * @param y
+	 *            Piece Y position
+	 * @return <code>Piece</code> from given coordinates
+	 */
+	public Piece getMazePiece(int x, int y) {
+		return maze.get(y).get(x);
+	}
+
+	/**
+	 * Gets sword <code>Piece</code>.
+	 * 
+	 * @return sword <code>Piece</code>
+	 */
+	public Piece getSword() {
+		return sword;
+	}
+
+	/**
+	 * Gets hero object.
+	 * 
+	 * @return hero from the maze
+	 */
 	public Hero getHero() {
 		return hero;
 	}
-	
+
+	/**
+	 * Gets eagle object.
+	 * 
+	 * @return eagle from the maze
+	 */
 	public Eagle getEagle() {
 		return eagle;
 	}
 
+	/**
+	 * Gets <code>dragons ArrayList</code> with all existing dragons.
+	 * 
+	 * @return dragons from the maze
+	 */
+	public ArrayList<Dragon> getDragons() {
+		return dragons;
+	}
 
+	/**
+	 * Sets a new maze.
+	 * 
+	 * @param maze
+	 *            new maze
+	 */
+	public void setMaze(ArrayList<ArrayList<Piece>> maze) {
+		this.maze = maze;
+	}
+
+	/**
+	 * Sets a new hero.
+	 * 
+	 * @param hero
+	 *            new hero
+	 */
 	public void setHero(Hero hero) {
 		this.hero = hero;
 	}
 
+	/**
+	 * Sets a new dragons <code>ArrayList</code> container.
+	 * 
+	 * @param dragons
+	 *            new dragons
+	 */
 	public void setDragons(ArrayList<Dragon> dragons) {
 		this.dragons = dragons;
-	}
-	
-	public ArrayList<Dragon> getDragons() {
-		return dragons;
 	}
 }

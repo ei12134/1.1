@@ -6,12 +6,11 @@ import java.util.Random;
 /**
  * Logic is the class involved in managing and validation of the movement by
  * different <code>Characters</code> and update the game <code>State</code>
- * accordingly
+ * accordingly.
  * 
  * @author André Pinheiro
  * @author José Peixoto
  * @author Paulo Faria
- * @version %I%, %G%
  */
 public class Logic extends Maze {
 
@@ -31,11 +30,11 @@ public class Logic extends Maze {
 
 	/**
 	 * Processes the moves related to the game according to the input and game
-	 * initial configuration variables
+	 * initial configuration variables.
 	 * 
 	 * @param userInput
 	 *            the <code>String</code> previously entered by the player used
-	 *            to attempt to move the hero.
+	 *            to attempt to move the hero
 	 * @return message <code>String[]</code> used to display relevant game
 	 *         events
 	 */
@@ -94,11 +93,11 @@ public class Logic extends Maze {
 
 	/**
 	 * Processes a valid hero move and deals with possible hero related game
-	 * events
+	 * events.
 	 * 
 	 * @param userInput
 	 *            the <code>String</code> previously entered by the player used
-	 *            to attempt to move the hero.
+	 *            to attempt to move the hero
 	 * @param moves
 	 *            <code>HashMap</code> previously generated only containing
 	 *            valid hero moves
@@ -154,7 +153,7 @@ public class Logic extends Maze {
 
 	/**
 	 * Processes a valid dragon move and deals with possible dragon related game
-	 * events
+	 * events.
 	 * 
 	 * @param dragon
 	 *            one object of the class Dragon from the <code>ArrayList</code>
@@ -243,7 +242,7 @@ public class Logic extends Maze {
 
 	/**
 	 * Processes a valid eagle move and deals with possible eagle related game
-	 * events
+	 * events.
 	 * 
 	 * @return message <code>String</code> used to display relevant eagle events
 	 */
@@ -384,7 +383,7 @@ public class Logic extends Maze {
 
 	/**
 	 * Processes the possible game consequences after a round of Character
-	 * movements
+	 * movements.
 	 * 
 	 * @return <code>State</code> of the game after every Character movement is
 	 *         taken into account
@@ -423,7 +422,7 @@ public class Logic extends Maze {
 
 	/**
 	 * Checks each of the 4 directions near the hero for valid positions adding
-	 * them to the HashMap validMoves
+	 * them to the HashMap validMoves.
 	 * 
 	 * @return HashMap validMoves with possible positions for hero to move into
 	 */
@@ -511,7 +510,7 @@ public class Logic extends Maze {
 	}
 
 	/**
-	 * Checks for dragons near the hero
+	 * Checks for dragons near the hero.
 	 * 
 	 * @return Dragon object near the hero or null if inexistent
 	 */
@@ -546,7 +545,7 @@ public class Logic extends Maze {
 	}
 
 	/**
-	 * Checks if given Dragon is at the sword position
+	 * Checks if given Dragon is at the sword position.
 	 * 
 	 * @param dragon
 	 *            one object of the class Dragon from the <code>ArrayList</code>

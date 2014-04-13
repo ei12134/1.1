@@ -5,6 +5,13 @@ import java.util.Scanner;
 
 import logic.Piece;
 
+/**
+ * Class <code>Cli</code> is the class used to make input/output to the console.
+ * 
+ * @author André Pinheiro
+ * @author José Peixoto
+ * @author Paulo Faria
+ */
 public class Cli {
 
 	private Scanner scanInt, scanString;
@@ -14,6 +21,11 @@ public class Cli {
 		scanString = new Scanner(System.in);
 	}
 
+	/**
+	 * Asks the user for a maze size.
+	 * 
+	 * @return odd size of the maze 10 if user chooses to play standard version
+	 */
 	public int setMazeSize() {
 		int size;
 		do {
@@ -38,6 +50,11 @@ public class Cli {
 		return size;
 	}
 
+	/**
+	 * Asks the user for a dragon strategy.
+	 * 
+	 * @return dragon strategy integer
+	 */
 	public int dragonStrategy() {
 		boolean validInput = false;
 		int mode = 0;
@@ -75,6 +92,13 @@ public class Cli {
 		return mode;
 	}
 
+	/**
+	 * Displays each <code>Piece</code> of the maze.
+	 * 
+	 * @param maze
+	 *            of the superclass <code>Maze</code> to display in console
+	 * 
+	 */
 	public void displayMaze(ArrayList<ArrayList<Piece>> maze) {
 		System.out.println();
 		for (int i = 0; i < maze.size(); i++) {
@@ -85,6 +109,12 @@ public class Cli {
 		}
 	}
 
+	/**
+	 * Gets an input from the player used in computing the <code>Hero</code>
+	 * move.
+	 * 
+	 * @return <code>String</code> input by the player
+	 */
 	public String getKey() {
 		System.out
 				.print("\n (w/a/s/d) to move (e) to release eagle (q) to abort > ");
@@ -93,11 +123,12 @@ public class Cli {
 		return input;
 	}
 
-	public void anyKey() {
-		showMessages("Press any key to continue...");
-		scanString.nextLine();
-	}
-
+	/**
+	 * Formats and displays a <code>String</code> message from the game.
+	 * 
+	 * @param message
+	 *            <code>String</code> to display in console
+	 */
 	public void showMessages(String message) {
 		System.out.println("\n * " + message);
 	}
