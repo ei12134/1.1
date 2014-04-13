@@ -23,7 +23,7 @@ public class GameUI extends JPanel implements ActionListener, KeyListener {
 	private Image wall, wall_red, wall_brown, wall_green, wall_black, path,
 			hero_unarmed, hero_armed, hero_unarmed_eagle, hero_armed_eagle,
 			dragon, dragon_guarding, dragon_asleep, dragon_guarding_asleep,
-			exit, sword, eagle, eagle_returning_sword;
+			exit, exit_symmetrical, sword, eagle, eagle_returning_sword;
 	private boolean playerCanMove;
 	private HashMap<String, Integer> gameKeys;
 	private GameKeyboard keyboardKeys;
@@ -45,6 +45,8 @@ public class GameUI extends JPanel implements ActionListener, KeyListener {
 		path = new ImageIcon("src//png/path.png").getImage();
 		sword = new ImageIcon("src//png/sword.png").getImage();
 		exit = new ImageIcon("src//png/exit.png").getImage();
+		exit_symmetrical = new ImageIcon("src//png/exit_symmetrical.png")
+				.getImage();
 		dragon = new ImageIcon("src//png/dragon.png").getImage();
 		dragon_asleep = new ImageIcon("src//png/dragon_asleep.png").getImage();
 		dragon_guarding = new ImageIcon("src//png/dragon_guarding.png")
@@ -301,8 +303,11 @@ public class GameUI extends JPanel implements ActionListener, KeyListener {
 									* y + widthPixelsPerTile,
 							heightPixelsPerTile * linePixel
 									+ heightPixelsPerTile, 0, 0, 720, 720, null);
-				} else if (getPiece(y, x).getSymbol().equals(
-						PieceType.EXIT.asString())) {
+				}
+				// Exit
+				else if (getPiece(y, x).getSymbol().equals(
+						PieceType.EXIT.asString())
+						&& y == 0) {
 					g.drawImage(path, widthPixelsPerTile * y,
 							heightPixelsPerTile * linePixel, widthPixelsPerTile
 									* y + widthPixelsPerTile,
@@ -313,6 +318,23 @@ public class GameUI extends JPanel implements ActionListener, KeyListener {
 							heightPixelsPerTile * linePixel
 									+ heightPixelsPerTile, null);
 					g.drawImage(exit, widthPixelsPerTile * y,
+							heightPixelsPerTile * linePixel, widthPixelsPerTile
+									* y + widthPixelsPerTile,
+							heightPixelsPerTile * linePixel
+									+ heightPixelsPerTile, 0, 0, 720, 720, null);
+				} else if (getPiece(y, x).getSymbol().equals(
+						PieceType.EXIT.asString())
+						&& y != 0) {
+					g.drawImage(path, widthPixelsPerTile * y,
+							heightPixelsPerTile * linePixel, widthPixelsPerTile
+									* y + widthPixelsPerTile,
+							heightPixelsPerTile * linePixel
+									+ heightPixelsPerTile, widthPixelsPerTile
+									* y, heightPixelsPerTile * linePixel,
+							widthPixelsPerTile * y + widthPixelsPerTile,
+							heightPixelsPerTile * linePixel
+									+ heightPixelsPerTile, null);
+					g.drawImage(exit_symmetrical, widthPixelsPerTile * y,
 							heightPixelsPerTile * linePixel, widthPixelsPerTile
 									* y + widthPixelsPerTile,
 							heightPixelsPerTile * linePixel
