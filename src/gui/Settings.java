@@ -16,6 +16,7 @@ public class Settings extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	private Menu menu;
+	private Play play;
 	private JFrame frame;
 	private JButton size;
 	private JButton counter;
@@ -26,6 +27,7 @@ public class Settings extends JPanel {
 
 	public Settings(final Menu menu, Dimension dimension) {
 		this.menu = menu;
+		this.play = menu.getPlayPanel();
 		this.frame = menu.getFrame();
 		this.dimension = dimension;
 		size = new JButton("Maze size");
@@ -39,25 +41,28 @@ public class Settings extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent ev) {
 				String inputSize;
-				String beginSize = Integer.toString(menu.getMazeSize());
-				int newSize = menu.getMazeSize();
+				String beginSize = Integer.toString(play.getMazeSize());
+				int newSize = play.getMazeSize();
 				do {
-					inputSize = (String) JOptionPane.showInputDialog(null,
-							(Object) "Enter odd random maze size:",
-							"Random maze size", JOptionPane.OK_CANCEL_OPTION,
-							null, null, beginSize);
+					inputSize = (String) JOptionPane
+							.showInputDialog(
+									null,
+									(Object) "Enter odd random maze size:\n(from 7 to 27)",
+									"Random maze size",
+									JOptionPane.OK_CANCEL_OPTION, null, null,
+									beginSize);
 
 					if (inputSize != null)
 						newSize = Integer.parseInt((String) inputSize);
 					else
-						newSize = menu.getMazeSize();
-				} while (newSize % 2 == 0 || newSize < 7);
+						newSize = play.getMazeSize();
+				} while (newSize % 2 == 0 || newSize < 7 || newSize > 27);
 
-				if (newSize < menu.getMazeSize()
-						&& menu.getDragonCounter() >= newSize / 2)
-					menu.setDragonCounter(newSize / 2 - 1);
+				if (newSize < play.getMazeSize()
+						&& play.getDragonCounter() >= newSize / 2)
+					play.setDragonCounter(newSize / 2 - 1);
 
-				menu.setMazeSize(newSize);
+				play.setMazeSize(newSize);
 			}
 		});
 
@@ -65,16 +70,17 @@ public class Settings extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent ev) {
 				String inputSize;
-				String beginSize = Integer.toString(menu.getDragonCounter());
-				int newCounter = menu.getDragonCounter(), mazeSize = menu
+				String beginSize = Integer.toString(play.getDragonCounter());
+				int newCounter = play.getDragonCounter(), mazeSize = play
 						.getMazeSize();
 				do {
 					inputSize = (String) JOptionPane
 							.showInputDialog(
 									null,
-									(Object) "Enter number of Dragons\n(< "
-											+ Integer.toString(menu
-													.getMazeSize() / 2) + "):",
+									(Object) "Enter number of Dragons (less than "
+											+ Integer.toString(play
+													.getMazeSize() / 2 + 1)
+											+ "):",
 									"Random maze dragon counter",
 									JOptionPane.OK_CANCEL_OPTION, null, null,
 									beginSize);
@@ -82,10 +88,10 @@ public class Settings extends JPanel {
 					if (inputSize != null)
 						newCounter = Integer.parseInt((String) inputSize);
 					else
-						newCounter = menu.getDragonCounter();
+						newCounter = play.getDragonCounter();
 
-				} while (newCounter >= mazeSize / 2);
-				menu.setDragonCounter(newCounter);
+				} while (newCounter > mazeSize / 2);
+				play.setDragonCounter(newCounter);
 			}
 		});
 
@@ -96,7 +102,7 @@ public class Settings extends JPanel {
 				Object[] DragonStrategies = { "Idle", "Random Movement",
 						"Random Movement and Sleeping" };
 				String initialSelection = "Idle";
-				int beginSize = menu.getDragonStrategy();
+				int beginSize = play.getDragonStrategy();
 
 				if (beginSize == 0)
 					initialSelection = "Idle";
@@ -112,11 +118,11 @@ public class Settings extends JPanel {
 
 				if (selection != null) {
 					if (selection.equals("Idle"))
-						menu.setDragonStrategy(0);
+						play.setDragonStrategy(0);
 					else if (selection.equals("Random Movement"))
-						menu.setDragonStrategy(1);
+						play.setDragonStrategy(1);
 					else if (selection.equals("Random Movement and Sleeping"))
-						menu.setDragonStrategy(2);
+						play.setDragonStrategy(2);
 				}
 			}
 		});

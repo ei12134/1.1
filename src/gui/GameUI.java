@@ -17,7 +17,7 @@ public class GameUI extends JPanel implements ActionListener, KeyListener {
 
 	private static final long serialVersionUID = 1L;
 	private Logic logic;
-	private Menu menu;
+	private Play play;
 	private Dimension dimension;
 	private int boardSize, widthPixelsPerTile, heightPixelsPerTile;
 	private Image wall, wall_red, wall_brown, wall_green, wall_black, path,
@@ -29,8 +29,13 @@ public class GameUI extends JPanel implements ActionListener, KeyListener {
 	private GameKeyboard keyboardKeys;
 	private int wallConfig = 0;
 
-	public GameUI(int boardSize, Menu menu, int dragonCounter,
+	public GameUI(int boardSize, Play play, int dragonCounter,
 			int dragonStrategy, Dimension dimension) {
+
+		this.play = play;
+		this.boardSize = boardSize;
+		this.dimension = dimension;
+
 		playerCanMove = true;
 		keyboardKeys = new GameKeyboard();
 		keyboardKeys.initializeKeys();
@@ -62,12 +67,9 @@ public class GameUI extends JPanel implements ActionListener, KeyListener {
 		eagle = new ImageIcon("src//png/eagle.png").getImage();
 		eagle_returning_sword = new ImageIcon(
 				"src//png/eagle_returning_sword.png").getImage();
-		this.boardSize = boardSize;
-		this.dimension = dimension;
+
 		widthPixelsPerTile = dimension.width / boardSize;
 		heightPixelsPerTile = dimension.height / boardSize;
-
-		this.menu = menu;
 		addKeyListener(this);
 
 		if (boardSize == 10)
@@ -116,11 +118,16 @@ public class GameUI extends JPanel implements ActionListener, KeyListener {
 					null, options, options[1]);
 
 			if (confirm == 0)
-				menu.closeMazeUI();
+				play.closeMazeUI();
 		}
 
 		if (state[0] != null)
-			analyzeState(state[0]);
+			analyzeGeneralState(state[0]);
+
+		if (state[3] != null)
+			analyzeEagleState(state[3]);
+		else if (state[2] != null)
+			analyzeEagleState(state[2]);
 	}
 
 	public void keyReleased(KeyEvent e) {
@@ -342,8 +349,12 @@ public class GameUI extends JPanel implements ActionListener, KeyListener {
 				}
 				// Eagle
 				else if (getPiece(y, x).getSymbol().equals(
-						PieceType.PURSUING_EAGLE.asString())) {
-
+						PieceType.PURSUING_EAGLE.asString())
+						|| getPiece(y, x).getSymbol().equals(
+								PieceType.PURSUING_DRAGON_EAGLE.asString())
+						|| getPiece(y, x).getSymbol().equals(
+								PieceType.PURSUING_DRAGON_ASLEEP_EAGLE
+										.asString())) {
 					g.drawImage(path, widthPixelsPerTile * y,
 							heightPixelsPerTile * linePixel, widthPixelsPerTile
 									* y + widthPixelsPerTile,
@@ -373,7 +384,12 @@ public class GameUI extends JPanel implements ActionListener, KeyListener {
 							heightPixelsPerTile * linePixel
 									+ heightPixelsPerTile, 0, 0, 720, 720, null);
 				} else if (getPiece(y, x).getSymbol().equals(
-						PieceType.GROUND_EAGLE.asString())) {
+						PieceType.GROUND_EAGLE.asString())
+						|| getPiece(y, x).getSymbol().equals(
+								PieceType.RETURNING_DRAGON_ASLEEP_EAGLE
+										.asString())
+						|| getPiece(y, x).getSymbol().equals(
+								PieceType.RETURNING_DRAGON_EAGLE.asString())) {
 					g.drawImage(path, widthPixelsPerTile * y,
 							heightPixelsPerTile * linePixel, widthPixelsPerTile
 									* y + widthPixelsPerTile,
@@ -439,15 +455,33 @@ public class GameUI extends JPanel implements ActionListener, KeyListener {
 		}
 	}
 
-	public void analyzeState(String state) {
+	public void analyzeGeneralState(String state) {
 		if (state.equals(State.HERO_DEAD.toString())) {
 			JOptionPane.showMessageDialog(null, "Hero died!");
 			playerCanMove = false;
-			menu.closeMazeUI();
+			play.closeMazeUI();
 		} else if (state.equals(State.HERO_WON.toString())) {
 			JOptionPane.showMessageDialog(null, "Hero won!");
 			playerCanMove = false;
-			menu.closeMazeUI();
+			play.closeMazeUI();
+		}
+	}
+
+	public void analyzeEagleState(String state) {
+		if (state
+				.equals("Dragon killed the eagle!\n * Dragon is now guarding the sword")) {
+			JOptionPane
+					.showMessageDialog(null,
+							"Dragon killed the eagle!\n * Dragon is now guarding the sword");
+		}
+	}
+
+	public void analyzeDragonState(String state) {
+		if (state
+				.equals("Dragon killed the eagle!\n * Dragon is now guarding the sword")) {
+			JOptionPane
+					.showMessageDialog(null,
+							"Dragon killed the eagle!\nDragon is now guarding the sword");
 		}
 	}
 }

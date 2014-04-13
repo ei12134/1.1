@@ -48,8 +48,10 @@ public class Logic extends Maze {
 
 		HashMap<Integer, Boolean> heroMoves = validHeroMoves();
 
-		if (userInput.equals("q"))
+		if (userInput.equals("q")) {
 			message[0] = "Abort";
+			return message;
+		}
 
 		if (!hero.getDead())
 			message[1] = moveHero(userInput, heroMoves);
@@ -71,9 +73,8 @@ public class Logic extends Maze {
 				} else if (dragonStrategy != 0)
 					if (message[2] == null) {
 						message[2] = moveDragon(dragon);
-					} else {
+					} else
 						moveDragon(dragon);
-					}
 			}
 		}
 		if (!eagle.getDead())
@@ -81,12 +82,8 @@ public class Logic extends Maze {
 
 		// Check game status
 		State state = checkGame();
-		if (state.equals(State.HERO_WON))
-			message[0] = State.HERO_WON.toString();
-		else if (state.equals(State.HERO_DEAD))
-			message[0] = State.HERO_DEAD.toString();
-		else if (state.equals(State.DRAGON_DEAD))
-			message[0] = State.DRAGON_DEAD.toString();
+		if (state != null)
+			message[0] = state.toString();
 
 		return message;
 	}
@@ -389,9 +386,9 @@ public class Logic extends Maze {
 	 *         taken into account
 	 */
 	public State checkGame() {
-		State state = State.GAME_CONTINUE;
+		State state = null;
 		if ((hero.getPosX() == getExitX()) && (hero.getPosY() == getExitY())
-				&& hero.getArmed()) {
+				&& hero.getArmed() && dragons.size() == 0) {
 			return State.HERO_WON;
 		}
 
@@ -446,7 +443,7 @@ public class Logic extends Maze {
 			// Confirms if hero is armed at exit
 			else if ((maze.get(hero.getPosY() - 1).get(hero.getPosX())
 					.getSymbol().equals(PieceType.EXIT.asString()))
-					&& heroArmado)
+					&& heroArmado && dragons.size() == 0)
 				validMoves.put(0, true);
 		}
 		// Check if hero can move down
@@ -465,7 +462,7 @@ public class Logic extends Maze {
 			// Confirms if hero is armed at exit
 			else if ((maze.get(hero.getPosY() + 1).get(hero.getPosX())
 					.getSymbol().equals(PieceType.EXIT.asString()))
-					&& heroArmado)
+					&& heroArmado && dragons.size() == 0)
 				validMoves.put(1, true);
 		}
 		// Check if hero can move to the right
@@ -484,7 +481,7 @@ public class Logic extends Maze {
 			// Confirms if hero is armed at exit
 			else if ((maze.get(hero.getPosY()).get(hero.getPosX() + 1)
 					.getSymbol().equals(PieceType.EXIT.asString()))
-					&& heroArmado)
+					&& heroArmado && dragons.size() == 0)
 				validMoves.put(2, true);
 		}
 		// Check if hero can move to the left
@@ -503,7 +500,7 @@ public class Logic extends Maze {
 			// Confirms if hero is armed at exit
 			else if ((maze.get(hero.getPosY()).get(hero.getPosX() - 1)
 					.getSymbol().equals(PieceType.EXIT.asString()))
-					&& heroArmado)
+					&& heroArmado && dragons.size() == 0)
 				validMoves.put(3, true);
 		}
 		return validMoves;
@@ -526,16 +523,16 @@ public class Logic extends Maze {
 
 			if (heroX + 1 == dragonX && heroY == dragonY)
 				return dragon;
-			else if (heroX + 1 == dragonX && heroY + 1 == dragonY)
-				return dragon;
-			else if (heroX + 1 == dragonX && heroY - 1 == dragonY)
-				return dragon;
+			// else if (heroX + 1 == dragonX && heroY + 1 == dragonY)
+			// return dragon;
+			// else if (heroX + 1 == dragonX && heroY - 1 == dragonY)
+			// return dragon;
 			else if (heroX - 1 == dragonX && heroY == dragonY)
 				return dragon;
-			else if (heroX - 1 == dragonX && heroY - 1 == dragonY)
-				return dragon;
-			else if (heroX - 1 == dragonX && heroY + 1 == dragonY)
-				return dragon;
+			// else if (heroX - 1 == dragonX && heroY - 1 == dragonY)
+			// return dragon;
+			// else if (heroX - 1 == dragonX && heroY + 1 == dragonY)
+			// return dragon;
 			else if (heroX == dragonX && heroY - 1 == dragonY)
 				return dragon;
 			else if (heroX == dragonX && heroY + 1 == dragonY)

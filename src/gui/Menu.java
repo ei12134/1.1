@@ -10,28 +10,22 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.util.ArrayList;
-
-import logic.Piece;
 
 public class Menu extends JPanel implements KeyListener {
 
 	private static final long serialVersionUID = 1L;
 	private JFrame frame;
 	private Settings settingsPanel;
-	private JButton standardMaze;
-	private JButton randomMaze;
+	private Play playPanel;
+	private JButton play;
 	private JButton exit;
 	private JButton settings;
 	private JButton load;
-	private GameUI maze;
 	private Dimension dimension;
-	private int dragonCounter = 1, dragonStrategy = 1, mazeSize = 13;
 
 	public Menu(JFrame frame) {
 		// Menu Buttons
-		standardMaze = new JButton("Standard maze");
-		randomMaze = new JButton("Random maze");
+		play = new JButton("Play Game");
 		exit = new JButton("Exit");
 		settings = new JButton("Settings");
 		load = new JButton("Load Game");
@@ -42,43 +36,39 @@ public class Menu extends JPanel implements KeyListener {
 
 		// Set up menu and settings panels
 		setMenuPanel();
-		settingsPanel = new Settings(this, dimension);
-		settingsPanel.setSettingsPanel();
 		showPanel(this);
+		playPanel = new Play(this, dimension);
+		settingsPanel = new Settings(this, dimension);
 
 		// Button actions
-		standardMaze.addActionListener(new ActionListener() {
+		play.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ev) {
-				startMaze(10, 1, 1);
+				playPanel.closeMenuPanel();
+				playPanel.setPlayPanel();
+				showPanel(playPanel);
 			}
 		});
 
-		randomMaze.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent ev) {
-				startMaze(mazeSize, dragonCounter, dragonStrategy);
-			}
-		});
-
-		load.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				/*
-				 * Acho que teremos de criar um novo construtor em MazeUI e
-				 * passaremos este arraylist. Só não sei como vamos inferir o
-				 * dragonStrategy sem guardar essa informação ao fazer save -
-				 * dragonCounter parece facil
-				 */
-				// logic.Maze m = new logic.Maze();
-				GameIO io = new GameIO();
-				ArrayList<ArrayList<Piece>> tmp = io.readFile("puzzle.lpoo");
-				for (int i = 0; i < tmp.size(); i++) {
-					ArrayList<Piece> linhamaze = tmp.get(i);
-					for (int j = 0; j < tmp.get(i).size(); j++)
-						System.out.print(linhamaze.get(j).getSymbol());
-					System.out.println();
-				}
-			}
-		});
+		// load.addActionListener(new ActionListener() {
+		// @Override
+		// public void actionPerformed(ActionEvent arg0) {
+		// /*
+		// * Acho que teremos de criar um novo construtor em MazeUI e
+		// * passaremos este arraylist. Só não sei como vamos inferir o
+		// * dragonStrategy sem guardar essa informação ao fazer save -
+		// * dragonCounter parece facil
+		// */
+		// // logic.Maze m = new logic.Maze();
+		// GameIO io = new GameIO();
+		// ArrayList<ArrayList<Piece>> tmp = io.readFile("puzzle.lpoo");
+		// for (int i = 0; i < tmp.size(); i++) {
+		// ArrayList<Piece> linhamaze = tmp.get(i);
+		// for (int j = 0; j < tmp.get(i).size(); j++)
+		// System.out.print(linhamaze.get(j).getSymbol());
+		// System.out.println();
+		// }
+		// }
+		// });
 
 		settings.addActionListener(new ActionListener() {
 			@Override
@@ -118,8 +108,7 @@ public class Menu extends JPanel implements KeyListener {
 		style.gridwidth = 3;
 		style.gridx = 1;
 		style.insets = new Insets(32, 256, 32, 256);
-		add(standardMaze, style);
-		add(randomMaze, style);
+		add(play, style);
 		add(load, style);
 		add(settings, style);
 		add(exit, style);
@@ -134,47 +123,8 @@ public class Menu extends JPanel implements KeyListener {
 		this.requestFocusInWindow();
 	}
 
-	public void closeMazeUI() {
-		maze.setVisible(false);
-		frame.remove(maze);
-		showPanel(this);
-		frame.setVisible(true);
-	}
-
-	public void startMaze(int boardSize, int dragonCounter, int dragonStrategy) {
-		maze = new GameUI(boardSize, this, dragonCounter, dragonStrategy,
-				dimension);
-		frame.remove(this);
-		showPanel(maze);
-		maze.requestFocusInWindow();
-	}
-
 	public JFrame getFrame() {
 		return frame;
-	}
-
-	public int getDragonStrategy() {
-		return dragonStrategy;
-	}
-
-	public int getDragonCounter() {
-		return dragonCounter;
-	}
-
-	public void setDragonCounter(int dragonCounter) {
-		this.dragonCounter = dragonCounter;
-	}
-
-	public void setDragonStrategy(int dragonStrategy) {
-		this.dragonStrategy = dragonStrategy;
-	}
-
-	public void setMazeSize(int mazeSize) {
-		this.mazeSize = mazeSize;
-	}
-
-	public int getMazeSize() {
-		return mazeSize;
 	}
 
 	public Settings getSettingsPanel() {
@@ -205,5 +155,9 @@ public class Menu extends JPanel implements KeyListener {
 	public void keyTyped(KeyEvent arg0) {
 		// TODO Auto-generated method stub
 
+	}
+
+	public Play getPlayPanel() {
+		return playPanel;
 	}
 }

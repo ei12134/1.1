@@ -8,6 +8,14 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.Stack;
 
+/**
+ * Class with the algorithms to generate a random maze
+ * 
+ * @author André Pinheiro
+ * @author José Peixoto
+ * @author Paulo Faria
+ * 
+ */
 public class Algorithm {
 
 	public ArrayList<ArrayList<Piece>> maze;
@@ -17,6 +25,12 @@ public class Algorithm {
 	public Random random;
 	int mazeSize;
 
+	/**
+	 * Construct a maze from a given odd size
+	 * 
+	 * @param mazeSize
+	 *            maze size
+	 */
 	public Algorithm(int mazeSize) {
 		this.mazeSize = mazeSize;
 		piecesStack = new Stack<Piece>();
@@ -27,6 +41,10 @@ public class Algorithm {
 		setExit(maze);
 	}
 
+	/**
+	 * 
+	 * @return two dimensional <code>ArrayList</code> with Pieces
+	 */
 	public ArrayList<ArrayList<Piece>> createInitialMaze() {
 		ArrayList<ArrayList<Piece>> mazeTemp = new ArrayList<ArrayList<Piece>>();
 		for (int i = 0; i < mazeSize; i++) {
