@@ -9,10 +9,12 @@ import java.util.Random;
 import java.util.Stack;
 
 /**
- * Class with the algorithms to generate a random maze
+ * Classe que contem o algoritmo de geracao de mazes
+ * E baseado no dfs(depth-first search) e foi implementado utilizando o 
+ * recursive backtracking
  * 
- * @author André Pinheiro
- * @author José Peixoto
+ * @author AndrŽ Pinheiro
+ * @author JosŽ Peixoto
  * @author Paulo Faria
  * 
  */
@@ -26,10 +28,9 @@ public class Algorithm {
 	int mazeSize;
 
 	/**
-	 * Construct a maze from a given odd size
+	 * Constroi um maze de tamanho impar
 	 * 
-	 * @param mazeSize
-	 *            maze size
+	 * @param mazeSize O tamanho do maze
 	 */
 	public Algorithm(int mazeSize) {
 		this.mazeSize = mazeSize;
@@ -42,6 +43,10 @@ public class Algorithm {
 	}
 
 	/**
+	 * Inicialmente construimos um tabuleiro linha a linha
+	 * Em cada posicao da linha verificamos se essa posicao estao associados
+	 * linhas e colunas impares. Se for o caso ent‹o marcamos essa peca como livre,
+	 * caso contrario e uma parede
 	 * 
 	 * @return two dimensional <code>ArrayList</code> with Pieces
 	 */
@@ -57,7 +62,10 @@ public class Algorithm {
 			mazeTemp.add(linha);
 		}
 
-		// Initialize all visited Pieces to false
+		/**
+		 * Inicialmente nenhuma peca foi visitada, marcar 
+		 * todas como nao visitadas
+		 */
 		for (int i = 0; i < mazeSize; i++) {
 			for (int j = 0; j < mazeSize; j++) {
 				visitedPieces[i][j] = false;
@@ -66,6 +74,18 @@ public class Algorithm {
 		return mazeTemp;
 	}
 
+	
+	/**
+	 * Esta funcao marca um ponto de saida num tabuleiro
+	 * Comeca por recolher todas as linhas que sao impares e insere todas
+	 * num ArrayList. 
+	 * O ultimo passo e entao fazer um random dessas linhas para que uma seja
+	 * escolhida aleatoriamente. A posicao da coluna e determinada a partir da linha.
+	 * Se a linha de saida estiver para la do meio do tabuleiro entao sera escolhida a ultima coluna,
+	 * caso contrario sera a primeira coluna
+	 * 
+	 * @param maze O tabuleiro que estamos a analisar atualmente
+	 */
 	public void setExit(ArrayList<ArrayList<Piece>> maze) {
 		int exitLine;
 		int exitColumn;
@@ -97,21 +117,37 @@ public class Algorithm {
 		piecesStack.push(currentPiece);
 	}
 
+	
+	/**
+	 * Funcao principal desta classe. 
+	 * E responsavel por correr o depth-first search
+	 * De notar que neste ponto a stack ja tem uma peca(a peca de saida)
+	 * 
+	 * @return Um tabuleiro aleatorio
+	 */
 	public ArrayList<ArrayList<Piece>> createMaze() {
+		//Enquanto existirem pecas nao visitadas
 		while (!piecesStack.empty()) {
-			// Seleccionar a lista das Pieces neighbor que ainda nao foram
-			// visitadas
+			//Extrair uma lista de pecas vizinhas
 			ArrayList<Piece> PiecesVizinhas = getneighborPieces();
 
-			// Se existir alguma Piece vizinha que ainda nao foi visitada
+			//Se existir alguma peca vizinha que ainda nao foi visitada
 			if (PiecesVizinhas.size() > 0) {
 				// Escolher uma dessas Pieces aleatoriamente
 				int PiecePos = random.nextInt(PiecesVizinhas.size());
 
 				Piece PieceTemp = PiecesVizinhas.get(PiecePos);
-				// Mover para a proxima casa
+				//Mover para a proxima casa, adicionar a peca a stack e marcar esta peca como sendo a atual
 				moveCurrentPiece(PieceTemp, selectDirection(PieceTemp));
 			} else {
+				/**
+				 * Se nao existirem pecas vizinhas disponiveis entao temos que 
+				 * recorrer ao recursive backtracking ate encontrarmos uma que 
+				 * tenha pecas vizinhas ainda nao visitadas
+				 * 
+				 * Se isso nao acontecer entao a stack acabara por ficar vazia,
+				 * retornando o puzzle final
+				 */
 				currentPiece = piecesStack.pop();
 			}
 		}
@@ -133,6 +169,16 @@ public class Algorithm {
 		}
 	}
 
+	
+	/**
+	 * Esta funcao move a peca atual para uma nova posicao
+	 * Ao mover a peca para uma nova direcao tambem marca 
+	 * a nova peca como livre 
+	 * 
+	 * 
+	 * @param Piece A nova peca atual
+	 * @param direcao A direcao para onde a peca Piece sera movida
+	 */
 	public void moveCurrentPiece(Piece Piece, int direcao) {
 		if (direcao == Movement.MOVE_UP.getDirection()) {
 			maze.get(Piece.getPosY() + 1).get(Piece.getPosX())
@@ -148,23 +194,30 @@ public class Algorithm {
 					.setSymbol(PieceType.FREE.asString());
 		}
 
-		// Set as Free Piece
+		//Marcar a peca como livre
 		maze.get(Piece.getPosY()).get(Piece.getPosX())
 				.setSymbol(PieceType.FREE.asString());
-		// Update current Piece
+		//Atualizar a peca atual para uma nova peca
 		currentPiece = Piece;
 
-		// Add new Piece to the stack
+		//Adicionar a peca ao stack para se poder analisar os seus vizinhos
 		piecesStack.push(currentPiece);
 
-		// Set Piece as visited
+		//Marcar esta nova peca como visitada
 		visitedPieces[currentPiece.getPosY()][currentPiece.getPosX()] = true;
 	}
 
+	
+	/**
+	 * Esta funcao verificar todas as pecas vizinhas nas 4 direccoes possiveis
+	 * Alem de verificar ainda tem o cuidado de ver se essa peca ainda nao 
+	 * foi visitada. Caso tenha sida e ignorada e passa para a peca seguinte
+	 * @return Um ArrayList de objetos Piece que sao vizinhos da peca atual
+	 */
 	public ArrayList<Piece> getneighborPieces() {
 		ArrayList<Piece> neighbor = new ArrayList<Piece>();
 
-		// Check if the Piece above can be added
+		//Verifica se a peca que esta em cima pode ser analisada
 		if (currentPiece.getPosY() - 2 > 0 && currentPiece.getPosX() != 0
 				&& currentPiece.getPosX() != mazeSize - 1) {
 			if (!visitedPieces[currentPiece.getPosY() - 2][currentPiece
@@ -174,7 +227,7 @@ public class Algorithm {
 			}
 		}
 
-		// Check if the Piece underneath can be added
+		//Verifica se a peca que esta em baixo pode ser analisada
 		if (currentPiece.getPosY() + 2 < mazeSize - 1
 				&& currentPiece.getPosX() != 0
 				&& currentPiece.getPosX() != mazeSize - 1) {
@@ -185,7 +238,7 @@ public class Algorithm {
 			}
 		}
 
-		// Check if the Piece on the right can be added
+		//Verifica se a peca que esta a direita pode ser analisada
 		if (currentPiece.getPosX() + 2 < mazeSize - 1) {
 			if (!visitedPieces[currentPiece.getPosY()][currentPiece.getPosX() + 2]) {
 				neighbor.add(maze.get(currentPiece.getPosY()).get(
@@ -193,7 +246,7 @@ public class Algorithm {
 			}
 		}
 
-		// Check if the Piece on the left can be added
+		//Verifica se a peca que esta a esquerda pode ser analisada
 		if (currentPiece.getPosX() - 2 > 0) {
 			if (!visitedPieces[currentPiece.getPosY()][currentPiece.getPosX() - 2]) {
 				neighbor.add(maze.get(currentPiece.getPosY()).get(
