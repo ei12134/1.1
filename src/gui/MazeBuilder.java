@@ -1,21 +1,20 @@
 package gui;
 
 import java.awt.GridLayout;
-import java.awt.Image;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JButton;
 import javax.swing.JPopupMenu;
 
 import java.util.ArrayList;
-
 import logic.Piece;
 import logic.PieceType;
+
 
 public class MazeBuilder extends JPanel {
 
@@ -24,17 +23,30 @@ public class MazeBuilder extends JPanel {
 	private Menu menu;
 	private int mazeSize;
 	private ArrayList<ArrayList<Piece>> maze;
+	private ArrayList<PieceType> types;
+
 
 	public MazeBuilder(final Menu menu, int mazeSize) {
 		this.menu = menu;
 		this.frame = menu.getFrame();
 		this.mazeSize = mazeSize;
 		maze = new ArrayList<ArrayList<Piece>>();
+		types = new ArrayList<PieceType>();
 
 		setLayout(new GridLayout(mazeSize, mazeSize));
+		populateTypes();
 		populateGameButtons();
 	}
 
+	
+	public void populateTypes() {
+		types.add(PieceType.FREE);
+		types.add(PieceType.WALL);
+		types.add(PieceType.EXIT);
+		types.add(PieceType.HERO_UNARMED);
+	}
+	
+	
 	public void populateGameButtons() {
 		// The maze size is MxM, where M is an odd number
 		for (int i = 0; i < mazeSize; i++) {
@@ -96,8 +108,10 @@ public class MazeBuilder extends JPanel {
 					@Override
 					public void mouseClicked(MouseEvent arg0) {
 						Piece p = (Piece) arg0.getSource();
-						
-						showPopup(p);
+						if((p.getPosX() == 0 && p.getPosY() == 0) || (p.getPosX() == mazeSize - 1 && p.getPosY() == 0) || 
+								(p.getPosX() == 0 && p.getPosY() == mazeSize - 1) || (p.getPosX() == mazeSize - 1 && p.getPosY() == mazeSize - 1)) {
+							JOptionPane.showMessageDialog(null, "N‹o Ž poss’vel editar esta pea!");
+						} else showPopup(p);
 					}
 				});
 			}
@@ -107,8 +121,9 @@ public class MazeBuilder extends JPanel {
 	
 	public void showPopup(Piece p) {
 		final JPopupMenu popup = new JPopupMenu();
-		JMenuItem item1 = new JMenuItem("Option1");
-		popup.add(item1);		
+		for(int i = 0; i < types.size(); i++)
+			if(types.get(i).asString() != p.getSymbol())
+				popup.add(new JMenuItem(types.get(i).asString()));
 		popup.show(p, 0, 0);
 	}
 

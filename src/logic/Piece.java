@@ -5,9 +5,10 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.io.Serializable;
-
-import javax.swing.ImageIcon;
 import javax.swing.JComponent;
+
+
+
 /**
  * Represents common attributes for each Piece of the maze
  * 
