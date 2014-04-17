@@ -1,6 +1,7 @@
 package gui;
 
 import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
@@ -54,19 +55,15 @@ public class MazeBuilder extends JPanel {
 	public void startMazeBuilder() {
 		for (int i = 0; i < maze.size(); i++) {
 			for (int j = 0; j < maze.get(i).size(); j++) {
-				JButton button = new JButton();
 				Piece piece = new Piece(0, 0, "");
-				ImageIcon icon;
 				if (maze.get(j).get(i).getSymbol() == PieceType.FREE.asString()) {
-					icon = new ImageIcon("src//png//wall_green.png");
-					button.setIcon(icon);
-					piece = new Piece(j, i, PieceType.FREE.asString());
+					piece = new Piece(j, i, PieceType.FREE.asString(), 
+							new ImageIcon("src//png//wall_green.png").getImage());
 					add(piece);
 				} else if (maze.get(j).get(i).getSymbol() == PieceType.WALL
 						.asString()) {
-					icon = new ImageIcon("src//png//wall_red.png");
-					button.setIcon(icon);
-					piece = new Piece(j, i, PieceType.FREE.asString());
+					piece = new Piece(j, i, PieceType.FREE.asString(), 
+							new ImageIcon("src//png//wall_red.png").getImage());
 					add(piece);
 				}
 
@@ -111,12 +108,11 @@ public class MazeBuilder extends JPanel {
 	public void showPopup(Piece p) {
 		final JPopupMenu popup = new JPopupMenu();
 		JMenuItem item1 = new JMenuItem("Option1");
-		popup.add(item1);
-		//JOptionPane.showMessageDialog(null, "Tamanho da janela: " + getWidth() + ", PosX: " + p.getPosX() + ", Final: " + (getWidth() / 9) * p.getPosX());
-		
+		popup.add(item1);		
 		popup.show(p, 0, 0);
 	}
 
+	
 	public void closeMenuPanel() {
 		frame.remove(menu);
 	}

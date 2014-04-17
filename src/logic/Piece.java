@@ -7,7 +7,6 @@ import java.awt.Image;
 import java.io.Serializable;
 
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JComponent;
 /**
  * Represents common attributes for each Piece of the maze
@@ -22,12 +21,21 @@ public class Piece extends JComponent implements Serializable {
 	private int posX;
 	private int posY;
 	private String symbol;
+	private Image image;
 	
 	
 	public Piece(int posX, int posY, String symbol) {
 		this.posX = posX;
 		this.posY = posY;
 		this.symbol = symbol;
+	}
+	
+	
+	public Piece(int posX, int posY, String symbol, Image image) {
+		this.posX = posX;
+		this.posY = posY;
+		this.symbol = symbol;
+		this.image = image;
 	}
 
 	
@@ -82,14 +90,23 @@ public class Piece extends JComponent implements Serializable {
 		posX = x;
 		posY = y;
 	}
+	
+	
+	public Image getImage() {
+		return image;
+	}
+	
+	
+	public void setImage(Image image) {
+		this.image = image;
+	}
 
 	
 	@Override
 	public void paintComponent(Graphics g) {
 		Graphics2D g2 = (Graphics2D) g.create();
 		g2.setPaint(Color.BLUE);
-		Image img = new ImageIcon("src//png//wall_green.png").getImage();
-		g2.drawImage(img, 0, 0, this.getWidth() - 1, this.getHeight() - 1, this);
+		g2.drawImage(image, 0, 0, this.getWidth() - 1, this.getHeight() - 1, this);
 		g2.dispose();
 	}
 }
