@@ -19,22 +19,20 @@ import javax.swing.JOptionPane;
  * @author José Peixoto
  * @author Paulo Faria
  */
-public class Piece extends JComponent implements Serializable{
+public class Piece extends JComponent implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private int posX;
 	private int posY;
 	private String symbol;
 	private JButton button;
-	
 
 	public Piece(int posX, int posY, String symbol) {
 		this.posX = posX;
 		this.posY = posY;
 		this.symbol = symbol;
 	}
-	
-	
+
 	public Piece(int posX, int posY, String symbol, JButton button) {
 		this.posX = posX;
 		this.posY = posY;
@@ -91,25 +89,28 @@ public class Piece extends JComponent implements Serializable{
 		posX = x;
 		posY = y;
 	}
-	
-	
+
 	public JButton getButton() {
 		return button;
 	}
-	
-	
+
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		Graphics2D g2 = (Graphics2D) g.create();
-	    g2.fillRect(30 * getPosX(), 30 * getPosY(), 30, 30);
-	    g2.setPaint(Color.BLACK);
-	    g2.dispose();
+		/*
+		 * tamanho deve ser determinado como estou a fazer em GameUI
+		 * 
+		 * widthPixelsPerTile = dimension.width / boardSize; 
+		 * heightPixelsPerTile = dimension.height / boardSize;
+		 */
+		g2.fillRect(15 * getPosX(), 15 * getPosY(), 128, 128);
+		g2.setPaint(Color.WHITE);
+		// g2.dispose();
 	}
-	
-	
+
 	@Override
 	public Dimension getPreferredSize() {
-		  return new Dimension(30, 30);
+		return new Dimension(30, 30);
 	}
 }
