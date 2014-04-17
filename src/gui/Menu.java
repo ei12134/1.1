@@ -17,6 +17,7 @@ public class Menu extends JPanel implements KeyListener {
 	private JFrame frame;
 	private Settings settingsPanel;
 	private Play playPanel;
+	private MazeBuilder mazeBuilder;
 	private JButton play;
 	private JButton exit;
 	private JButton settings;
@@ -38,14 +39,20 @@ public class Menu extends JPanel implements KeyListener {
 		setMenuPanel();
 		showPanel(this);
 		playPanel = new Play(this, dimension);
+		mazeBuilder = new MazeBuilder(this, 9);
 		settingsPanel = new Settings(this, dimension);
 
 		// Button actions
 		play.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent ev) {
+			/**public void actionPerformed(ActionEvent ev) {
 				playPanel.closeMenuPanel();
 				playPanel.setPlayPanel();
 				showPanel(playPanel);
+			}*/
+			public void actionPerformed(ActionEvent ev) {
+				mazeBuilder.closeMenuPanel();
+				mazeBuilder.startMazeBuilder();
+				showPanel(mazeBuilder);
 			}
 		});
 
