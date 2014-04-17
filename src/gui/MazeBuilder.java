@@ -1,11 +1,12 @@
 package gui;
 
 import java.awt.GridLayout;
-import java.awt.Image;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
-import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JButton;
 
@@ -21,7 +22,6 @@ public class MazeBuilder extends JPanel {
 	private Menu menu;
 	private int mazeSize;
 	private ArrayList<ArrayList<Piece>> maze;
-	private ArrayList<ArrayList<JButton>> buttons;
 	
 	
 	public MazeBuilder(final Menu menu, int mazeSize) {
@@ -29,7 +29,6 @@ public class MazeBuilder extends JPanel {
 		this.frame = new JFrame();
 		this.mazeSize = mazeSize;
 		maze = new ArrayList<ArrayList<Piece>>();
-		buttons = new ArrayList<ArrayList<JButton>>();
 		
 		this.frame.setLayout(new GridLayout(mazeSize, mazeSize));
 		populateGameButtons();
@@ -62,12 +61,46 @@ public class MazeBuilder extends JPanel {
 				if(maze.get(j).get(i).getSymbol() == PieceType.FREE.asString()) {
 					icon = new ImageIcon("src//png//wall_green.png");
 					button.setIcon(icon);
-					frame.add(button);
-				} else {
+					Piece piece = new Piece(j, i, PieceType.FREE.asString(), button);
+					frame.add(piece);
+				} else if(maze.get(j).get(i).getSymbol() == PieceType.WALL.asString()){
 					icon = new ImageIcon("src//png//wall_red.png");
 					button.setIcon(icon);
-					frame.add(button);
+					Piece piece = new Piece(j, i, PieceType.FREE.asString(), button);
+					frame.add(piece);
 				}
+				
+				button.addMouseListener(new MouseListener() {
+					
+					@Override
+					public void mouseReleased(MouseEvent arg0) {
+						// TODO Auto-generated method stub
+						
+					}
+					
+					@Override
+					public void mousePressed(MouseEvent arg0) {
+						// TODO Auto-generated method stub
+						
+					}
+					
+					@Override
+					public void mouseExited(MouseEvent arg0) {
+						// TODO Auto-generated method stub
+						
+					}
+					
+					@Override
+					public void mouseEntered(MouseEvent arg0) {
+						// TODO Auto-generated method stub
+						
+					}
+					
+					@Override
+					public void mouseClicked(MouseEvent arg0) {
+						
+					}
+				});
 			}
 		}
 		
