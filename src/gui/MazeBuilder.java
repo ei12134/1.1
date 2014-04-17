@@ -55,20 +55,18 @@ public class MazeBuilder extends JPanel {
 		for (int i = 0; i < maze.size(); i++) {
 			for (int j = 0; j < maze.get(i).size(); j++) {
 				JButton button = new JButton();
-				Piece piece = new Piece(0, 0, "", button);
+				Piece piece = new Piece(0, 0, "");
 				ImageIcon icon;
 				if (maze.get(j).get(i).getSymbol() == PieceType.FREE.asString()) {
 					icon = new ImageIcon("src//png//wall_green.png");
 					button.setIcon(icon);
-					piece = new Piece(j, i, PieceType.FREE.asString(),
-							button);
+					piece = new Piece(j, i, PieceType.FREE.asString());
 					add(piece);
 				} else if (maze.get(j).get(i).getSymbol() == PieceType.WALL
 						.asString()) {
 					icon = new ImageIcon("src//png//wall_red.png");
 					button.setIcon(icon);
-					piece = new Piece(j, i, PieceType.FREE.asString(),
-							button);
+					piece = new Piece(j, i, PieceType.FREE.asString());
 					add(piece);
 				}
 

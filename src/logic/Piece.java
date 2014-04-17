@@ -22,22 +22,12 @@ public class Piece extends JComponent implements Serializable {
 	private int posX;
 	private int posY;
 	private String symbol;
-	private JButton button;
-
 	
 	
 	public Piece(int posX, int posY, String symbol) {
 		this.posX = posX;
 		this.posY = posY;
 		this.symbol = symbol;
-	}
-
-	
-	public Piece(int posX, int posY, String symbol, JButton button) {
-		this.posX = posX;
-		this.posY = posY;
-		this.symbol = symbol;
-		this.button = button;
 	}
 
 	
@@ -91,11 +81,6 @@ public class Piece extends JComponent implements Serializable {
 	public void setPosition(int x, int y) {
 		posX = x;
 		posY = y;
-	}
-
-	
-	public JButton getButton() {
-		return button;
 	}
 
 	
