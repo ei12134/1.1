@@ -1,17 +1,14 @@
 package logic;
 
 import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.GradientPaint;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Point;
+import java.awt.Image;
 import java.io.Serializable;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComponent;
-import javax.swing.JOptionPane;
-
 /**
  * Represents common attributes for each Piece of the maze
  * 
@@ -27,12 +24,15 @@ public class Piece extends JComponent implements Serializable {
 	private String symbol;
 	private JButton button;
 
+	
+	
 	public Piece(int posX, int posY, String symbol) {
 		this.posX = posX;
 		this.posY = posY;
 		this.symbol = symbol;
 	}
 
+	
 	public Piece(int posX, int posY, String symbol, JButton button) {
 		this.posX = posX;
 		this.posY = posY;
@@ -40,6 +40,7 @@ public class Piece extends JComponent implements Serializable {
 		this.button = button;
 	}
 
+	
 	/**
 	 * Gets X position value.
 	 * 
@@ -49,6 +50,7 @@ public class Piece extends JComponent implements Serializable {
 		return posX;
 	}
 
+	
 	/**
 	 * Gets Y position value.
 	 * 
@@ -77,6 +79,7 @@ public class Piece extends JComponent implements Serializable {
 		this.symbol = symbol;
 	}
 
+	
 	/**
 	 * Set new Piece position
 	 * 
@@ -90,27 +93,18 @@ public class Piece extends JComponent implements Serializable {
 		posY = y;
 	}
 
+	
 	public JButton getButton() {
 		return button;
 	}
 
+	
 	@Override
 	public void paintComponent(Graphics g) {
-		super.paintComponent(g);
 		Graphics2D g2 = (Graphics2D) g.create();
-		/*
-		 * tamanho deve ser determinado como estou a fazer em GameUI
-		 * 
-		 * widthPixelsPerTile = dimension.width / boardSize; 
-		 * heightPixelsPerTile = dimension.height / boardSize;
-		 */
-		g2.fillRect(15 * getPosX(), 15 * getPosY(), 128, 128);
-		g2.setPaint(Color.WHITE);
-		// g2.dispose();
-	}
-
-	@Override
-	public Dimension getPreferredSize() {
-		return new Dimension(30, 30);
+		g2.setPaint(Color.BLUE);
+		Image img = new ImageIcon("src//png//wall_green.png").getImage();
+		g2.drawImage(img, 0, 0, this.getWidth() - 1, this.getHeight() - 1, this);
+		g2.dispose();
 	}
 }

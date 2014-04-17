@@ -6,8 +6,10 @@ import java.awt.event.MouseListener;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JButton;
+import javax.swing.JPopupMenu;
 
 import java.util.ArrayList;
 
@@ -53,23 +55,24 @@ public class MazeBuilder extends JPanel {
 		for (int i = 0; i < maze.size(); i++) {
 			for (int j = 0; j < maze.get(i).size(); j++) {
 				JButton button = new JButton();
+				Piece piece = new Piece(0, 0, "", button);
 				ImageIcon icon;
 				if (maze.get(j).get(i).getSymbol() == PieceType.FREE.asString()) {
 					icon = new ImageIcon("src//png//wall_green.png");
 					button.setIcon(icon);
-					Piece piece = new Piece(j, i, PieceType.FREE.asString(),
+					piece = new Piece(j, i, PieceType.FREE.asString(),
 							button);
 					add(piece);
 				} else if (maze.get(j).get(i).getSymbol() == PieceType.WALL
 						.asString()) {
 					icon = new ImageIcon("src//png//wall_red.png");
 					button.setIcon(icon);
-					Piece piece = new Piece(j, i, PieceType.FREE.asString(),
+					piece = new Piece(j, i, PieceType.FREE.asString(),
 							button);
 					add(piece);
 				}
 
-				button.addMouseListener(new MouseListener() {
+				piece.addMouseListener(new MouseListener() {
 
 					@Override
 					public void mouseReleased(MouseEvent arg0) {
@@ -97,11 +100,23 @@ public class MazeBuilder extends JPanel {
 
 					@Override
 					public void mouseClicked(MouseEvent arg0) {
-
+						Piece p = (Piece) arg0.getSource();
+						
+						showPopup(p);
 					}
 				});
 			}
 		}
+	}
+	
+	
+	public void showPopup(Piece p) {
+		final JPopupMenu popup = new JPopupMenu();
+		JMenuItem item1 = new JMenuItem("Option1");
+		popup.add(item1);
+		//JOptionPane.showMessageDialog(null, "Tamanho da janela: " + getWidth() + ", PosX: " + p.getPosX() + ", Final: " + (getWidth() / 9) * p.getPosX());
+		
+		popup.show(p, 0, 0);
 	}
 
 	public void closeMenuPanel() {
