@@ -1,5 +1,6 @@
 package gui;
 
+import java.awt.Component;
 import java.awt.GridLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -124,13 +125,13 @@ public class MazeBuilder extends JPanel {
 	
 	public void showPopup(Piece p) {
 		JMenuItem item;
-		MouseListener listener = new PopupListener();
+		MouseListener listener = new PopupListener(p);
 		final JPopupMenu popup = new JPopupMenu();
 		for(int i = 0; i < types.size(); i++)
 			if(types.get(i).asString() != p.getSymbol()) {
 				item = new JMenuItem(types.get(i).asString());
-				popup.add(item);
 				item.addMouseListener(listener);
+				popup.add(item);
 			}
 		popup.show(p, 0, 0);
 	}
@@ -143,7 +144,20 @@ public class MazeBuilder extends JPanel {
 
 
 class PopupListener extends MouseAdapter {
+	
+	Piece p;
+	
+	public PopupListener(Piece p) {
+		this.p = p;
+	}
+	
 	public void mousePressed(MouseEvent e) {
-		JOptionPane.showMessageDialog(null, "here");
+		Component x = e.getComponent();
+		if(x instanceof JMenuItem) {
+			if(((JMenuItem) x).getText().equals(PieceType.EXIT.asString())) {
+				p.setImage(new ImageIcon("src//png//wall_red.png").getImage());
+				//JOptionPane.showMessageDialog(null, ((JMenuItem) x).getText());
+			}
+		}
 	}
 }

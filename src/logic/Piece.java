@@ -100,6 +100,7 @@ public class Piece extends JComponent implements Serializable {
 	
 	public void setImage(Image image) {
 		this.image = image;
+		repaint();
 	}
 
 	
