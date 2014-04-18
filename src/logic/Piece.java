@@ -106,7 +106,6 @@ public class Piece extends JComponent implements Serializable {
 	@Override
 	public void paintComponent(Graphics g) {
 		Graphics2D g2 = (Graphics2D) g.create();
-		g2.setPaint(Color.BLUE);
 		g2.drawImage(image, 0, 0, this.getWidth() - 1, this.getHeight() - 1, this);
 		g2.dispose();
 	}

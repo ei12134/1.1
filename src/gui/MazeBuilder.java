@@ -1,6 +1,7 @@
 package gui;
 
 import java.awt.GridLayout;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
@@ -12,6 +13,7 @@ import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 
 import java.util.ArrayList;
+
 import logic.Piece;
 import logic.PieceType;
 
@@ -111,7 +113,8 @@ public class MazeBuilder extends JPanel {
 						if((p.getPosX() == 0 && p.getPosY() == 0) || (p.getPosX() == mazeSize - 1 && p.getPosY() == 0) || 
 								(p.getPosX() == 0 && p.getPosY() == mazeSize - 1) || (p.getPosX() == mazeSize - 1 && p.getPosY() == mazeSize - 1)) {
 							JOptionPane.showMessageDialog(null, "Não é possível editar esta peça!");
-						} else showPopup(p);
+						} else 
+							showPopup(p);
 					}
 				});
 			}
@@ -120,15 +123,27 @@ public class MazeBuilder extends JPanel {
 	
 	
 	public void showPopup(Piece p) {
+		JMenuItem item;
+		MouseListener listener = new PopupListener();
 		final JPopupMenu popup = new JPopupMenu();
 		for(int i = 0; i < types.size(); i++)
-			if(types.get(i).asString() != p.getSymbol())
-				popup.add(new JMenuItem(types.get(i).asString()));
+			if(types.get(i).asString() != p.getSymbol()) {
+				item = new JMenuItem(types.get(i).asString());
+				popup.add(item);
+				item.addMouseListener(listener);
+			}
 		popup.show(p, 0, 0);
 	}
 
 	
 	public void closeMenuPanel() {
 		frame.remove(menu);
+	}
+}
+
+
+class PopupListener extends MouseAdapter {
+	public void mousePressed(MouseEvent e) {
+		JOptionPane.showMessageDialog(null, "here");
 	}
 }
