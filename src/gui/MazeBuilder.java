@@ -2,6 +2,7 @@ package gui;
 
 import java.awt.Component;
 import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -14,6 +15,7 @@ import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import logic.Piece;
 import logic.PieceType;
@@ -26,7 +28,8 @@ public class MazeBuilder extends JPanel {
 	private Menu menu;
 	private int mazeSize;
 	private ArrayList<ArrayList<Piece>> maze;
-	private ArrayList<PieceType> types;
+	private ArrayList<PieceType> types;	
+	//private HashMap<String, Image> images;
 
 
 	public MazeBuilder(final Menu menu, int mazeSize) {
@@ -35,6 +38,7 @@ public class MazeBuilder extends JPanel {
 		this.mazeSize = mazeSize;
 		maze = new ArrayList<ArrayList<Piece>>();
 		types = new ArrayList<PieceType>();
+		//images = new HashMap<String, Image>();
 
 		setLayout(new GridLayout(mazeSize, mazeSize));
 		populateTypes();
@@ -47,6 +51,13 @@ public class MazeBuilder extends JPanel {
 		types.add(PieceType.WALL);
 		types.add(PieceType.EXIT);
 		types.add(PieceType.HERO_UNARMED);
+		types.add(PieceType.SWORD);
+		
+		/**images.put(PieceType.FREE.asString(), new ImageIcon("src//png//path.png").getImage());
+		images.put(PieceType.WALL.asString(), new ImageIcon("src//png//wall_red.png").getImage());
+		images.put(PieceType.EXIT.asString(), new ImageIcon("src//png//exit.png").getImage());
+		images.put(PieceType.HERO_UNARMED.asString(), new ImageIcon("src//png//hero_unarmed.png").getImage());
+		images.put(PieceType.SWORD.asString(), new ImageIcon("src//png//sword.png").getImage());*/
 	}
 	
 	
@@ -73,7 +84,7 @@ public class MazeBuilder extends JPanel {
 				Piece piece = new Piece(0, 0, "");
 				if (maze.get(j).get(i).getSymbol() == PieceType.FREE.asString()) {
 					piece = new Piece(j, i, PieceType.FREE.asString(), 
-							new ImageIcon("src//png//wall_green.png").getImage());
+							new ImageIcon("src//png//path.png").getImage());
 					add(piece);
 				} else if (maze.get(j).get(i).getSymbol() == PieceType.WALL
 						.asString()) {
@@ -125,7 +136,7 @@ public class MazeBuilder extends JPanel {
 	
 	public void showPopup(Piece p) {
 		JMenuItem item;
-		MouseListener listener = new PopupListener(p);
+		MouseListener listener = new PopupListener(p, mazeSize);
 		final JPopupMenu popup = new JPopupMenu();
 		for(int i = 0; i < types.size(); i++)
 			if(types.get(i).asString() != p.getSymbol()) {
@@ -144,19 +155,56 @@ public class MazeBuilder extends JPanel {
 
 
 class PopupListener extends MouseAdapter {
-	
 	Piece p;
+	int mazeSize;
 	
-	public PopupListener(Piece p) {
+	
+	public PopupListener(Piece p, int mazeSize) {
 		this.p = p;
+		this.mazeSize = mazeSize;
 	}
+	
+	
+	public void setData(Image img, String symbol) {
+		p.setSymbol(symbol);
+		p.setImage(img);
+	}
+	
 	
 	public void mousePressed(MouseEvent e) {
 		Component x = e.getComponent();
 		if(x instanceof JMenuItem) {
-			if(((JMenuItem) x).getText().equals(PieceType.EXIT.asString())) {
-				p.setImage(new ImageIcon("src//png//wall_red.png").getImage());
-				//JOptionPane.showMessageDialog(null, ((JMenuItem) x).getText());
+			String tmp = ((JMenuItem) x).getText();
+			if(tmp.equals(PieceType.WALL.asString())) {
+				setData(new ImageIcon("src//png//wall_red.png").getImage(), PieceType.WALL.asString());
+			} else if(tmp.equals(PieceType.FREE.asString())) {
+				if(p.getPosX() == 0 || p.getPosX() == mazeSize - 1) {
+					JOptionPane.showMessageDialog(null, "N‹o Ž poss’vel marcar esta pea como livre!");
+				} else {
+					setData(new ImageIcon("src//png//path.png").getImage(), PieceType.FREE.asString());
+				}
+			} else if(tmp.equals(PieceType.EXIT.asString())) {
+				if(p.getPosX() != 0 || p.getPosX() == mazeSize - 1) {
+					JOptionPane.showMessageDialog(null, "N‹o Ž poss’vel marcar a sa’da nesta pea!");
+				} else {
+					if(p.getPosX() == 0) {
+						setData(new ImageIcon("src//png//exit.png").getImage(), PieceType.EXIT.asString());
+					} else {
+						setData(new ImageIcon("src//png//exit_symmetrical.png").getImage(), PieceType.EXIT.asString());
+					}
+				}
+			} else if(tmp.equals(PieceType.HERO_UNARMED.asString())) {
+				if(p.getPosX() == 0 || p.getPosX() == mazeSize - 1) {
+					JOptionPane.showMessageDialog(null, "N‹o Ž poss’vel colocar o her—i nesta pea!");
+				} else {
+					setData(new ImageIcon("src//png//hero_unarmed.png").getImage(), PieceType.HERO_UNARMED.asString());
+				}
+			} else if(tmp.equals(PieceType.SWORD.asString())) {
+				if(p.getPosX() == 0 || p.getPosX() == mazeSize - 1) {
+					JOptionPane.showMessageDialog(null, "N‹o Ž poss’vel adicionar a espada nesta pea!");
+				} else {
+					setData(new ImageIcon("src//png//sword.png").getImage(), PieceType.SWORD.asString());
+				}
 			}
 		}
 	}
