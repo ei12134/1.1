@@ -3,6 +3,8 @@ package gui;
 import java.awt.Component;
 import java.awt.GridLayout;
 import java.awt.Image;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -15,13 +17,12 @@ import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import logic.Piece;
 import logic.PieceType;
 
 
-public class MazeBuilder extends JPanel {
+public class MazeBuilder extends JPanel implements KeyListener{
 
 	private static final long serialVersionUID = 1L;
 	private JFrame frame;
@@ -29,7 +30,6 @@ public class MazeBuilder extends JPanel {
 	private int mazeSize;
 	private ArrayList<ArrayList<Piece>> maze;
 	private ArrayList<PieceType> types;	
-	//private HashMap<String, Image> images;
 
 
 	public MazeBuilder(final Menu menu, int mazeSize) {
@@ -38,12 +38,22 @@ public class MazeBuilder extends JPanel {
 		this.mazeSize = mazeSize;
 		maze = new ArrayList<ArrayList<Piece>>();
 		types = new ArrayList<PieceType>();
-		//images = new HashMap<String, Image>();
+		addKeyListener(this);
 
 		setLayout(new GridLayout(mazeSize, mazeSize));
 		populateTypes();
 		populateGameButtons();
 	}
+	
+	
+	/**
+	 * The JPanel does not have the keyboard focus. We need to requestFocus when 
+	 * the panel is added to the screen
+	 */
+	public void addNotify() {
+        super.addNotify();
+        requestFocus();
+    }
 
 	
 	public void populateTypes() {
@@ -52,12 +62,6 @@ public class MazeBuilder extends JPanel {
 		types.add(PieceType.EXIT);
 		types.add(PieceType.HERO_UNARMED);
 		types.add(PieceType.SWORD);
-		
-		/**images.put(PieceType.FREE.asString(), new ImageIcon("src//png//path.png").getImage());
-		images.put(PieceType.WALL.asString(), new ImageIcon("src//png//wall_red.png").getImage());
-		images.put(PieceType.EXIT.asString(), new ImageIcon("src//png//exit.png").getImage());
-		images.put(PieceType.HERO_UNARMED.asString(), new ImageIcon("src//png//hero_unarmed.png").getImage());
-		images.put(PieceType.SWORD.asString(), new ImageIcon("src//png//sword.png").getImage());*/
 	}
 	
 	
@@ -78,6 +82,8 @@ public class MazeBuilder extends JPanel {
 		}
 	}
 
+	
+	
 	public void startMazeBuilder() {
 		for (int i = 0; i < maze.size(); i++) {
 			for (int j = 0; j < maze.get(i).size(); j++) {
@@ -98,25 +104,21 @@ public class MazeBuilder extends JPanel {
 					@Override
 					public void mouseReleased(MouseEvent arg0) {
 						// TODO Auto-generated method stub
-
 					}
 
 					@Override
 					public void mousePressed(MouseEvent arg0) {
 						// TODO Auto-generated method stub
-
 					}
 
 					@Override
 					public void mouseExited(MouseEvent arg0) {
 						// TODO Auto-generated method stub
-
 					}
 
 					@Override
 					public void mouseEntered(MouseEvent arg0) {
 						// TODO Auto-generated method stub
-
 					}
 
 					@Override
@@ -151,7 +153,30 @@ public class MazeBuilder extends JPanel {
 	public void closeMenuPanel() {
 		frame.remove(menu);
 	}
+
+
+	@Override
+	public void keyPressed(KeyEvent e) {
+		int code = e.getKeyCode();
+		
+		if(code == KeyEvent.VK_1) {
+			//Prompt the user for a filename
+			String filename = "";
+			filename = JOptionPane.showInputDialog("Escolher o nome do ficheiro...");
+		}
+	}
+
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+	}
+
+
+	@Override
+	public void keyTyped(KeyEvent e) {
+	}
 }
+
 
 
 class PopupListener extends MouseAdapter {
