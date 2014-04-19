@@ -136,7 +136,9 @@ public class Menu extends JPanel implements KeyListener {
 	
 	public void startPuzzle(File puzzle) {
 		if(puzzle.exists()) {
-			
+			ArrayList<ArrayList<Piece>> maze = new ArrayList<ArrayList<Piece>>();
+			maze = getPuzzleFile(puzzle);
+			JOptionPane.showMessageDialog(null, maze.size());
 		} else {
 			JOptionPane.showMessageDialog(null, "O ficheiro " + puzzle.getName() + " n‹o existe no sistema!");
 		}
@@ -149,7 +151,11 @@ public class Menu extends JPanel implements KeyListener {
 		ObjectInputStream objInStream = null;
 		
 		try {
+			inStream = new FileInputStream(file);
+			objInStream = new ObjectInputStream(inStream);
 			
+			maze = (ArrayList<ArrayList<Piece>>) objInStream.readObject();
+			objInStream.close();
 		}catch(Exception e) {
 			JOptionPane.showMessageDialog(null, "Ocorreu um erro ao ler o ficheiro do puzzle!");
 			e.printStackTrace();
