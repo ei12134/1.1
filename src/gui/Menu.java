@@ -118,9 +118,13 @@ public class Menu extends JPanel implements KeyListener {
 			ArrayList<ArrayList<Piece>> maze = new ArrayList<ArrayList<Piece>>();
 			maze = getPuzzleFile(puzzle);
 			
-			playPanel.closeMenuPanel();
-			playPanel.setPlayPanel();
-			showPanel(playPanel);
+			//playPanel.closeMenuPanel();
+			//playPanel.setPlayPanel();
+			//showPanel(playPanel);
+			GameUI game = new GameUI(maze.size(), this, 1, dimension);
+			this.removeAll();
+			this.showPanel(game);
+			game.requestFocusInWindow();
 		} else {
 			JOptionPane.showMessageDialog(null, "O ficheiro " + puzzle.getName() + " n‹o existe no sistema!");
 		}

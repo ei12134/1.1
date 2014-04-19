@@ -54,6 +54,7 @@ public class Play extends JPanel {
 			}
 		});
 	}
+	
 
 	public void setPlayPanel() {
 		this.setSize(dimension);
@@ -77,7 +78,7 @@ public class Play extends JPanel {
 		maze = new GameUI(boardSize, this, dragonCounter, dragonStrategy,
 				dimension);
 		frame.remove(menu);
-		menu.showPanel(maze); // ?
+		menu.showPanel(maze);
 		maze.requestFocusInWindow();
 	}
 

@@ -10,8 +10,8 @@ import java.util.HashMap;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-
 import logic.*;
+
 
 public class GameUI extends JPanel implements ActionListener, KeyListener {
 
@@ -35,6 +35,8 @@ public class GameUI extends JPanel implements ActionListener, KeyListener {
 		this.boardSize = boardSize;
 		this.dimension = dimension;
 		loadData();
+		
+		
 		widthPixelsPerTile = dimension.width / boardSize;
 		heightPixelsPerTile = dimension.height / boardSize;
 		addKeyListener(this);
@@ -43,6 +45,15 @@ public class GameUI extends JPanel implements ActionListener, KeyListener {
 			logic = new Logic();
 		else
 			logic = new Logic(boardSize, dragonCounter, dragonStrategy);
+	}
+	
+	
+	public GameUI(int boardSize, Menu menu, int dragonStrategy, Dimension dimension) {
+		this.boardSize = boardSize;
+		this.dimension = dimension;
+		loadData();
+		
+		logic = new Logic();
 	}
 	
 	

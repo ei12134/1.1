@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.Random;
 
 
-
 /**
  * Maze is the class used to store the maze and all its pieces.
  * 
