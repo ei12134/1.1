@@ -28,13 +28,11 @@ public class Play extends JPanel {
 		this.dragonCounter = 1;
 		this.dragonStrategy = 1;
 		this.mazeSize = 13;
-		mazeBuilder = new MazeBuilder(this, 9);
 		standardMaze = new JButton("Standard maze");
 		randomMaze = new JButton("Random maze");
 		customMaze = new JButton("Customize maze");
 		close = new JButton("Return to menu");
 
-		
 		// Button actions
 		standardMaze.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ev) {
@@ -53,7 +51,7 @@ public class Play extends JPanel {
 		customMaze.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ev) {
 				closePlayPanel();
-				mazeBuilder.startMazeBuilder();
+				startMazeBuilder(mazeSize, dragonCounter, dragonStrategy);
 			}
 		});
 
@@ -64,18 +62,13 @@ public class Play extends JPanel {
 			}
 		});
 	}
-<<<<<<< HEAD
-	
-	
+
 	public Play(final Menu menu, Dimension dimension, boolean random) {
 		this.menu = menu;
 		this.dimension = dimension;
 		this.frame = menu.getFrame();
 		closePlayPanel();
 	}
-	
-=======
->>>>>>> dc4582404494a51db5b7e5ded2f127b4a1136025
 
 	public void setPlayPanel() {
 		this.setSize(dimension);
@@ -103,6 +96,15 @@ public class Play extends JPanel {
 		maze.requestFocusInWindow();
 	}
 
+	public void startMazeBuilder(int boardSize, int dragonCounter,
+			int dragonStrategy) {
+		mazeBuilder = new MazeBuilder(this, boardSize, dragonCounter,
+				dragonStrategy, dimension);
+		frame.remove(menu);
+		menu.showPanel(mazeBuilder);
+		mazeBuilder.requestFocusInWindow();
+	}
+
 	public void closePlayPanel() {
 		this.setVisible(false);
 		menu.remove(this);
@@ -117,8 +119,8 @@ public class Play extends JPanel {
 		frame.setVisible(true);
 	}
 
-	public void closeCustom() {
-		maze.setVisible(false);
+	public void closeMazeBuilder() {
+		mazeBuilder.setVisible(false);
 		frame.remove(mazeBuilder);
 		menu.showPanel(menu);
 		frame.setVisible(true);

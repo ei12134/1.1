@@ -105,23 +105,23 @@ public class Menu extends JPanel implements KeyListener {
 		//
 	}
 
-	public void startPuzzle(/* File puzzle */) {
-		// if(puzzle.exists()) {
-		// ArrayList<ArrayList<Piece>> maze = new ArrayList<ArrayList<Piece>>();
-		// maze = getPuzzleFile(puzzle);
-
-		playPanel.closeMenuPanel();
-		playPanel.setPlayPanel();
-		showPanel(playPanel);
-		// GameUI game = new GameUI(this, 1, dimension, maze);
-		// this.removeAll();
-		// this.showPanel(game);
-		// game.requestFocusInWindow();
-		// } else {
-		// JOptionPane.showMessageDialog(null, "O ficheiro " + puzzle.getName()
-		// + " n‹o existe no sistema!");
-		// }
-	}
+//	public void startPuzzle(/* File puzzle */) {
+//		// if(puzzle.exists()) {
+//		// ArrayList<ArrayList<Piece>> maze = new ArrayList<ArrayList<Piece>>();
+//		// maze = getPuzzleFile(puzzle);
+//
+//		playPanel.closeMenuPanel();
+//		playPanel.setPlayPanel();
+//		showPanel(playPanel);
+//		 GameUI game = new GameUI(this, 1, dimension, maze);
+//		 this.removeAll();
+//		 this.showPanel(game);
+//		 game.requestFocusInWindow();
+//		 } else {
+//		 JOptionPane.showMessageDialog(null, "O ficheiro " + puzzle.getName()
+//		 + " n‹o existe no sistema!");
+//		 }
+//	}
 
 	public ArrayList<ArrayList<Piece>> getPuzzleFile(File file) {
 		ArrayList<ArrayList<Piece>> maze = new ArrayList<ArrayList<Piece>>();
@@ -143,7 +143,7 @@ public class Menu extends JPanel implements KeyListener {
 			objInStream.close();
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null,
-					"Ocorreu um erro ao ler o ficheiro do puzzle!");
+					"Error reading from saved maze file");
 			e.printStackTrace();
 		}
 

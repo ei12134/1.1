@@ -36,8 +36,7 @@ public class GameUI extends JPanel implements ActionListener, KeyListener {
 		this.play = play;
 		this.boardSize = boardSize;
 		this.dimension = dimension;
-		loadData();
-		
+		loadData();		
 		
 		widthPixelsPerTile = dimension.width / boardSize;
 		heightPixelsPerTile = dimension.height / boardSize;
