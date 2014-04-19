@@ -16,9 +16,6 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
-
-import com.sun.codemodel.internal.JOp;
-
 import java.util.ArrayList;
 
 import logic.Piece;
