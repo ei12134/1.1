@@ -1,15 +1,19 @@
 package gui;
 
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.File;
+import java.io.FileFilter;
 
 public class Menu extends JPanel implements KeyListener {
 
@@ -85,6 +89,8 @@ public class Menu extends JPanel implements KeyListener {
 				showPanel(settingsPanel);
 			}
 		});
+		
+		
 		exit.addActionListener(new ActionListener() {
 
 			@Override
@@ -102,8 +108,26 @@ public class Menu extends JPanel implements KeyListener {
 					System.exit(0);
 			}
 		});
+		
+		
+		load.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				final JFileChooser fileChooser = new JFileChooser();
+				fileChooser.addChoosableFileFilter(new FileNameExtensionFilter("Ficheiros de puzzle...", "puzzle"));
+				int i = fileChooser.showDialog(Menu.this, "Escolher o ficheiro do puzzle...");
+				
+				if(i == JFileChooser.APPROVE_OPTION) {
+					File puzzle = fileChooser.getSelectedFile();
+					JOptionPane.showMessageDialog(null, puzzle.getName());
+				}
+			}
+		});
+		
 	}
-
+	
+	
 	public void setMenuPanel() {
 		setSize(dimension);
 		setLayout(new GridBagLayout());
