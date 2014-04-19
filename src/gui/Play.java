@@ -81,6 +81,7 @@ public class Play extends JPanel {
 		menu.showPanel(maze);
 		maze.requestFocusInWindow();
 	}
+	
 
 	public void closePlayPanel() {
 		this.setVisible(false);

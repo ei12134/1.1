@@ -121,7 +121,7 @@ public class Menu extends JPanel implements KeyListener {
 			//playPanel.closeMenuPanel();
 			//playPanel.setPlayPanel();
 			//showPanel(playPanel);
-			GameUI game = new GameUI(maze.size(), this, 1, dimension);
+			GameUI game = new GameUI(this, 1, dimension, maze);
 			this.removeAll();
 			this.showPanel(game);
 			game.requestFocusInWindow();

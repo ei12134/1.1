@@ -5,11 +5,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+
 import logic.*;
 
 
@@ -48,12 +50,15 @@ public class GameUI extends JPanel implements ActionListener, KeyListener {
 	}
 	
 	
-	public GameUI(int boardSize, Menu menu, int dragonStrategy, Dimension dimension) {
-		this.boardSize = boardSize;
+	public GameUI(Menu menu, int dragonStrategy, Dimension dimension, ArrayList<ArrayList<Piece>> maze) {
+		this.boardSize = maze.size();
 		this.dimension = dimension;
 		loadData();
 		
-		logic = new Logic();
+		widthPixelsPerTile = dimension.width / boardSize;
+		heightPixelsPerTile = dimension.height / boardSize;
+		addKeyListener(this);
+		logic = new Logic(maze, 1);
 	}
 	
 	

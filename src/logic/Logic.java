@@ -1,5 +1,6 @@
 package logic;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 
@@ -26,6 +27,12 @@ public class Logic extends Maze {
 	//Random Maze
 	public Logic(int mazeSize, int dragonCounter, int dragonStrategy) {
 		super(mazeSize, dragonCounter);
+		this.dragonStrategy = dragonStrategy;
+	}
+	
+	
+	public Logic(ArrayList<ArrayList<Piece>> maze, int dragonStrategy) {
+		super(maze);
 		this.dragonStrategy = dragonStrategy;
 	}
 

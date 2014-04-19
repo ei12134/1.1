@@ -17,6 +17,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 
+import com.sun.codemodel.internal.JOp;
+
 import java.util.ArrayList;
 
 import logic.Piece;
@@ -75,6 +77,7 @@ public class MazeBuilder extends JPanel implements KeyListener{
 				row.add(new Piece(j, i, PieceType.FREE.asString(), new ImageIcon("src//png//path.png")));
 			maze.add(row);
 		}
+		
 
 		for (int i = 0; i < mazeSize; i++) {
 			maze.get(0).get(i).setSymbol(PieceType.WALL.asString());
@@ -213,6 +216,17 @@ public class MazeBuilder extends JPanel implements KeyListener{
 			}
 		}
 		
+		/**
+		if(has_exit)
+			JOptionPane.showMessageDialog(null, "tem saida");
+		if(has_dragon)
+			JOptionPane.showMessageDialog(null, "tem dragao");
+		if(has_hero)
+			JOptionPane.showMessageDialog(null, "tem heroi");
+		if(has_sword)
+			JOptionPane.showMessageDialog(null, "tem espada");
+			*/
+		
 		if(has_exit && has_dragon && has_sword && has_hero)
 			return true;
 		
@@ -226,7 +240,7 @@ public class MazeBuilder extends JPanel implements KeyListener{
 		for(int i = 0; i < maze.size(); i++) {
 			ArrayList<Piece> row = new ArrayList<Piece>();
 			for(int j = 0; j < maze.get(i).size(); j++) {
-				row.add(new Piece(j, i, maze.get(j).get(i).getSymbol()));
+				row.add(new Piece(j, i, maze.get(i).get(j).getSymbol()));
 			}
 			tmp.add(row);
 		}
@@ -291,7 +305,7 @@ class PopupListener extends MouseAdapter {
 				if(p.getPosX() == 0 || p.getPosX() == mazeSize - 1) {
 					JOptionPane.showMessageDialog(null, "N‹o Ž poss’vel colocar o her—i nesta pea!");
 				} else {
-					setData(new ImageIcon("src//png//hero_unarmed_eagle.png"), PieceType.HERO_UNARMED.asString());
+					setData(new ImageIcon("src//png//hero_unarmed_eagle.png"), PieceType.HERO_UNARMED_EAGLE.asString());
 				}
 			} else if(tmp.equals(PieceType.SWORD.asString())) {
 				if(p.getPosX() == 0 || p.getPosX() == mazeSize - 1) {
