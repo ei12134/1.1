@@ -13,7 +13,12 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.File;
-import java.io.FileFilter;
+import java.io.FileInputStream;
+import java.io.ObjectInputStream;
+import java.util.ArrayList;
+
+import logic.Piece;
+
 
 public class Menu extends JPanel implements KeyListener {
 
@@ -120,11 +125,37 @@ public class Menu extends JPanel implements KeyListener {
 				
 				if(i == JFileChooser.APPROVE_OPTION) {
 					File puzzle = fileChooser.getSelectedFile();
-					JOptionPane.showMessageDialog(null, puzzle.getName());
+					startPuzzle(puzzle);
 				}
 			}
 		});
 		
+	}
+	
+	
+	
+	public void startPuzzle(File puzzle) {
+		if(puzzle.exists()) {
+			
+		} else {
+			JOptionPane.showMessageDialog(null, "O ficheiro " + puzzle.getName() + " n‹o existe no sistema!");
+		}
+	}
+	
+	
+	public ArrayList<ArrayList<Piece>> getPuzzleFile(File file) {
+		ArrayList<ArrayList<Piece>> maze = new ArrayList<ArrayList<Piece>>();
+		FileInputStream inStream = null;
+		ObjectInputStream objInStream = null;
+		
+		try {
+			
+		}catch(Exception e) {
+			JOptionPane.showMessageDialog(null, "Ocorreu um erro ao ler o ficheiro do puzzle!");
+			e.printStackTrace();
+		}
+		
+		return maze;
 	}
 	
 	
