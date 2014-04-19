@@ -16,18 +16,20 @@ public class Logic extends Maze {
 
 	private int dragonStrategy;
 
-	// Standard Maze
+	//Standard Maze
 	public Logic() {
 		super();
 		this.dragonStrategy = 1;
 	}
+	
 
-	// Random Maze
+	//Random Maze
 	public Logic(int mazeSize, int dragonCounter, int dragonStrategy) {
 		super(mazeSize, dragonCounter);
 		this.dragonStrategy = dragonStrategy;
 	}
 
+	
 	/**
 	 * Processes the moves related to the game according to the input and game
 	 * initial configuration variables.

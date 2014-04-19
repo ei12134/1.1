@@ -48,6 +48,12 @@ public class Maze {
 		dragons = new ArrayList<Dragon>();
 		startRandomMaze(mazeSize, dragonCounter);
 	}
+	
+	
+	public Maze(ArrayList<ArrayList<Piece>> maze) {
+		this.maze = maze;
+	}
+	
 
 	private void startDefaultMaze() {
 		exit = new Piece(9, 5, PieceType.EXIT.asString());

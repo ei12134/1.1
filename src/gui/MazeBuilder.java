@@ -61,7 +61,7 @@ public class MazeBuilder extends JPanel implements KeyListener{
 		types.add(PieceType.FREE);
 		types.add(PieceType.WALL);
 		types.add(PieceType.EXIT);
-		types.add(PieceType.HERO_UNARMED);
+		types.add(PieceType.HERO_UNARMED_EAGLE);
 		types.add(PieceType.SWORD);
 		types.add(PieceType.DRAGON);
 	}
@@ -93,17 +93,6 @@ public class MazeBuilder extends JPanel implements KeyListener{
 	public void startMazeBuilder() {
 		for (int i = 0; i < maze.size(); i++) {
 			for (int j = 0; j < maze.get(i).size(); j++) {
-				/**Piece piece = new Piece(0, 0, "");
-				if (maze.get(j).get(i).getSymbol() == PieceType.FREE.asString()) {
-					piece = new Piece(j, i, PieceType.FREE.asString(), 
-							new ImageIcon("src//png//path.png").getImage());
-					add(piece);
-				} else if (maze.get(j).get(i).getSymbol() == PieceType.WALL
-						.asString()) {
-					piece = new Piece(j, i, PieceType.FREE.asString(), 
-							new ImageIcon("src//png//wall_red.png").getImage());
-					add(piece);
-				}*/
 				add(maze.get(i).get(j));
 
 				maze.get(i).get(j).addMouseListener(new MouseListener() {
@@ -210,7 +199,7 @@ public class MazeBuilder extends JPanel implements KeyListener{
 				} else if(maze.get(j).get(i).getSymbol().equals(PieceType.DRAGON.asString())) {
 					if(!has_dragon)
 						has_dragon = true;
-				} else if(maze.get(j).get(i).getSymbol().equals(PieceType.HERO_UNARMED.asString())) {
+				} else if(maze.get(j).get(i).getSymbol().equals(PieceType.HERO_UNARMED_EAGLE.asString())) {
 					if(has_hero)
 						return false;
 					else
@@ -298,11 +287,11 @@ class PopupListener extends MouseAdapter {
 						setData(new ImageIcon("src//png//exit_symmetrical.png"), PieceType.EXIT.asString());
 					}
 				}
-			} else if(tmp.equals(PieceType.HERO_UNARMED.asString())) {
+			} else if(tmp.equals(PieceType.HERO_UNARMED_EAGLE.asString())) {
 				if(p.getPosX() == 0 || p.getPosX() == mazeSize - 1) {
 					JOptionPane.showMessageDialog(null, "N‹o Ž poss’vel colocar o her—i nesta pea!");
 				} else {
-					setData(new ImageIcon("src//png//hero_unarmed.png"), PieceType.HERO_UNARMED.asString());
+					setData(new ImageIcon("src//png//hero_unarmed_eagle.png"), PieceType.HERO_UNARMED.asString());
 				}
 			} else if(tmp.equals(PieceType.SWORD.asString())) {
 				if(p.getPosX() == 0 || p.getPosX() == mazeSize - 1) {

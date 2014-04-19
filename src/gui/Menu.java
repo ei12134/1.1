@@ -65,27 +65,6 @@ public class Menu extends JPanel implements KeyListener {
 			}
 		});
 
-		// load.addActionListener(new ActionListener() {
-		// @Override
-		// public void actionPerformed(ActionEvent arg0) {
-		// /*
-		// * Acho que teremos de criar um novo construtor em MazeUI e
-		// * passaremos este arraylist. Só não sei como vamos inferir o
-		// * dragonStrategy sem guardar essa informação ao fazer save -
-		// * dragonCounter parece facil
-		// */
-		// // logic.Maze m = new logic.Maze();
-		// GameIO io = new GameIO();
-		// ArrayList<ArrayList<Piece>> tmp = io.readFile("puzzle.lpoo");
-		// for (int i = 0; i < tmp.size(); i++) {
-		// ArrayList<Piece> linhamaze = tmp.get(i);
-		// for (int j = 0; j < tmp.get(i).size(); j++)
-		// System.out.print(linhamaze.get(j).getSymbol());
-		// System.out.println();
-		// }
-		// }
-		// });
-
 		settings.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -138,7 +117,11 @@ public class Menu extends JPanel implements KeyListener {
 		if(puzzle.exists()) {
 			ArrayList<ArrayList<Piece>> maze = new ArrayList<ArrayList<Piece>>();
 			maze = getPuzzleFile(puzzle);
-			JOptionPane.showMessageDialog(null, maze.size());
+			//JOptionPane.showMessageDialog(null, maze.size());
+			
+			playPanel.closeMenuPanel();
+			playPanel.setPlayPanel();
+			showPanel(playPanel);
 		} else {
 			JOptionPane.showMessageDialog(null, "O ficheiro " + puzzle.getName() + " n‹o existe no sistema!");
 		}
