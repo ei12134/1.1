@@ -1,15 +1,10 @@
 package logic;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Image;
 import java.io.Serializable;
-
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
-
-
 
 /**
  * Represents common attributes for each Piece of the maze
@@ -23,25 +18,26 @@ public class Piece extends JComponent implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private int posX;
 	private int posY;
+	private int heightPixelsPerTile, widthPixelsPerTile;
 	private String symbol;
 	private ImageIcon image;
-	
-	
+
 	public Piece(int posX, int posY, String symbol) {
 		this.posX = posX;
 		this.posY = posY;
 		this.symbol = symbol;
 	}
-	
-	
-	public Piece(int posX, int posY, String symbol, ImageIcon image) {
+
+	public Piece(int posX, int posY, String symbol, ImageIcon image,
+			int widthPixelsPerTile, int heightPixelsPerTile) {
 		this.posX = posX;
 		this.posY = posY;
 		this.symbol = symbol;
 		this.image = image;
+		this.widthPixelsPerTile = widthPixelsPerTile;
+		this.heightPixelsPerTile = heightPixelsPerTile;
 	}
 
-	
 	/**
 	 * Gets X position value.
 	 * 
@@ -51,7 +47,6 @@ public class Piece extends JComponent implements Serializable {
 		return posX;
 	}
 
-	
 	/**
 	 * Gets Y position value.
 	 * 
@@ -80,7 +75,6 @@ public class Piece extends JComponent implements Serializable {
 		this.symbol = symbol;
 	}
 
-	
 	/**
 	 * Set new Piece position
 	 * 
@@ -93,23 +87,36 @@ public class Piece extends JComponent implements Serializable {
 		posX = x;
 		posY = y;
 	}
-	
-	
+
 	public ImageIcon getImage() {
 		return image;
 	}
-	
-	
+
 	public void setImage(ImageIcon image) {
 		this.image = image;
 		repaint();
 	}
 
-	
 	@Override
 	public void paintComponent(Graphics g) {
 		Graphics2D g2 = (Graphics2D) g.create();
-		g2.drawImage(image.getImage(), 0, 0, this.getWidth() - 1, this.getHeight() - 1, this);
+		if (symbol.equals(PieceType.FREE.asString())
+				|| symbol.equals(PieceType.WALL.asString()))
+			g2.drawImage(image.getImage(), 0, 0, this.getWidth(),
+					this.getHeight(), widthPixelsPerTile * posX,
+					heightPixelsPerTile * posY, widthPixelsPerTile * posX
+							+ widthPixelsPerTile, heightPixelsPerTile * posY
+							+ heightPixelsPerTile, null);
+		else {
+			g2.drawImage(new ImageIcon("src//png//path.png").getImage(), 0, 0,
+					this.getWidth(), this.getHeight(), widthPixelsPerTile
+							* posX, heightPixelsPerTile * posY,
+					widthPixelsPerTile * posX + widthPixelsPerTile,
+					heightPixelsPerTile * posY + heightPixelsPerTile, null);
+
+			g2.drawImage(image.getImage(), 0, 0, this.getWidth(),
+					this.getHeight(), this);
+		}
 		g2.dispose();
 	}
 }

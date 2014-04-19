@@ -31,7 +31,6 @@ public class Menu extends JPanel implements KeyListener {
 	private JButton load;
 	private Dimension dimension;
 
-	
 	public Menu(JFrame frame) {
 		// Menu Buttons
 		play = new JButton("Play Game");
@@ -42,7 +41,6 @@ public class Menu extends JPanel implements KeyListener {
 		this.frame = frame;
 		addKeyListener(this);
 
-		
 		// Set up menu and settings panels
 		setMenuPanel();
 		showPanel(this);
@@ -86,43 +84,45 @@ public class Menu extends JPanel implements KeyListener {
 			}
 		});
 
-		// load.addActionListener(new ActionListener() {
-		//
-		// @Override
-		// public void actionPerformed(ActionEvent arg0) {
-		// final JFileChooser fileChooser = new JFileChooser();
-		// fileChooser.addChoosableFileFilter(new
-		// FileNameExtensionFilter("Ficheiros de puzzle...", "puzzle"));
-		// int i = fileChooser.showDialog(Menu.this,
-		// "Escolher o ficheiro do puzzle...");
-		//
-		// if(i == JFileChooser.APPROVE_OPTION) {
-		// File puzzle = fileChooser.getSelectedFile();
-		// startPuzzle(puzzle);
-		// }
-		// }
-		// });
-		//
+		load.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				final JFileChooser fileChooser = new JFileChooser();
+				fileChooser.addChoosableFileFilter(new FileNameExtensionFilter(
+						"Ficheiros de puzzle...", "puzzle"));
+				int i = fileChooser.showDialog(Menu.this,
+						"Escolher o ficheiro do puzzle...");
+
+				if (i == JFileChooser.APPROVE_OPTION) {
+					File puzzle = fileChooser.getSelectedFile();
+					startLoadedPuzzle(puzzle);
+				}
+			}
+		});
+
 	}
 
-//	public void startPuzzle(/* File puzzle */) {
-//		// if(puzzle.exists()) {
-//		// ArrayList<ArrayList<Piece>> maze = new ArrayList<ArrayList<Piece>>();
-//		// maze = getPuzzleFile(puzzle);
-//
-//		playPanel.closeMenuPanel();
-//		playPanel.setPlayPanel();
-//		showPanel(playPanel);
-//		 GameUI game = new GameUI(this, 1, dimension, maze);
-//		 this.removeAll();
-//		 this.showPanel(game);
-//		 game.requestFocusInWindow();
-//		 } else {
-//		 JOptionPane.showMessageDialog(null, "O ficheiro " + puzzle.getName()
-//		 + " n‹o existe no sistema!");
-//		 }
-//	}
+	public void startLoadedPuzzle(File savedMaze) {
+		if (savedMaze.exists()) {
+			ArrayList<ArrayList<Piece>> maze = new ArrayList<ArrayList<Piece>>();
+			maze = getPuzzleFile(savedMaze);
 
+			playPanel.closeMenuPanel();
+			playPanel.setPlayPanel();
+			showPanel(playPanel);
+			GameUI game = new GameUI(this, 1, dimension, maze);
+			this.removeAll();
+			this.showPanel(game);
+			game.requestFocusInWindow();
+		} else {
+			JOptionPane.showMessageDialog(null,
+					"O ficheiro " + savedMaze.getName()
+							+ " n‹o existe no sistema!");
+		}
+	}
+
+	@SuppressWarnings("unchecked")
 	public ArrayList<ArrayList<Piece>> getPuzzleFile(File file) {
 		ArrayList<ArrayList<Piece>> maze = new ArrayList<ArrayList<Piece>>();
 		FileInputStream inStream = null;
@@ -139,14 +139,13 @@ public class Menu extends JPanel implements KeyListener {
 				objInStream.close();
 				return null;
 			}
-
 			objInStream.close();
+			
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null,
 					"Error reading from saved maze file");
 			e.printStackTrace();
 		}
-
 		return maze;
 	}
 

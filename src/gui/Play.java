@@ -103,6 +103,7 @@ public class Play extends JPanel {
 		frame.remove(menu);
 		menu.showPanel(mazeBuilder);
 		mazeBuilder.requestFocusInWindow();
+		mazeBuilder.startMazeBuilder();
 	}
 
 	public void closePlayPanel() {
