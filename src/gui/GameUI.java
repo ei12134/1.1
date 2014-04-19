@@ -58,7 +58,7 @@ public class GameUI extends JPanel implements ActionListener, KeyListener {
 		widthPixelsPerTile = dimension.width / boardSize;
 		heightPixelsPerTile = dimension.height / boardSize;
 		addKeyListener(this);
-		logic = new Logic(maze, 1);
+		logic = new Logic(maze, dragonStrategy);
 	}
 	
 	

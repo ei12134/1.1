@@ -33,6 +33,7 @@ public class Menu extends JPanel implements KeyListener {
 	private JButton load;
 	private Dimension dimension;
 
+	
 	public Menu(JFrame frame) {
 		// Menu Buttons
 		play = new JButton("Play Game");
@@ -41,9 +42,9 @@ public class Menu extends JPanel implements KeyListener {
 		load = new JButton("Load Game");
 		dimension = new Dimension(720, 720);
 		this.frame = frame;
-
 		addKeyListener(this);
 
+		
 		// Set up menu and settings panels
 		setMenuPanel();
 		showPanel(this);
@@ -58,6 +59,7 @@ public class Menu extends JPanel implements KeyListener {
 				playPanel.setPlayPanel();
 				showPanel(playPanel);
 			}*/
+			
 			public void actionPerformed(ActionEvent ev) {
 				mazeBuilder.closeMenuPanel();
 				mazeBuilder.startMazeBuilder();
@@ -117,14 +119,10 @@ public class Menu extends JPanel implements KeyListener {
 		if(puzzle.exists()) {
 			ArrayList<ArrayList<Piece>> maze = new ArrayList<ArrayList<Piece>>();
 			maze = getPuzzleFile(puzzle);
-			
-			//playPanel.closeMenuPanel();
-			//playPanel.setPlayPanel();
-			//showPanel(playPanel);
-			GameUI game = new GameUI(this, 1, dimension, maze);
-			this.removeAll();
-			this.showPanel(game);
-			game.requestFocusInWindow();
+
+			playPanel = new Play(this, dimension, true);
+			//GameUI game = new GameUI(this, 1, dimension, maze);
+			playPanel.closeMenuPanel();
 		} else {
 			JOptionPane.showMessageDialog(null, "O ficheiro " + puzzle.getName() + " n‹o existe no sistema!");
 		}
