@@ -18,7 +18,6 @@ public class Play extends JPanel {
 	private JButton standardMaze, randomMaze, customMaze, close;
 	private GameUI maze;
 	private Dimension dimension;
-	private MazeBuilder mazeBuilder;
 	private int dragonCounter, dragonStrategy, mazeSize;
 
 	public Play(final Menu menu, Dimension dimension) {
@@ -28,7 +27,6 @@ public class Play extends JPanel {
 		this.dragonCounter = 1;
 		this.dragonStrategy = 1;
 		this.mazeSize = 13;
-		mazeBuilder = new MazeBuilder(this, 9);
 		standardMaze = new JButton("Standard maze");
 		randomMaze = new JButton("Random maze");
 		customMaze = new JButton("Customize maze");
@@ -50,13 +48,6 @@ public class Play extends JPanel {
 			}
 		});
 
-		customMaze.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent ev) {
-				closePlayPanel();
-				mazeBuilder.startMazeBuilder();
-			}
-		});
-
 		close.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent ev) {
@@ -64,7 +55,6 @@ public class Play extends JPanel {
 			}
 		});
 	}
-<<<<<<< HEAD
 	
 	
 	public Play(final Menu menu, Dimension dimension, boolean random) {
@@ -74,8 +64,6 @@ public class Play extends JPanel {
 		closePlayPanel();
 	}
 	
-=======
->>>>>>> dc4582404494a51db5b7e5ded2f127b4a1136025
 
 	public void setPlayPanel() {
 		this.setSize(dimension);
@@ -102,6 +90,7 @@ public class Play extends JPanel {
 		menu.showPanel(maze);
 		maze.requestFocusInWindow();
 	}
+	
 
 	public void closePlayPanel() {
 		this.setVisible(false);
@@ -113,13 +102,6 @@ public class Play extends JPanel {
 	public void closeMazeUI() {
 		maze.setVisible(false);
 		frame.remove(maze);
-		menu.showPanel(menu);
-		frame.setVisible(true);
-	}
-
-	public void closeCustom() {
-		maze.setVisible(false);
-		frame.remove(mazeBuilder);
 		menu.showPanel(menu);
 		frame.setVisible(true);
 	}

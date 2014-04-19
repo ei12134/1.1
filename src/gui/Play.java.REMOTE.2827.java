@@ -34,7 +34,6 @@ public class Play extends JPanel {
 		customMaze = new JButton("Customize maze");
 		close = new JButton("Return to menu");
 
-		
 		// Button actions
 		standardMaze.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ev) {
@@ -64,18 +63,6 @@ public class Play extends JPanel {
 			}
 		});
 	}
-<<<<<<< HEAD
-	
-	
-	public Play(final Menu menu, Dimension dimension, boolean random) {
-		this.menu = menu;
-		this.dimension = dimension;
-		this.frame = menu.getFrame();
-		closePlayPanel();
-	}
-	
-=======
->>>>>>> dc4582404494a51db5b7e5ded2f127b4a1136025
 
 	public void setPlayPanel() {
 		this.setSize(dimension);

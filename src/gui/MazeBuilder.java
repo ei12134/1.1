@@ -16,6 +16,8 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
+
+
 import java.util.ArrayList;
 
 import logic.Piece;
@@ -26,15 +28,14 @@ public class MazeBuilder extends JPanel implements KeyListener{
 
 	private static final long serialVersionUID = 1L;
 	private JFrame frame;
-	private Menu menu;
+	private Play play;
 	private int mazeSize;
 	private ArrayList<ArrayList<Piece>> maze;
 	private ArrayList<PieceType> types;	
 
 
-	public MazeBuilder(final Menu menu, int mazeSize) {
-		this.menu = menu;
-		this.frame = menu.getFrame();
+	public MazeBuilder(final Play play, int mazeSize) {
+		this.play = play;
 		this.mazeSize = mazeSize;
 		maze = new ArrayList<ArrayList<Piece>>();
 		types = new ArrayList<PieceType>();
@@ -124,7 +125,7 @@ public class MazeBuilder extends JPanel implements KeyListener{
 						//JOptionPane.showConfirmDialog(null, p.getPosY() + " - " + p.getPosX());
 						if((p.getPosX() == 0 && p.getPosY() == 0) || (p.getPosX() == mazeSize - 1 && p.getPosY() == 0) || 
 								(p.getPosX() == 0 && p.getPosY() == mazeSize - 1) || (p.getPosX() == mazeSize - 1 && p.getPosY() == mazeSize - 1)) {
-							JOptionPane.showMessageDialog(null, "Não é possível editar esta peça!");
+							JOptionPane.showMessageDialog(null, "N‚Äπo ≈Ω poss‚Äôvel editar esta peÔøΩa!");
 						} else 
 							showPopup(p);
 					}
@@ -148,11 +149,6 @@ public class MazeBuilder extends JPanel implements KeyListener{
 		popup.show(p, 0, 0);
 	}
 
-	
-	public void closeMenuPanel() {
-		frame.remove(menu);
-	}
-
 
 	@Override
 	public void keyPressed(KeyEvent e) {
@@ -166,7 +162,7 @@ public class MazeBuilder extends JPanel implements KeyListener{
 				
 				saveMaze(filename, maze);
 			} else {
-				JOptionPane.showMessageDialog(null, "O puzzle é inválido! Verificar novamente...");
+				JOptionPane.showMessageDialog(null, "O puzzle ≈Ω inv‚Ä°lido! Verificar novamente...");
 			}
 		}
 	}
@@ -284,13 +280,13 @@ class PopupListener extends MouseAdapter {
 				setData(new ImageIcon("src//png//wall_red.png"), PieceType.WALL.asString());
 			} else if(tmp.equals(PieceType.FREE.asString())) {
 				if(p.getPosX() == 0 || p.getPosX() == mazeSize - 1) {
-					JOptionPane.showMessageDialog(null, "Não é possível marcar esta peça como livre!");
+					JOptionPane.showMessageDialog(null, "N‚Äπo ≈Ω poss‚Äôvel marcar esta peÔøΩa como livre!");
 				} else {
 					setData(new ImageIcon("src//png//path.png"), PieceType.FREE.asString());
 				}
 			} else if(tmp.equals(PieceType.EXIT.asString())) {
 				if(p.getPosX() != 0 || p.getPosX() == mazeSize - 1) {
-					JOptionPane.showMessageDialog(null, "Não é possível marcar a saída nesta peça!");
+					JOptionPane.showMessageDialog(null, "N‚Äπo ≈Ω poss‚Äôvel marcar a sa‚Äôda nesta peÔøΩa!");
 				} else {
 					if(p.getPosX() == 0) {
 						setData(new ImageIcon("src//png//exit.png"), PieceType.EXIT.asString());
@@ -300,19 +296,19 @@ class PopupListener extends MouseAdapter {
 				}
 			} else if(tmp.equals(PieceType.HERO_UNARMED_EAGLE.asString())) {
 				if(p.getPosX() == 0 || p.getPosX() == mazeSize - 1) {
-					JOptionPane.showMessageDialog(null, "Não é possível colocar o herói nesta peça!");
+					JOptionPane.showMessageDialog(null, "N‚Äπo ≈Ω poss‚Äôvel colocar o her‚Äîi nesta peÔøΩa!");
 				} else {
 					setData(new ImageIcon("src//png//hero_unarmed_eagle.png"), PieceType.HERO_UNARMED_EAGLE.asString());
 				}
 			} else if(tmp.equals(PieceType.SWORD.asString())) {
 				if(p.getPosX() == 0 || p.getPosX() == mazeSize - 1) {
-					JOptionPane.showMessageDialog(null, "Não é possível adicionar a espada nesta peça!");
+					JOptionPane.showMessageDialog(null, "N‚Äπo ≈Ω poss‚Äôvel adicionar a espada nesta peÔøΩa!");
 				} else {
 					setData(new ImageIcon("src//png//sword.png"), PieceType.SWORD.asString());
 				}
 			} else if(tmp.equals(PieceType.DRAGON.asString())) {
 				if(p.getPosX() == 0 || p.getPosX() == mazeSize - 1) {
-					JOptionPane.showMessageDialog(null, "Não é possível colocar o dragão nesta posição!");
+					JOptionPane.showMessageDialog(null, "N‚Äπo ≈Ω poss‚Äôvel colocar o drag‚Äπo nesta posiÔøΩ‚Äπo!");
 				} else {
 					setData(new ImageIcon("src//png//dragon.png"), PieceType.DRAGON.asString());
 				}
