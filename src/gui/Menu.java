@@ -117,7 +117,6 @@ public class Menu extends JPanel implements KeyListener {
 		if(puzzle.exists()) {
 			ArrayList<ArrayList<Piece>> maze = new ArrayList<ArrayList<Piece>>();
 			maze = getPuzzleFile(puzzle);
-			//JOptionPane.showMessageDialog(null, maze.size());
 			
 			playPanel.closeMenuPanel();
 			playPanel.setPlayPanel();
