@@ -98,8 +98,7 @@ public class Play extends JPanel {
 
 	public void startMazeBuilder(int boardSize, int dragonCounter,
 			int dragonStrategy) {
-		mazeBuilder = new MazeBuilder(this, boardSize, dragonCounter,
-				dragonStrategy, dimension);
+		mazeBuilder = new MazeBuilder(this, boardSize, dimension);
 		frame.remove(menu);
 		menu.showPanel(mazeBuilder);
 		mazeBuilder.requestFocusInWindow();
@@ -113,16 +112,9 @@ public class Play extends JPanel {
 		menu.setVisible(true);
 	}
 
-	public void closeMazeUI() {
-		maze.setVisible(false);
-		frame.remove(maze);
-		menu.showPanel(menu);
-		frame.setVisible(true);
-	}
-
-	public void closeMazeBuilder() {
-		mazeBuilder.setVisible(false);
-		frame.remove(mazeBuilder);
+	public void closePanel(JPanel panel) {
+		panel.setVisible(false);
+		frame.remove(panel);
 		menu.showPanel(menu);
 		frame.setVisible(true);
 	}

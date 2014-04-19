@@ -107,12 +107,9 @@ public class Menu extends JPanel implements KeyListener {
 		if (savedMaze.exists()) {
 			ArrayList<ArrayList<Piece>> maze = new ArrayList<ArrayList<Piece>>();
 			maze = getPuzzleFile(savedMaze);
-
-			playPanel.closeMenuPanel();
-			playPanel.setPlayPanel();
-			showPanel(playPanel);
-			GameUI game = new GameUI(this, 1, dimension, maze);
-			this.removeAll();
+			
+			GameUI game = new GameUI(this, 1, dimension, maze, playPanel);
+			frame.remove(this);
 			this.showPanel(game);
 			game.requestFocusInWindow();
 		} else {

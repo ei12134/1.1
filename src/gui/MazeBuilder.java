@@ -28,16 +28,11 @@ public class MazeBuilder extends JPanel implements KeyListener {
 	private Play play;
 	private ArrayList<ArrayList<Piece>> maze;
 	private ArrayList<PieceType> types;
-	private int widthPixelsPerTile, heightPixelsPerTile, mazeSize,
-			dragonCounter, dragonStrategy;
-	private Dimension dimension;
+	private int widthPixelsPerTile, heightPixelsPerTile, mazeSize;
 
-	MazeBuilder(final Play play, int boardSize, int dragonCounter,
-			int dragonStrategy, Dimension dimension) {
+	MazeBuilder(final Play play, int boardSize, Dimension dimension) {
 		this.play = play;
 		this.mazeSize = boardSize;
-		this.dragonCounter = dragonCounter;
-		this.dragonStrategy = dragonStrategy;
 		maze = new ArrayList<ArrayList<Piece>>();
 		types = new ArrayList<PieceType>();
 		widthPixelsPerTile = dimension.width / boardSize;
@@ -173,11 +168,11 @@ public class MazeBuilder extends JPanel implements KeyListener {
 		} else if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
 			Object[] options = { "Yes", "No" };
 			int confirm = JOptionPane.showOptionDialog(null,
-					"Are you sure you want to stop building a maze?",
+					"Do you really want to stop building a maze?",
 					"Abort game", JOptionPane.YES_NO_OPTION,
 					JOptionPane.QUESTION_MESSAGE, null, options, options[1]);
 			if (confirm == 0)
-				play.closeMazeBuilder();
+				play.closePanel(this);
 		}
 	}
 
@@ -222,14 +217,14 @@ public class MazeBuilder extends JPanel implements KeyListener {
 				}
 			}
 		}
-		if (has_exit)
-			JOptionPane.showMessageDialog(null, "Exit already exists");
-		if (has_dragon)
-			JOptionPane.showMessageDialog(null, "Already has a dragon");
-		if (has_hero)
-			JOptionPane.showMessageDialog(null, "Hero defined already");
-		if (has_sword)
-			JOptionPane.showMessageDialog(null, "Sword already exists");
+		// if (has_exit)
+		// JOptionPane.showMessageDialog(null, "Exit already exists");
+		// if (has_dragon)
+		// JOptionPane.showMessageDialog(null, "Already has a dragon");
+		// if (has_hero)
+		// JOptionPane.showMessageDialog(null, "Hero defined already");
+		// if (has_sword)
+		// JOptionPane.showMessageDialog(null, "Sword already exists");
 
 		if (has_exit && has_dragon && has_sword && has_hero)
 			return true;

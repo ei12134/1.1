@@ -14,7 +14,6 @@ import javax.swing.JPanel;
 
 import logic.*;
 
-
 public class GameUI extends JPanel implements ActionListener, KeyListener {
 
 	private static final long serialVersionUID = 1L;
@@ -36,8 +35,8 @@ public class GameUI extends JPanel implements ActionListener, KeyListener {
 		this.play = play;
 		this.boardSize = boardSize;
 		this.dimension = dimension;
-		loadData();		
-		
+		loadData();
+
 		widthPixelsPerTile = dimension.width / boardSize;
 		heightPixelsPerTile = dimension.height / boardSize;
 		addKeyListener(this);
@@ -47,20 +46,20 @@ public class GameUI extends JPanel implements ActionListener, KeyListener {
 		else
 			logic = new Logic(boardSize, dragonCounter, dragonStrategy);
 	}
-	
-	
-	public GameUI(Menu menu, int dragonStrategy, Dimension dimension, ArrayList<ArrayList<Piece>> maze) {
+
+	public GameUI(Menu menu, int dragonStrategy, Dimension dimension,
+			ArrayList<ArrayList<Piece>> maze, Play play) {
 		this.boardSize = maze.size();
 		this.dimension = dimension;
+		this.play = play;
 		loadData();
-		
+
 		widthPixelsPerTile = dimension.width / boardSize;
 		heightPixelsPerTile = dimension.height / boardSize;
 		addKeyListener(this);
 		logic = new Logic(maze, dragonStrategy);
 	}
-	
-	
+
 	public void loadData() {
 		playerCanMove = true;
 		keyboardKeys = new GameKeyboard();
@@ -94,7 +93,6 @@ public class GameUI extends JPanel implements ActionListener, KeyListener {
 		eagle_returning_sword = new ImageIcon(
 				"src//png/eagle_returning_sword.png").getImage();
 	}
-	
 
 	public void keyPressed(KeyEvent e) {
 		String state[] = new String[4];
@@ -136,7 +134,7 @@ public class GameUI extends JPanel implements ActionListener, KeyListener {
 					null, options, options[1]);
 
 			if (confirm == 0)
-				play.closeMazeUI();
+				play.closePanel(this);
 		}
 
 		if (state[0] != null)
@@ -184,186 +182,44 @@ public class GameUI extends JPanel implements ActionListener, KeyListener {
 				// Hero
 				else if (getPiece(y, x).getSymbol().equals(
 						PieceType.HERO_UNARMED_EAGLE.asString())) {
-					g.drawImage(path, widthPixelsPerTile * y,
-							heightPixelsPerTile * linePixel, widthPixelsPerTile
-									* y + widthPixelsPerTile,
-							heightPixelsPerTile * linePixel
-									+ heightPixelsPerTile, widthPixelsPerTile
-									* y, heightPixelsPerTile * linePixel,
-							widthPixelsPerTile * y + widthPixelsPerTile,
-							heightPixelsPerTile * linePixel
-									+ heightPixelsPerTile, null);
-					g.drawImage(hero_unarmed_eagle, widthPixelsPerTile * y,
-							heightPixelsPerTile * linePixel, widthPixelsPerTile
-									* y + widthPixelsPerTile,
-							heightPixelsPerTile * linePixel
-									+ heightPixelsPerTile, 0, 0, 720, 720, null);
+					drawWithTransparency(g, hero_unarmed_eagle, y, linePixel);
 				} else if (getPiece(y, x).getSymbol().equals(
 						PieceType.HERO_UNARMED.asString())) {
-					g.drawImage(path, widthPixelsPerTile * y,
-							heightPixelsPerTile * linePixel, widthPixelsPerTile
-									* y + widthPixelsPerTile,
-							heightPixelsPerTile * linePixel
-									+ heightPixelsPerTile, widthPixelsPerTile
-									* y, heightPixelsPerTile * linePixel,
-							widthPixelsPerTile * y + widthPixelsPerTile,
-							heightPixelsPerTile * linePixel
-									+ heightPixelsPerTile, null);
-					g.drawImage(hero_unarmed, widthPixelsPerTile * y,
-							heightPixelsPerTile * linePixel, widthPixelsPerTile
-									* y + widthPixelsPerTile,
-							heightPixelsPerTile * linePixel
-									+ heightPixelsPerTile, 0, 0, 720, 720, null);
+					drawWithTransparency(g, hero_unarmed, y, linePixel);
 				} else if (getPiece(y, x).getSymbol().equals(
 						PieceType.HERO_ARMED.asString())) {
-					g.drawImage(path, widthPixelsPerTile * y,
-							heightPixelsPerTile * linePixel, widthPixelsPerTile
-									* y + widthPixelsPerTile,
-							heightPixelsPerTile * linePixel
-									+ heightPixelsPerTile, widthPixelsPerTile
-									* y, heightPixelsPerTile * linePixel,
-							widthPixelsPerTile * y + widthPixelsPerTile,
-							heightPixelsPerTile * linePixel
-									+ heightPixelsPerTile, null);
-					g.drawImage(hero_armed, widthPixelsPerTile * y,
-							heightPixelsPerTile * linePixel, widthPixelsPerTile
-									* y + widthPixelsPerTile,
-							heightPixelsPerTile * linePixel
-									+ heightPixelsPerTile, 0, 0, 720, 720, null);
+					drawWithTransparency(g, hero_armed, y, linePixel);
 				} else if (getPiece(y, x).getSymbol().equals(
 						PieceType.HERO_ARMED_EAGLE.asString())) {
-					g.drawImage(path, widthPixelsPerTile * y,
-							heightPixelsPerTile * linePixel, widthPixelsPerTile
-									* y + widthPixelsPerTile,
-							heightPixelsPerTile * linePixel
-									+ heightPixelsPerTile, widthPixelsPerTile
-									* y, heightPixelsPerTile * linePixel,
-							widthPixelsPerTile * y + widthPixelsPerTile,
-							heightPixelsPerTile * linePixel
-									+ heightPixelsPerTile, null);
-					g.drawImage(hero_armed_eagle, widthPixelsPerTile * y,
-							heightPixelsPerTile * linePixel, widthPixelsPerTile
-									* y + widthPixelsPerTile,
-							heightPixelsPerTile * linePixel
-									+ heightPixelsPerTile, 0, 0, 720, 720, null);
+					drawWithTransparency(g, hero_armed_eagle, y, linePixel);
 				}
 				// Dragon
 				else if (getPiece(y, x).getSymbol().equals(
 						PieceType.DRAGON.asString())) {
-					g.drawImage(path, widthPixelsPerTile * y,
-							heightPixelsPerTile * linePixel, widthPixelsPerTile
-									* y + widthPixelsPerTile,
-							heightPixelsPerTile * linePixel
-									+ heightPixelsPerTile, widthPixelsPerTile
-									* y, heightPixelsPerTile * linePixel,
-							widthPixelsPerTile * y + widthPixelsPerTile,
-							heightPixelsPerTile * linePixel
-									+ heightPixelsPerTile, null);
-					g.drawImage(dragon, widthPixelsPerTile * y,
-							heightPixelsPerTile * linePixel, widthPixelsPerTile
-									* y + widthPixelsPerTile,
-							heightPixelsPerTile * linePixel
-									+ heightPixelsPerTile, 0, 0, 720, 720, null);
+					drawWithTransparency(g, dragon, y, linePixel);
 				} else if (getPiece(y, x).getSymbol().equals(
 						PieceType.DRAGON_ASLEEP.asString())) {
-					g.drawImage(path, widthPixelsPerTile * y,
-							heightPixelsPerTile * linePixel, widthPixelsPerTile
-									* y + widthPixelsPerTile,
-							heightPixelsPerTile * linePixel
-									+ heightPixelsPerTile, widthPixelsPerTile
-									* y, heightPixelsPerTile * linePixel,
-							widthPixelsPerTile * y + widthPixelsPerTile,
-							heightPixelsPerTile * linePixel
-									+ heightPixelsPerTile, null);
-					g.drawImage(dragon_asleep, widthPixelsPerTile * y,
-							heightPixelsPerTile * linePixel, widthPixelsPerTile
-									* y + widthPixelsPerTile,
-							heightPixelsPerTile * linePixel
-									+ heightPixelsPerTile, 0, 0, 720, 720, null);
+					drawWithTransparency(g, dragon_asleep, y, linePixel);
 				} else if (getPiece(y, x).getSymbol().equals(
 						PieceType.DRAGON_GUARDING.asString())) {
-					g.drawImage(path, widthPixelsPerTile * y,
-							heightPixelsPerTile * linePixel, widthPixelsPerTile
-									* y + widthPixelsPerTile,
-							heightPixelsPerTile * linePixel
-									+ heightPixelsPerTile, widthPixelsPerTile
-									* y, heightPixelsPerTile * linePixel,
-							widthPixelsPerTile * y + widthPixelsPerTile,
-							heightPixelsPerTile * linePixel
-									+ heightPixelsPerTile, null);
-					g.drawImage(dragon_guarding, widthPixelsPerTile * y,
-							heightPixelsPerTile * linePixel, widthPixelsPerTile
-									* y + widthPixelsPerTile,
-							heightPixelsPerTile * linePixel
-									+ heightPixelsPerTile, 0, 0, 720, 720, null);
+					drawWithTransparency(g, dragon_guarding, y, linePixel);
 				} else if (getPiece(y, x).getSymbol().equals(
 						PieceType.DRAGON_GUARDING_ASLEEP.asString())) {
-					g.drawImage(path, widthPixelsPerTile * y,
-							heightPixelsPerTile * linePixel, widthPixelsPerTile
-									* y + widthPixelsPerTile,
-							heightPixelsPerTile * linePixel
-									+ heightPixelsPerTile, widthPixelsPerTile
-									* y, heightPixelsPerTile * linePixel,
-							widthPixelsPerTile * y + widthPixelsPerTile,
-							heightPixelsPerTile * linePixel
-									+ heightPixelsPerTile, null);
-					g.drawImage(dragon_guarding_asleep, widthPixelsPerTile * y,
-							heightPixelsPerTile * linePixel, widthPixelsPerTile
-									* y + widthPixelsPerTile,
-							heightPixelsPerTile * linePixel
-									+ heightPixelsPerTile, 0, 0, 720, 720, null);
+					drawWithTransparency(g, dragon_guarding_asleep, y,
+							linePixel);
 				} else if (getPiece(y, x).getSymbol().equals(
 						PieceType.SWORD.asString())) {
-					g.drawImage(path, widthPixelsPerTile * y,
-							heightPixelsPerTile * linePixel, widthPixelsPerTile
-									* y + widthPixelsPerTile,
-							heightPixelsPerTile * linePixel
-									+ heightPixelsPerTile, widthPixelsPerTile
-									* y, heightPixelsPerTile * linePixel,
-							widthPixelsPerTile * y + widthPixelsPerTile,
-							heightPixelsPerTile * linePixel
-									+ heightPixelsPerTile, null);
-					g.drawImage(sword, widthPixelsPerTile * y,
-							heightPixelsPerTile * linePixel, widthPixelsPerTile
-									* y + widthPixelsPerTile,
-							heightPixelsPerTile * linePixel
-									+ heightPixelsPerTile, 0, 0, 720, 720, null);
+					drawWithTransparency(g, sword, y, linePixel);
 				}
 				// Exit
 				else if (getPiece(y, x).getSymbol().equals(
 						PieceType.EXIT.asString())
 						&& y == 0) {
-					g.drawImage(path, widthPixelsPerTile * y,
-							heightPixelsPerTile * linePixel, widthPixelsPerTile
-									* y + widthPixelsPerTile,
-							heightPixelsPerTile * linePixel
-									+ heightPixelsPerTile, widthPixelsPerTile
-									* y, heightPixelsPerTile * linePixel,
-							widthPixelsPerTile * y + widthPixelsPerTile,
-							heightPixelsPerTile * linePixel
-									+ heightPixelsPerTile, null);
-					g.drawImage(exit, widthPixelsPerTile * y,
-							heightPixelsPerTile * linePixel, widthPixelsPerTile
-									* y + widthPixelsPerTile,
-							heightPixelsPerTile * linePixel
-									+ heightPixelsPerTile, 0, 0, 720, 720, null);
+					drawWithTransparency(g, exit, y, linePixel);
 				} else if (getPiece(y, x).getSymbol().equals(
 						PieceType.EXIT.asString())
 						&& y != 0) {
-					g.drawImage(path, widthPixelsPerTile * y,
-							heightPixelsPerTile * linePixel, widthPixelsPerTile
-									* y + widthPixelsPerTile,
-							heightPixelsPerTile * linePixel
-									+ heightPixelsPerTile, widthPixelsPerTile
-									* y, heightPixelsPerTile * linePixel,
-							widthPixelsPerTile * y + widthPixelsPerTile,
-							heightPixelsPerTile * linePixel
-									+ heightPixelsPerTile, null);
-					g.drawImage(exit_symmetrical, widthPixelsPerTile * y,
-							heightPixelsPerTile * linePixel, widthPixelsPerTile
-									* y + widthPixelsPerTile,
-							heightPixelsPerTile * linePixel
-									+ heightPixelsPerTile, 0, 0, 720, 720, null);
+					drawWithTransparency(g, exit_symmetrical, y, linePixel);
 				}
 				// Eagle
 				else if (getPiece(y, x).getSymbol().equals(
@@ -373,34 +229,13 @@ public class GameUI extends JPanel implements ActionListener, KeyListener {
 						|| getPiece(y, x).getSymbol().equals(
 								PieceType.PURSUING_DRAGON_ASLEEP_EAGLE
 										.asString())) {
-					g.drawImage(path, widthPixelsPerTile * y,
-							heightPixelsPerTile * linePixel, widthPixelsPerTile
-									* y + widthPixelsPerTile,
-							heightPixelsPerTile * linePixel
-									+ heightPixelsPerTile, widthPixelsPerTile
-									* y, heightPixelsPerTile * linePixel,
-							widthPixelsPerTile * y + widthPixelsPerTile,
-							heightPixelsPerTile * linePixel
-									+ heightPixelsPerTile, null);
-					g.drawImage(eagle, widthPixelsPerTile * y,
-							heightPixelsPerTile * linePixel, widthPixelsPerTile
-									* y + widthPixelsPerTile,
-							heightPixelsPerTile * linePixel
-									+ heightPixelsPerTile, 0, 0, 720, 720, null);
+					drawWithTransparency(g, eagle, y, linePixel);
 				} else if (getPiece(y, x).getSymbol().equals(
 						PieceType.PURSUING_WALL_EAGLE.asString())) {
-					g.drawImage(eagle, widthPixelsPerTile * y,
-							heightPixelsPerTile * linePixel, widthPixelsPerTile
-									* y + widthPixelsPerTile,
-							heightPixelsPerTile * linePixel
-									+ heightPixelsPerTile, 0, 0, 720, 720, null);
+					drawSimple(g, eagle, y, linePixel);
 				} else if (getPiece(y, x).getSymbol().equals(
 						PieceType.RETURNING_WALL_EAGLE.asString())) {
-					g.drawImage(eagle_returning_sword, widthPixelsPerTile * y,
-							heightPixelsPerTile * linePixel, widthPixelsPerTile
-									* y + widthPixelsPerTile,
-							heightPixelsPerTile * linePixel
-									+ heightPixelsPerTile, 0, 0, 720, 720, null);
+					drawSimple(g, eagle_returning_sword, y, linePixel);
 				} else if (getPiece(y, x).getSymbol().equals(
 						PieceType.GROUND_EAGLE.asString())
 						|| getPiece(y, x).getSymbol().equals(
@@ -408,35 +243,31 @@ public class GameUI extends JPanel implements ActionListener, KeyListener {
 										.asString())
 						|| getPiece(y, x).getSymbol().equals(
 								PieceType.RETURNING_DRAGON_EAGLE.asString())) {
-					g.drawImage(path, widthPixelsPerTile * y,
-							heightPixelsPerTile * linePixel, widthPixelsPerTile
-									* y + widthPixelsPerTile,
-							heightPixelsPerTile * linePixel
-									+ heightPixelsPerTile, widthPixelsPerTile
-									* y, heightPixelsPerTile * linePixel,
-							widthPixelsPerTile * y + widthPixelsPerTile,
-							heightPixelsPerTile * linePixel
-									+ heightPixelsPerTile, null);
-					g.drawImage(eagle_returning_sword, widthPixelsPerTile * y,
-							heightPixelsPerTile * linePixel, widthPixelsPerTile
-									* y + widthPixelsPerTile,
-							heightPixelsPerTile * linePixel
-									+ heightPixelsPerTile, 0, 0, 720, 720, null);
+					drawWithTransparency(g, eagle_returning_sword, y, linePixel);
 				}
-
-				else if (!getPiece(y, x).getSymbol().equals(
-						PieceType.WALL.asString()))
-					g.drawImage(path, widthPixelsPerTile * y,
-							heightPixelsPerTile * linePixel, widthPixelsPerTile
-									* y + widthPixelsPerTile,
-							heightPixelsPerTile * linePixel
-									+ heightPixelsPerTile, widthPixelsPerTile
-									* y, heightPixelsPerTile * linePixel,
-							widthPixelsPerTile * y + widthPixelsPerTile,
-							heightPixelsPerTile * linePixel
-									+ heightPixelsPerTile, null);
 			}
 		}
+	}
+
+	public void drawSimple(Graphics g, Image image, int y, int linePixel) {
+		g.drawImage(image, widthPixelsPerTile * y, heightPixelsPerTile
+				* linePixel, widthPixelsPerTile * y + widthPixelsPerTile,
+				heightPixelsPerTile * linePixel + heightPixelsPerTile, 0, 0,
+				720, 720, null);
+	}
+
+	public void drawWithTransparency(Graphics g, Image image, int y,
+			int linePixel) {
+		g.drawImage(path, widthPixelsPerTile * y, heightPixelsPerTile
+				* linePixel, widthPixelsPerTile * y + widthPixelsPerTile,
+				heightPixelsPerTile * linePixel + heightPixelsPerTile,
+				widthPixelsPerTile * y, heightPixelsPerTile * linePixel,
+				widthPixelsPerTile * y + widthPixelsPerTile,
+				heightPixelsPerTile * linePixel + heightPixelsPerTile, null);
+		g.drawImage(image, widthPixelsPerTile * y, heightPixelsPerTile
+				* linePixel, widthPixelsPerTile * y + widthPixelsPerTile,
+				heightPixelsPerTile * linePixel + heightPixelsPerTile, 0, 7,
+				720, 720, null);
 	}
 
 	public Piece getPiece(int x, int y) {
@@ -477,11 +308,11 @@ public class GameUI extends JPanel implements ActionListener, KeyListener {
 		if (state.equals(State.HERO_DEAD.toString())) {
 			JOptionPane.showMessageDialog(null, "Hero died!");
 			playerCanMove = false;
-			play.closeMazeUI();
+			play.closePanel(this);
 		} else if (state.equals(State.HERO_WON.toString())) {
 			JOptionPane.showMessageDialog(null, "Hero won!");
 			playerCanMove = false;
-			play.closeMazeUI();
+			play.closePanel(this);
 		}
 	}
 
