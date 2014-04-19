@@ -153,8 +153,15 @@ public class Menu extends JPanel implements KeyListener {
 		try {
 			inStream = new FileInputStream(file);
 			objInStream = new ObjectInputStream(inStream);
+			Object o = objInStream.readObject();
 			
-			maze = (ArrayList<ArrayList<Piece>>) objInStream.readObject();
+			if(o instanceof ArrayList)
+				maze = (ArrayList<ArrayList<Piece>>) o;
+			else {
+				objInStream.close();
+				return null;
+			}
+			
 			objInStream.close();
 		}catch(Exception e) {
 			JOptionPane.showMessageDialog(null, "Ocorreu um erro ao ler o ficheiro do puzzle!");
