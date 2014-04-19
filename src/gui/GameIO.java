@@ -16,6 +16,7 @@ public class GameIO implements Serializable {
 	public GameIO() {
 	}
 
+	
 	public void saveMaze(String filename, ArrayList<ArrayList<Piece>> m) {
 		FileOutputStream outStream = null;
 		ObjectOutputStream objStream = null;

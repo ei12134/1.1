@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.swing.ImageIcon;
@@ -12,6 +13,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import logic.*;
+
 
 public class GameUI extends JPanel implements ActionListener, KeyListener {
 
@@ -31,11 +33,36 @@ public class GameUI extends JPanel implements ActionListener, KeyListener {
 
 	public GameUI(int boardSize, Play play, int dragonCounter,
 			int dragonStrategy, Dimension dimension) {
-
 		this.play = play;
 		this.boardSize = boardSize;
 		this.dimension = dimension;
+		loadData();
+		
+		
+		widthPixelsPerTile = dimension.width / boardSize;
+		heightPixelsPerTile = dimension.height / boardSize;
+		addKeyListener(this);
 
+		if (boardSize == 10)
+			logic = new Logic();
+		else
+			logic = new Logic(boardSize, dragonCounter, dragonStrategy);
+	}
+	
+	
+	public GameUI(Menu menu, int dragonStrategy, Dimension dimension, ArrayList<ArrayList<Piece>> maze) {
+		this.boardSize = maze.size();
+		this.dimension = dimension;
+		loadData();
+		
+		widthPixelsPerTile = dimension.width / boardSize;
+		heightPixelsPerTile = dimension.height / boardSize;
+		addKeyListener(this);
+		logic = new Logic(maze, dragonStrategy);
+	}
+	
+	
+	public void loadData() {
 		playerCanMove = true;
 		keyboardKeys = new GameKeyboard();
 		keyboardKeys.initializeKeys();
@@ -67,16 +94,8 @@ public class GameUI extends JPanel implements ActionListener, KeyListener {
 		eagle = new ImageIcon("src//png/eagle.png").getImage();
 		eagle_returning_sword = new ImageIcon(
 				"src//png/eagle_returning_sword.png").getImage();
-
-		widthPixelsPerTile = dimension.width / boardSize;
-		heightPixelsPerTile = dimension.height / boardSize;
-		addKeyListener(this);
-
-		if (boardSize == 10)
-			logic = new Logic();
-		else
-			logic = new Logic(boardSize, dragonCounter, dragonStrategy);
 	}
+	
 
 	public void keyPressed(KeyEvent e) {
 		String state[] = new String[4];

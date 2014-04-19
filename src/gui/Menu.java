@@ -1,15 +1,23 @@
 package gui;
 
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.ObjectInputStream;
+import java.util.ArrayList;
+
+import logic.Piece;
 
 public class Menu extends JPanel implements KeyListener {
 
@@ -23,6 +31,7 @@ public class Menu extends JPanel implements KeyListener {
 	private JButton load;
 	private Dimension dimension;
 
+	
 	public Menu(JFrame frame) {
 		// Menu Buttons
 		play = new JButton("Play Game");
@@ -31,9 +40,9 @@ public class Menu extends JPanel implements KeyListener {
 		load = new JButton("Load Game");
 		dimension = new Dimension(720, 720);
 		this.frame = frame;
-
 		addKeyListener(this);
 
+		
 		// Set up menu and settings panels
 		setMenuPanel();
 		showPanel(this);
@@ -47,28 +56,8 @@ public class Menu extends JPanel implements KeyListener {
 				playPanel.setPlayPanel();
 				showPanel(playPanel);
 			}
-		});
 
-		// load.addActionListener(new ActionListener() {
-		// @Override
-		// public void actionPerformed(ActionEvent arg0) {
-		// /*
-		// * Acho que teremos de criar um novo construtor em MazeUI e
-		// * passaremos este arraylist. Só não sei como vamos inferir o
-		// * dragonStrategy sem guardar essa informação ao fazer save -
-		// * dragonCounter parece facil
-		// */
-		// // logic.Maze m = new logic.Maze();
-		// GameIO io = new GameIO();
-		// ArrayList<ArrayList<Piece>> tmp = io.readFile("puzzle.lpoo");
-		// for (int i = 0; i < tmp.size(); i++) {
-		// ArrayList<Piece> linhamaze = tmp.get(i);
-		// for (int j = 0; j < tmp.get(i).size(); j++)
-		// System.out.print(linhamaze.get(j).getSymbol());
-		// System.out.println();
-		// }
-		// }
-		// });
+		});
 
 		settings.addActionListener(new ActionListener() {
 			@Override
@@ -78,6 +67,7 @@ public class Menu extends JPanel implements KeyListener {
 				showPanel(settingsPanel);
 			}
 		});
+
 		exit.addActionListener(new ActionListener() {
 
 			@Override
@@ -95,6 +85,69 @@ public class Menu extends JPanel implements KeyListener {
 					System.exit(0);
 			}
 		});
+
+		// load.addActionListener(new ActionListener() {
+		//
+		// @Override
+		// public void actionPerformed(ActionEvent arg0) {
+		// final JFileChooser fileChooser = new JFileChooser();
+		// fileChooser.addChoosableFileFilter(new
+		// FileNameExtensionFilter("Ficheiros de puzzle...", "puzzle"));
+		// int i = fileChooser.showDialog(Menu.this,
+		// "Escolher o ficheiro do puzzle...");
+		//
+		// if(i == JFileChooser.APPROVE_OPTION) {
+		// File puzzle = fileChooser.getSelectedFile();
+		// startPuzzle(puzzle);
+		// }
+		// }
+		// });
+		//
+	}
+
+	public void startPuzzle(/* File puzzle */) {
+		// if(puzzle.exists()) {
+		// ArrayList<ArrayList<Piece>> maze = new ArrayList<ArrayList<Piece>>();
+		// maze = getPuzzleFile(puzzle);
+
+		playPanel.closeMenuPanel();
+		playPanel.setPlayPanel();
+		showPanel(playPanel);
+		// GameUI game = new GameUI(this, 1, dimension, maze);
+		// this.removeAll();
+		// this.showPanel(game);
+		// game.requestFocusInWindow();
+		// } else {
+		// JOptionPane.showMessageDialog(null, "O ficheiro " + puzzle.getName()
+		// + " n‹o existe no sistema!");
+		// }
+	}
+
+	public ArrayList<ArrayList<Piece>> getPuzzleFile(File file) {
+		ArrayList<ArrayList<Piece>> maze = new ArrayList<ArrayList<Piece>>();
+		FileInputStream inStream = null;
+		ObjectInputStream objInStream = null;
+
+		try {
+			inStream = new FileInputStream(file);
+			objInStream = new ObjectInputStream(inStream);
+			Object o = objInStream.readObject();
+
+			if (o instanceof ArrayList)
+				maze = (ArrayList<ArrayList<Piece>>) o;
+			else {
+				objInStream.close();
+				return null;
+			}
+
+			objInStream.close();
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null,
+					"Ocorreu um erro ao ler o ficheiro do puzzle!");
+			e.printStackTrace();
+		}
+
+		return maze;
 	}
 
 	public void setMenuPanel() {

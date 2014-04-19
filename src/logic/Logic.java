@@ -1,5 +1,6 @@
 package logic;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 
@@ -16,18 +17,26 @@ public class Logic extends Maze {
 
 	private int dragonStrategy;
 
-	// Standard Maze
+	//Standard Maze
 	public Logic() {
 		super();
 		this.dragonStrategy = 1;
 	}
+	
 
-	// Random Maze
+	//Random Maze
 	public Logic(int mazeSize, int dragonCounter, int dragonStrategy) {
 		super(mazeSize, dragonCounter);
 		this.dragonStrategy = dragonStrategy;
 	}
+	
+	
+	public Logic(ArrayList<ArrayList<Piece>> maze, int dragonStrategy) {
+		super(maze);
+		this.dragonStrategy = dragonStrategy;
+	}
 
+	
 	/**
 	 * Processes the moves related to the game according to the input and game
 	 * initial configuration variables.

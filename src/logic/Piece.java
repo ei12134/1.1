@@ -1,6 +1,15 @@
 package logic;
 
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Image;
 import java.io.Serializable;
+
+import javax.swing.ImageIcon;
+import javax.swing.JComponent;
+
+
 
 /**
  * Represents common attributes for each Piece of the maze
@@ -9,22 +18,30 @@ import java.io.Serializable;
  * @author José Peixoto
  * @author Paulo Faria
  */
-public class Piece implements Serializable {
+public class Piece extends JComponent implements Serializable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	private int posX;
 	private int posY;
 	private String symbol;
-
+	private ImageIcon image;
+	
+	
 	public Piece(int posX, int posY, String symbol) {
 		this.posX = posX;
 		this.posY = posY;
 		this.symbol = symbol;
 	}
+	
+	
+	public Piece(int posX, int posY, String symbol, ImageIcon image) {
+		this.posX = posX;
+		this.posY = posY;
+		this.symbol = symbol;
+		this.image = image;
+	}
 
+	
 	/**
 	 * Gets X position value.
 	 * 
@@ -34,6 +51,7 @@ public class Piece implements Serializable {
 		return posX;
 	}
 
+	
 	/**
 	 * Gets Y position value.
 	 * 
@@ -62,6 +80,7 @@ public class Piece implements Serializable {
 		this.symbol = symbol;
 	}
 
+	
 	/**
 	 * Set new Piece position
 	 * 
@@ -73,5 +92,24 @@ public class Piece implements Serializable {
 	public void setPosition(int x, int y) {
 		posX = x;
 		posY = y;
+	}
+	
+	
+	public ImageIcon getImage() {
+		return image;
+	}
+	
+	
+	public void setImage(ImageIcon image) {
+		this.image = image;
+		repaint();
+	}
+
+	
+	@Override
+	public void paintComponent(Graphics g) {
+		Graphics2D g2 = (Graphics2D) g.create();
+		g2.drawImage(image.getImage(), 0, 0, this.getWidth() - 1, this.getHeight() - 1, this);
+		g2.dispose();
 	}
 }
