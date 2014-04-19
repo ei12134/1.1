@@ -8,6 +8,8 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.FileOutputStream;
+import java.io.ObjectOutputStream;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -62,6 +64,7 @@ public class MazeBuilder extends JPanel implements KeyListener{
 		types.add(PieceType.EXIT);
 		types.add(PieceType.HERO_UNARMED);
 		types.add(PieceType.SWORD);
+		types.add(PieceType.DRAGON);
 	}
 	
 	
@@ -70,15 +73,19 @@ public class MazeBuilder extends JPanel implements KeyListener{
 		for (int i = 0; i < mazeSize; i++) {
 			ArrayList<Piece> row = new ArrayList<Piece>();
 			for (int j = 0; j < mazeSize; j++)
-				row.add(new Piece(j, i, PieceType.FREE.asString()));
+				row.add(new Piece(j, i, PieceType.FREE.asString(), new ImageIcon("src//png//path.png")));
 			maze.add(row);
 		}
 
 		for (int i = 0; i < mazeSize; i++) {
 			maze.get(0).get(i).setSymbol(PieceType.WALL.asString());
+			maze.get(0).get(i).setImage(new ImageIcon("src//png//wall_red.png"));
 			maze.get(mazeSize - 1).get(i).setSymbol(PieceType.WALL.asString());
+			maze.get(mazeSize - 1).get(i).setImage(new ImageIcon("src//png//wall_red.png")); 
 			maze.get(i).get(0).setSymbol(PieceType.WALL.asString());
+			maze.get(i).get(0).setImage(new ImageIcon("src//png//wall_red.png"));
 			maze.get(i).get(mazeSize - 1).setSymbol(PieceType.WALL.asString());
+			maze.get(i).get(mazeSize - 1).setImage(new ImageIcon("src//png//wall_red.png"));
 		}
 	}
 
@@ -87,7 +94,7 @@ public class MazeBuilder extends JPanel implements KeyListener{
 	public void startMazeBuilder() {
 		for (int i = 0; i < maze.size(); i++) {
 			for (int j = 0; j < maze.get(i).size(); j++) {
-				Piece piece = new Piece(0, 0, "");
+				/**Piece piece = new Piece(0, 0, "");
 				if (maze.get(j).get(i).getSymbol() == PieceType.FREE.asString()) {
 					piece = new Piece(j, i, PieceType.FREE.asString(), 
 							new ImageIcon("src//png//path.png").getImage());
@@ -97,9 +104,10 @@ public class MazeBuilder extends JPanel implements KeyListener{
 					piece = new Piece(j, i, PieceType.FREE.asString(), 
 							new ImageIcon("src//png//wall_red.png").getImage());
 					add(piece);
-				}
+				}*/
+				add(maze.get(i).get(j));
 
-				piece.addMouseListener(new MouseListener() {
+				maze.get(i).get(j).addMouseListener(new MouseListener() {
 
 					@Override
 					public void mouseReleased(MouseEvent arg0) {
@@ -124,6 +132,8 @@ public class MazeBuilder extends JPanel implements KeyListener{
 					@Override
 					public void mouseClicked(MouseEvent arg0) {
 						Piece p = (Piece) arg0.getSource();
+						p = maze.get(p.getPosY()).get(p.getPosX());
+						//JOptionPane.showConfirmDialog(null, p.getPosY() + " - " + p.getPosX());
 						if((p.getPosX() == 0 && p.getPosY() == 0) || (p.getPosX() == mazeSize - 1 && p.getPosY() == 0) || 
 								(p.getPosX() == 0 && p.getPosY() == mazeSize - 1) || (p.getPosX() == mazeSize - 1 && p.getPosY() == mazeSize - 1)) {
 							JOptionPane.showMessageDialog(null, "N‹o Ž poss’vel editar esta pea!");
@@ -140,12 +150,13 @@ public class MazeBuilder extends JPanel implements KeyListener{
 		JMenuItem item;
 		MouseListener listener = new PopupListener(p, mazeSize);
 		final JPopupMenu popup = new JPopupMenu();
-		for(int i = 0; i < types.size(); i++)
+		for(int i = 0; i < types.size(); i++) {
 			if(types.get(i).asString() != p.getSymbol()) {
 				item = new JMenuItem(types.get(i).asString());
 				item.addMouseListener(listener);
 				popup.add(item);
 			}
+		}		
 		popup.show(p, 0, 0);
 	}
 
@@ -159,10 +170,16 @@ public class MazeBuilder extends JPanel implements KeyListener{
 	public void keyPressed(KeyEvent e) {
 		int code = e.getKeyCode();
 		
-		if(code == KeyEvent.VK_1) {
-			//Prompt the user for a filename
-			String filename = "";
-			filename = JOptionPane.showInputDialog("Escolher o nome do ficheiro...");
+		if(code == KeyEvent.VK_A) {
+			if(checkPuzzle(maze)) {
+				//Ask the user to enter a filename
+				String filename = "";
+				filename = JOptionPane.showInputDialog("Escolher o nome do ficheiro...");
+				
+				saveMaze(filename, maze);
+			} else {
+				JOptionPane.showMessageDialog(null, "O puzzle Ž inv‡lido! Verificar novamente...");
+			}
 		}
 	}
 
@@ -174,6 +191,70 @@ public class MazeBuilder extends JPanel implements KeyListener{
 
 	@Override
 	public void keyTyped(KeyEvent e) {
+	}
+	
+	
+	public boolean checkPuzzle(ArrayList<ArrayList<Piece>> maze) {
+		boolean has_exit = false;
+		boolean has_dragon = false;
+		boolean has_sword = false;
+		boolean has_hero = false;
+		
+		
+		for(int i = 0; i < maze.size(); i++) {
+			for(int j = 0; j < maze.get(i).size(); j++) {
+				if(maze.get(j).get(i).getSymbol().equals(PieceType.EXIT.asString())) {
+					if(has_exit)
+						return false;
+					else
+						has_exit = true;
+				} else if(maze.get(j).get(i).getSymbol().equals(PieceType.DRAGON.asString())) {
+					if(!has_dragon)
+						has_dragon = true;
+				} else if(maze.get(j).get(i).getSymbol().equals(PieceType.HERO_UNARMED.asString())) {
+					if(has_hero)
+						return false;
+					else
+						has_hero = true;
+				} else if(maze.get(j).get(i).getSymbol().equals(PieceType.SWORD.asString())) {
+					if(has_sword)
+						return false;
+					else
+						has_sword = true;
+				}
+			}
+		}
+		
+		if(has_exit && has_dragon && has_sword && has_hero)
+			return true;
+		
+		return false;
+	}
+	
+	
+	public void saveMaze(String filename, ArrayList<ArrayList<Piece>> maze) {
+		//We should not write the images to the file
+		ArrayList<ArrayList<Piece>> tmp = new ArrayList<ArrayList<Piece>>();
+		for(int i = 0; i < maze.size(); i++) {
+			ArrayList<Piece> row = new ArrayList<Piece>();
+			for(int j = 0; j < maze.get(i).size(); j++) {
+				row.add(new Piece(j, i, maze.get(j).get(i).getSymbol()));
+			}
+			tmp.add(row);
+		}
+		
+		FileOutputStream outStream = null;
+		ObjectOutputStream objStream = null;
+		
+		try {
+			outStream = new FileOutputStream(filename + ".puzzle");
+			objStream = new ObjectOutputStream(outStream);
+			
+			objStream.writeObject(tmp);
+			objStream.close();
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
 	}
 }
 
@@ -190,7 +271,7 @@ class PopupListener extends MouseAdapter {
 	}
 	
 	
-	public void setData(Image img, String symbol) {
+	public void setData(ImageIcon img, String symbol) {
 		p.setSymbol(symbol);
 		p.setImage(img);
 	}
@@ -201,34 +282,40 @@ class PopupListener extends MouseAdapter {
 		if(x instanceof JMenuItem) {
 			String tmp = ((JMenuItem) x).getText();
 			if(tmp.equals(PieceType.WALL.asString())) {
-				setData(new ImageIcon("src//png//wall_red.png").getImage(), PieceType.WALL.asString());
+				setData(new ImageIcon("src//png//wall_red.png"), PieceType.WALL.asString());
 			} else if(tmp.equals(PieceType.FREE.asString())) {
 				if(p.getPosX() == 0 || p.getPosX() == mazeSize - 1) {
 					JOptionPane.showMessageDialog(null, "N‹o Ž poss’vel marcar esta pea como livre!");
 				} else {
-					setData(new ImageIcon("src//png//path.png").getImage(), PieceType.FREE.asString());
+					setData(new ImageIcon("src//png//path.png"), PieceType.FREE.asString());
 				}
 			} else if(tmp.equals(PieceType.EXIT.asString())) {
 				if(p.getPosX() != 0 || p.getPosX() == mazeSize - 1) {
 					JOptionPane.showMessageDialog(null, "N‹o Ž poss’vel marcar a sa’da nesta pea!");
 				} else {
 					if(p.getPosX() == 0) {
-						setData(new ImageIcon("src//png//exit.png").getImage(), PieceType.EXIT.asString());
+						setData(new ImageIcon("src//png//exit.png"), PieceType.EXIT.asString());
 					} else {
-						setData(new ImageIcon("src//png//exit_symmetrical.png").getImage(), PieceType.EXIT.asString());
+						setData(new ImageIcon("src//png//exit_symmetrical.png"), PieceType.EXIT.asString());
 					}
 				}
 			} else if(tmp.equals(PieceType.HERO_UNARMED.asString())) {
 				if(p.getPosX() == 0 || p.getPosX() == mazeSize - 1) {
 					JOptionPane.showMessageDialog(null, "N‹o Ž poss’vel colocar o her—i nesta pea!");
 				} else {
-					setData(new ImageIcon("src//png//hero_unarmed.png").getImage(), PieceType.HERO_UNARMED.asString());
+					setData(new ImageIcon("src//png//hero_unarmed.png"), PieceType.HERO_UNARMED.asString());
 				}
 			} else if(tmp.equals(PieceType.SWORD.asString())) {
 				if(p.getPosX() == 0 || p.getPosX() == mazeSize - 1) {
 					JOptionPane.showMessageDialog(null, "N‹o Ž poss’vel adicionar a espada nesta pea!");
 				} else {
-					setData(new ImageIcon("src//png//sword.png").getImage(), PieceType.SWORD.asString());
+					setData(new ImageIcon("src//png//sword.png"), PieceType.SWORD.asString());
+				}
+			} else if(tmp.equals(PieceType.DRAGON.asString())) {
+				if(p.getPosX() == 0 || p.getPosX() == mazeSize - 1) {
+					JOptionPane.showMessageDialog(null, "N‹o Ž poss’vel colocar o drag‹o nesta posi‹o!");
+				} else {
+					setData(new ImageIcon("src//png//dragon.png"), PieceType.DRAGON.asString());
 				}
 			}
 		}
