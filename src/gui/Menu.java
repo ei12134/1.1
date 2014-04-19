@@ -19,14 +19,12 @@ import java.util.ArrayList;
 
 import logic.Piece;
 
-
 public class Menu extends JPanel implements KeyListener {
 
 	private static final long serialVersionUID = 1L;
 	private JFrame frame;
 	private Settings settingsPanel;
 	private Play playPanel;
-	private MazeBuilder mazeBuilder;
 	private JButton play;
 	private JButton exit;
 	private JButton settings;
@@ -48,21 +46,16 @@ public class Menu extends JPanel implements KeyListener {
 		setMenuPanel();
 		showPanel(this);
 		playPanel = new Play(this, dimension);
-		mazeBuilder = new MazeBuilder(this, 9);
 		settingsPanel = new Settings(this, dimension);
 
 		// Button actions
 		play.addActionListener(new ActionListener() {
-			/**public void actionPerformed(ActionEvent ev) {
+			public void actionPerformed(ActionEvent ev) {
 				playPanel.closeMenuPanel();
 				playPanel.setPlayPanel();
 				showPanel(playPanel);
-			}*/
-			public void actionPerformed(ActionEvent ev) {
-				mazeBuilder.closeMenuPanel();
-				mazeBuilder.startMazeBuilder();
-				showPanel(mazeBuilder);
 			}
+
 		});
 
 		settings.addActionListener(new ActionListener() {
@@ -73,8 +66,7 @@ public class Menu extends JPanel implements KeyListener {
 				showPanel(settingsPanel);
 			}
 		});
-		
-		
+
 		exit.addActionListener(new ActionListener() {
 
 			@Override
@@ -92,72 +84,71 @@ public class Menu extends JPanel implements KeyListener {
 					System.exit(0);
 			}
 		});
-		
-		
-		load.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				final JFileChooser fileChooser = new JFileChooser();
-				fileChooser.addChoosableFileFilter(new FileNameExtensionFilter("Ficheiros de puzzle...", "puzzle"));
-				int i = fileChooser.showDialog(Menu.this, "Escolher o ficheiro do puzzle...");
-				
-				if(i == JFileChooser.APPROVE_OPTION) {
-					File puzzle = fileChooser.getSelectedFile();
-					startPuzzle(puzzle);
-				}
-			}
-		});
-		
+
+		// load.addActionListener(new ActionListener() {
+		//
+		// @Override
+		// public void actionPerformed(ActionEvent arg0) {
+		// final JFileChooser fileChooser = new JFileChooser();
+		// fileChooser.addChoosableFileFilter(new
+		// FileNameExtensionFilter("Ficheiros de puzzle...", "puzzle"));
+		// int i = fileChooser.showDialog(Menu.this,
+		// "Escolher o ficheiro do puzzle...");
+		//
+		// if(i == JFileChooser.APPROVE_OPTION) {
+		// File puzzle = fileChooser.getSelectedFile();
+		// startPuzzle(puzzle);
+		// }
+		// }
+		// });
+		//
 	}
-	
-	
-	
-	public void startPuzzle(File puzzle) {
-		if(puzzle.exists()) {
-			ArrayList<ArrayList<Piece>> maze = new ArrayList<ArrayList<Piece>>();
-			maze = getPuzzleFile(puzzle);
-			
-			//playPanel.closeMenuPanel();
-			//playPanel.setPlayPanel();
-			//showPanel(playPanel);
-			GameUI game = new GameUI(this, 1, dimension, maze);
-			this.removeAll();
-			this.showPanel(game);
-			game.requestFocusInWindow();
-		} else {
-			JOptionPane.showMessageDialog(null, "O ficheiro " + puzzle.getName() + " n‹o existe no sistema!");
-		}
+
+	public void startPuzzle(/* File puzzle */) {
+		// if(puzzle.exists()) {
+		// ArrayList<ArrayList<Piece>> maze = new ArrayList<ArrayList<Piece>>();
+		// maze = getPuzzleFile(puzzle);
+
+		playPanel.closeMenuPanel();
+		playPanel.setPlayPanel();
+		showPanel(playPanel);
+		// GameUI game = new GameUI(this, 1, dimension, maze);
+		// this.removeAll();
+		// this.showPanel(game);
+		// game.requestFocusInWindow();
+		// } else {
+		// JOptionPane.showMessageDialog(null, "O ficheiro " + puzzle.getName()
+		// + " n‹o existe no sistema!");
+		// }
 	}
-	
-	
+
 	public ArrayList<ArrayList<Piece>> getPuzzleFile(File file) {
 		ArrayList<ArrayList<Piece>> maze = new ArrayList<ArrayList<Piece>>();
 		FileInputStream inStream = null;
 		ObjectInputStream objInStream = null;
-		
+
 		try {
 			inStream = new FileInputStream(file);
 			objInStream = new ObjectInputStream(inStream);
 			Object o = objInStream.readObject();
-			
-			if(o instanceof ArrayList)
+
+			if (o instanceof ArrayList)
 				maze = (ArrayList<ArrayList<Piece>>) o;
 			else {
 				objInStream.close();
 				return null;
 			}
-			
+
 			objInStream.close();
-		}catch(Exception e) {
-			JOptionPane.showMessageDialog(null, "Ocorreu um erro ao ler o ficheiro do puzzle!");
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null,
+					"Ocorreu um erro ao ler o ficheiro do puzzle!");
 			e.printStackTrace();
 		}
-		
+
 		return maze;
 	}
-	
-	
+
 	public void setMenuPanel() {
 		setSize(dimension);
 		setLayout(new GridBagLayout());
