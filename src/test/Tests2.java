@@ -14,7 +14,7 @@ public class Tests2 {
 	/*
 	 * Checks dragon movements .
 	 */
-	@Test  
+	@Test
 	public void testMovingDragon() {
 		Logic j1 = new Logic();
 		ArrayList<Dragon> dragons = new ArrayList<Dragon>();
@@ -31,7 +31,7 @@ public class Tests2 {
 
 		assertNotSame(4, j1.getDragons().get(0).getPosX());
 	}
-	
+
 	/*
 	 * Checks if dragon can fall asleep .
 	 */
@@ -61,9 +61,9 @@ public class Tests2 {
 		j1.setHero(new Hero(4, 5));
 		j1.getHero().setArmed(true);
 
-		assertSame(j1.getDragons().size(), 3);
+		assertSame(j1.getDragons().size(), 3);// we had 3 dragons alive
 		j1.checkGame();
-		assertSame(j1.getDragons().size(), 0);
+		assertSame(j1.getDragons().size(), 0);// and now they are all dead
 		assertFalse(j1.getHero().getDead());
 	}
 }

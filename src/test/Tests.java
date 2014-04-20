@@ -17,7 +17,6 @@ public class Tests {
 
 	/*
 	 * Checks if hero can move toward a free cell
-	 * 
 	 */
 	@Test
 	public void testMovingHeroe() {
@@ -28,7 +27,8 @@ public class Tests {
 	}
 
 	/*
-	 * Checks if hero stands in same spot  (when to order him to move toward a Wall);
+	 * Checks if hero stands in same spot (when to order him to move toward a
+	 * Wall);
 	 */
 	@Test
 	public void testMovingtoWallHero() {
@@ -39,7 +39,7 @@ public class Tests {
 				.getDirection()));
 	}
 
-	//Checks if hero catchs the sword;
+	// Checks if hero catchs the sword;
 	@Test
 	public void testCatchingtheSword() {
 		Logic j1 = new Logic();
@@ -50,7 +50,7 @@ public class Tests {
 		assertTrue(j1.getHero().getArmed());
 	}
 
-	//checks if dragon can kill an unarmed hero(game over);
+	// checks if dragon can kill an unarmed hero(game over);
 	@Test
 	public void testGettingKilledByDragon() {
 		Logic j1 = new Logic();
@@ -117,6 +117,7 @@ public class Tests {
 		assertFalse(movimentosPossiveis.containsKey(Movement.MOVE_RIGHT
 				.getDirection()));
 		j1.getHero().setArmed(true);
+		// tries to move to the exit (at hero´s right),but fails :
 		assertFalse(movimentosPossiveis.containsKey(Movement.MOVE_RIGHT
 				.getDirection()));
 	}

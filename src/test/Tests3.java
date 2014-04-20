@@ -208,7 +208,7 @@ public class Tests3 {
 		}
 
 		// checks if the eagle landed where it was sent by the hero and not
-				// where the hero is now standying after moving
+		// where the hero is now standying after moving
 		assertEquals(j1.getEagle().getPosX(), 3);
 		assertEquals(j1.getEagle().getPosY(), 1);
 
@@ -216,8 +216,7 @@ public class Tests3 {
 				|| j1.getDragons().get(0).getPosY() != 1)
 			j1.moveDragon(j1.getDragons().get(0));
 
-		
-		//checks if the eagle is killed by the dragon while in the ground
+		// checks if the eagle is killed by the dragon while in the ground
 		assertTrue(j1.getEagle().getDead());
 		assertEquals(j1.getMazePiece(3, 1).getSymbol(), " F ");
 	}
