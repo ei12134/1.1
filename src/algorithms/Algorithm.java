@@ -9,11 +9,8 @@ import java.util.Random;
 import java.util.Stack;
 
 /**
- * Classe que contem o algoritmo de geracao de mazes E baseado no
- * dfs(depth-first search) e foi implementado utilizando o recursive
- * backtracking
  * 
- * Class that hosts the maze´s generation algorithm based on dfs(depth-first
+ * Class that has the maze´s generation algorithm based on dfs(depth-first
  * search) and implemented using recursive backtracking
  * 
  * @author Andre Pinheiro
