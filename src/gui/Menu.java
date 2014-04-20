@@ -16,6 +16,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.ObjectInputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import logic.Piece;
 
@@ -25,11 +26,9 @@ public class Menu extends JPanel implements KeyListener {
 	private JFrame frame;
 	private Settings settingsPanel;
 	private Play playPanel;
-	private JButton play;
-	private JButton exit;
-	private JButton settings;
-	private JButton load;
+	private JButton play, exit, settings, load;
 	private Dimension dimension;
+	private GameKeyboard keyboardKeys;
 
 	public Menu(JFrame frame) {
 		// Menu Buttons
@@ -41,18 +40,22 @@ public class Menu extends JPanel implements KeyListener {
 		this.frame = frame;
 		addKeyListener(this);
 
+		playPanel = new Play(this);
+		settingsPanel = new Settings(this);
+
 		// Set up menu and settings panels
 		setMenuPanel();
 		showPanel(this);
-		playPanel = new Play(this, dimension);
-		settingsPanel = new Settings(this, dimension);
+
+		// Keyboard Keys
+		keyboardKeys = new GameKeyboard();
+		keyboardKeys.initializeKeys();
+		keyboardKeys.readKeys();
 
 		// Button actions
 		play.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ev) {
-				playPanel.closeMenuPanel();
-				playPanel.setPlayPanel();
-				showPanel(playPanel);
+				startPanel(playPanel);
 			}
 
 		});
@@ -60,9 +63,7 @@ public class Menu extends JPanel implements KeyListener {
 		settings.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				settingsPanel.closeMenuPanel();
-				settingsPanel.setSettingsPanel();
-				showPanel(settingsPanel);
+				startPanel(settingsPanel);
 			}
 		});
 
@@ -107,8 +108,11 @@ public class Menu extends JPanel implements KeyListener {
 		if (savedMaze.exists()) {
 			ArrayList<ArrayList<Piece>> maze = new ArrayList<ArrayList<Piece>>();
 			maze = getPuzzleFile(savedMaze);
-			
-			GameUI game = new GameUI(this, 1, dimension, maze, playPanel);
+
+			// gameKeys = new HashMap<String, Integer>();
+			// gameKeys = keyboardKeys.getKeys();
+			GameUI game = new GameUI(this, 1, dimension, maze, playPanel,
+					keyboardKeys.getKeys());
 			frame.remove(this);
 			this.showPanel(game);
 			game.requestFocusInWindow();
@@ -137,47 +141,13 @@ public class Menu extends JPanel implements KeyListener {
 				return null;
 			}
 			objInStream.close();
-			
+
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null,
 					"Error reading from saved maze file");
 			e.printStackTrace();
 		}
 		return maze;
-	}
-
-	public void setMenuPanel() {
-		setSize(dimension);
-		setLayout(new GridBagLayout());
-		GridBagConstraints style = new GridBagConstraints();
-		style.fill = GridBagConstraints.BOTH;
-		style.weightx = 0.5;
-		style.weighty = 0.5;
-		style.gridheight = 3;
-		style.gridwidth = 3;
-		style.gridx = 1;
-		style.insets = new Insets(32, 256, 32, 256);
-		add(play, style);
-		add(load, style);
-		add(settings, style);
-		add(exit, style);
-		setVisible(true);
-	}
-
-	public void showPanel(JPanel panel) {
-		frame.add(panel);
-		frame.setSize(dimension);
-		frame.setLocationRelativeTo(null);
-		frame.setVisible(true);
-		this.requestFocusInWindow();
-	}
-
-	public JFrame getFrame() {
-		return frame;
-	}
-
-	public Settings getSettingsPanel() {
-		return settingsPanel;
 	}
 
 	@Override
@@ -208,5 +178,55 @@ public class Menu extends JPanel implements KeyListener {
 
 	public Play getPlayPanel() {
 		return playPanel;
+	}
+
+	public Settings getSettingsPanel() {
+		return settingsPanel;
+	}
+
+	public Dimension getDimension() {
+		return dimension;
+	}
+
+	public HashMap<String, Integer> getKeyboardKeys() {
+		return keyboardKeys.getKeys();
+	}
+
+	public void setMenuPanel() {
+		setSize(dimension);
+		setLayout(new GridBagLayout());
+		GridBagConstraints style = new GridBagConstraints();
+		style.fill = GridBagConstraints.BOTH;
+		style.weightx = 0.5;
+		style.weighty = 0.5;
+		style.gridheight = 3;
+		style.gridwidth = 3;
+		style.gridx = 1;
+		style.insets = new Insets(32, 256, 32, 256);
+		add(play, style);
+		add(load, style);
+		add(settings, style);
+		add(exit, style);
+		setVisible(true);
+	}
+
+	public void showPanel(JPanel panel) {
+		frame.add(panel);
+		frame.setSize(dimension);
+		frame.setLocationRelativeTo(null);
+		frame.setVisible(true);
+		panel.setVisible(true);
+		panel.requestFocusInWindow();
+	}
+
+	public void closePanel(JPanel oldPanel, JPanel newPanel) {
+		oldPanel.setVisible(false);
+		frame.remove(oldPanel);
+		showPanel(newPanel);
+	}
+
+	public void startPanel(JPanel panel) {
+		frame.remove(this);
+		showPanel(panel);
 	}
 }

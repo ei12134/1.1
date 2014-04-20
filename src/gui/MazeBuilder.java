@@ -25,13 +25,13 @@ import logic.PieceType;
 public class MazeBuilder extends JPanel implements KeyListener {
 
 	private static final long serialVersionUID = 1L;
-	private Play play;
+	private Menu menu;
 	private ArrayList<ArrayList<Piece>> maze;
 	private ArrayList<PieceType> types;
 	private int widthPixelsPerTile, heightPixelsPerTile, mazeSize;
 
-	MazeBuilder(final Play play, int boardSize, Dimension dimension) {
-		this.play = play;
+	MazeBuilder(final Menu menu, int boardSize, Dimension dimension) {
+		this.menu = menu;
 		this.mazeSize = boardSize;
 		maze = new ArrayList<ArrayList<Piece>>();
 		types = new ArrayList<PieceType>();
@@ -169,10 +169,10 @@ public class MazeBuilder extends JPanel implements KeyListener {
 			Object[] options = { "Yes", "No" };
 			int confirm = JOptionPane.showOptionDialog(null,
 					"Do you really want to stop building a maze?",
-					"Abort game", JOptionPane.YES_NO_OPTION,
+					"Cancel maze customization", JOptionPane.YES_NO_OPTION,
 					JOptionPane.QUESTION_MESSAGE, null, options, options[1]);
 			if (confirm == 0)
-				play.closePanel(this);
+				menu.closePanel(this, menu);
 		}
 	}
 

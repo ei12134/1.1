@@ -7,12 +7,11 @@ import java.util.Random;
 
 import javax.swing.JOptionPane;
 
-
 /**
  * Maze is the class used to store the maze and all its pieces.
  * 
- * @author AndrŽ Pinheiro
- * @author JosŽ Peixoto
+ * @author André Pinheiro
+ * @author José Peixoto
  * @author Paulo Faria
  */
 public class Maze {
@@ -24,8 +23,6 @@ public class Maze {
 	protected Piece exit;
 	protected Piece sword;
 
-	
-	
 	/**
 	 * Default constructor used to create a standard maze.
 	 */
@@ -53,35 +50,36 @@ public class Maze {
 		dragons = new ArrayList<Dragon>();
 		startRandomMaze(mazeSize, dragonCounter);
 	}
-	
-	
+
 	public Maze(ArrayList<ArrayList<Piece>> maze) {
 		this.maze = maze;
 		hero = new Hero(0, 0);
 		eagle = new Eagle(0, 0);
 		dragons = new ArrayList<Dragon>();
-		
-		
+
 		setMazeData(maze, hero, eagle, dragons);
 	}
-	
-	
-	public void setMazeData(ArrayList<ArrayList<Piece>> maze, Hero hero, Eagle eagle, ArrayList<Dragon> dragons) {
-		for(int i = 0; i < maze.size(); i++) {
-			for(int j = 0; j < maze.get(i).size(); j++) {
-				if(maze.get(i).get(j).getSymbol().equals(PieceType.HERO_UNARMED_EAGLE.asString())) {
+
+	public void setMazeData(ArrayList<ArrayList<Piece>> maze, Hero hero,
+			Eagle eagle, ArrayList<Dragon> dragons) {
+		for (int i = 0; i < maze.size(); i++) {
+			for (int j = 0; j < maze.get(i).size(); j++) {
+				if (maze.get(i).get(j).getSymbol()
+						.equals(PieceType.HERO_UNARMED_EAGLE.asString())) {
 					hero.setPosition(j, i);
 					eagle.setPosition(j, i);
-				} else if(maze.get(i).get(j).getSymbol().equals(PieceType.DRAGON.asString()))
+				} else if (maze.get(i).get(j).getSymbol()
+						.equals(PieceType.DRAGON.asString()))
 					dragons.add(new Dragon(j, i));
-				else if(maze.get(i).get(j).getSymbol().equals(PieceType.SWORD.asString()))
+				else if (maze.get(i).get(j).getSymbol()
+						.equals(PieceType.SWORD.asString()))
 					sword = new Piece(j, i, PieceType.SWORD.asString());
-				else if(maze.get(i).get(j).getSymbol().equals(PieceType.EXIT.asString()))
+				else if (maze.get(i).get(j).getSymbol()
+						.equals(PieceType.EXIT.asString()))
 					exit = new Piece(j, i, PieceType.EXIT.asString());
 			}
 		}
 	}
-	
 
 	private void startDefaultMaze() {
 		exit = new Piece(9, 5, PieceType.EXIT.asString());
@@ -122,8 +120,6 @@ public class Maze {
 				.setSymbol(dragons.get(0).showDragon());
 	}
 
-	
-	
 	private void startRandomMaze(int mazeSize, int dragonCounter) {
 		Algorithm algorithm = new Algorithm(mazeSize);
 		maze = algorithm.createMaze();
@@ -217,7 +213,6 @@ public class Maze {
 		default:
 			break;
 		}
-		
 
 		// Check for sword in next position
 		if (!hero.getArmed()) {

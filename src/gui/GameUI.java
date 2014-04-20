@@ -18,7 +18,7 @@ public class GameUI extends JPanel implements ActionListener, KeyListener {
 
 	private static final long serialVersionUID = 1L;
 	private Logic logic;
-	private Play play;
+	private Menu menu;
 	private Dimension dimension;
 	private int boardSize, widthPixelsPerTile, heightPixelsPerTile;
 	private Image wall, wall_red, wall_brown, wall_green, wall_black, path,
@@ -27,14 +27,15 @@ public class GameUI extends JPanel implements ActionListener, KeyListener {
 			exit, exit_symmetrical, sword, eagle, eagle_returning_sword;
 	private boolean playerCanMove;
 	private HashMap<String, Integer> gameKeys;
-	private GameKeyboard keyboardKeys;
 	private int wallConfig = 0;
 
-	public GameUI(int boardSize, Play play, int dragonCounter,
-			int dragonStrategy, Dimension dimension) {
-		this.play = play;
+	public GameUI(int boardSize, Menu menu, int dragonCounter,
+			int dragonStrategy, Dimension dimension,
+			HashMap<String, Integer> gameKeys) {
+		this.menu = menu;
 		this.boardSize = boardSize;
 		this.dimension = dimension;
+		this.gameKeys = gameKeys;
 		loadData();
 
 		widthPixelsPerTile = dimension.width / boardSize;
@@ -48,10 +49,11 @@ public class GameUI extends JPanel implements ActionListener, KeyListener {
 	}
 
 	public GameUI(Menu menu, int dragonStrategy, Dimension dimension,
-			ArrayList<ArrayList<Piece>> maze, Play play) {
+			ArrayList<ArrayList<Piece>> maze, Play play, HashMap<String, Integer> gameKeys) {
 		this.boardSize = maze.size();
 		this.dimension = dimension;
-		this.play = play;
+		this.menu = menu;
+		this.gameKeys = gameKeys;
 		loadData();
 
 		widthPixelsPerTile = dimension.width / boardSize;
@@ -62,11 +64,6 @@ public class GameUI extends JPanel implements ActionListener, KeyListener {
 
 	public void loadData() {
 		playerCanMove = true;
-		keyboardKeys = new GameKeyboard();
-		keyboardKeys.initializeKeys();
-		keyboardKeys.readKeys();
-		gameKeys = new HashMap<String, Integer>();
-		gameKeys = keyboardKeys.getKeys();
 		wall = new ImageIcon("src//png//wall_red.png").getImage();
 		wall_red = new ImageIcon("src//png//wall_red.png").getImage();
 		wall_green = new ImageIcon("src//png//wall_green.png").getImage();
@@ -134,7 +131,7 @@ public class GameUI extends JPanel implements ActionListener, KeyListener {
 					null, options, options[1]);
 
 			if (confirm == 0)
-				play.closePanel(this);
+				menu.closePanel(this, menu);
 		}
 
 		if (state[0] != null)
@@ -308,11 +305,11 @@ public class GameUI extends JPanel implements ActionListener, KeyListener {
 		if (state.equals(State.HERO_DEAD.toString())) {
 			JOptionPane.showMessageDialog(null, "Hero died!");
 			playerCanMove = false;
-			play.closePanel(this);
+			menu.closePanel(this, menu);
 		} else if (state.equals(State.HERO_WON.toString())) {
 			JOptionPane.showMessageDialog(null, "Hero won!");
 			playerCanMove = false;
-			play.closePanel(this);
+			menu.closePanel(this, menu);
 		}
 	}
 
