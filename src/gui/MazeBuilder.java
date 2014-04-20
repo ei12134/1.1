@@ -45,6 +45,7 @@ public class MazeBuilder extends JPanel implements KeyListener {
 		populateGameButtons();
 	}
 
+	
 	/**
 	 * The JPanel does not have the keyboard focus. We need to requestFocus when
 	 * the panel is added to the screen
@@ -54,6 +55,7 @@ public class MazeBuilder extends JPanel implements KeyListener {
 		requestFocus();
 	}
 
+	
 	public void populateTypes() {
 		types.add(PieceType.FREE);
 		types.add(PieceType.WALL);

@@ -15,16 +15,13 @@ public class KeyboardConfiguration extends JPanel implements KeyListener {
 	private Settings settings;
 
 	KeyboardConfiguration(Menu menu, Settings settings) {
-
 		this.menu = menu;
 		this.settings = settings;
 		gameKeys = menu.getKeyboardKeys();
 		addKeyListener(this);
-		// keyboardKeys = new GameKeyboard();
-		// keyboardKeys.initializeKeys();
-		// keyboardKeys.readKeys();
 	}
 
+	
 	@Override
 	public void keyPressed(KeyEvent event) {
 		if (event.getKeyCode() == KeyEvent.VK_ESCAPE) {
