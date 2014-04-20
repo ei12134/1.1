@@ -10,16 +10,11 @@ import logic.Logic;
 
 import org.junit.Test;
 
-/* Criar uma segunda classe de teste para testar o jogo com os comportamentos mais complexos 
- * do dragão (movimentação, dormir, múltiplos dragões). Para efeito de teste, os movimentos do 
- * dragão devem ser comandados pelo código de teste (em vez de ocorerem de forma aleatória). O 
- * resto do programa (interação com o utilizador) deve continuar a funcionar da mesma forma. 
- * Sugestão: "Virtualizar" o gerador aleatória usado pelo núcleo do jogo, usando a classe 
- * java.util.Random no modo normal e uma classe especial controlada pelo código */
-
 public class Tests2 {
-
-	@Test
+	/*
+	 * Checks dragon movements .
+	 */
+	@Test  
 	public void testMovingDragon() {
 		Logic j1 = new Logic();
 		ArrayList<Dragon> dragons = new ArrayList<Dragon>();
@@ -36,7 +31,10 @@ public class Tests2 {
 
 		assertNotSame(4, j1.getDragons().get(0).getPosX());
 	}
-
+	
+	/*
+	 * Checks if dragon can fall asleep .
+	 */
 	@Test
 	public void testSleepingDragon() {
 		Logic j1 = new Logic();
@@ -50,7 +48,7 @@ public class Tests2 {
 	}
 
 	/*
-	 * testar se o herói mata bem todos os dragões ,quando cercado
+	 * checks if the hero(armed) can slay all dragons that surround him
 	 */
 	@Test
 	public void testWithTonsofDragons() {

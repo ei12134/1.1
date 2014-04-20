@@ -16,8 +16,8 @@ import org.junit.Test;
 public class Tests {
 
 	/*
-	 * herói mover-se uma posição (quando se manda deslocar em direção a célula
-	 * livre);
+	 * Checks if hero can move toward a free cell
+	 * 
 	 */
 	@Test
 	public void testMovingHeroe() {
@@ -28,7 +28,7 @@ public class Tests {
 	}
 
 	/*
-	 * herói imóvel (quando se manda deslocar em direção a uma parede);
+	 * Checks if hero stands in same spot  (when to order him to move toward a Wall);
 	 */
 	@Test
 	public void testMovingtoWallHero() {
@@ -39,7 +39,7 @@ public class Tests {
 				.getDirection()));
 	}
 
-	// herói apanhar a espada;
+	//Checks if hero catchs the sword;
 	@Test
 	public void testCatchingtheSword() {
 		Logic j1 = new Logic();
@@ -50,7 +50,7 @@ public class Tests {
 		assertTrue(j1.getHero().getArmed());
 	}
 
-	// herói ser morto pelo dragão (derrota);
+	//checks if dragon can kill an unarmed hero(game over);
 	@Test
 	public void testGettingKilledByDragon() {
 		Logic j1 = new Logic();
@@ -67,7 +67,7 @@ public class Tests {
 		assertEquals(State.HERO_DEAD, j1.checkGame());
 	}
 
-	// herói matar o dragão;
+	// check if hero(armed) can slay the dragon
 	@Test
 	public void testSlayingTheDragon() {
 		Logic j1 = new Logic();
@@ -85,7 +85,7 @@ public class Tests {
 	}
 
 	/*
-	 * alcançar a saída após apanhar espada e matar dragão (vitória);
+	 * reaching the exit after killing the dragon(Hero Won);
 	 */
 	@Test
 	public void testReachingExitWinning() {
@@ -105,7 +105,7 @@ public class Tests {
 	}
 
 	/*
-	 * alcançar a saída sem ter apanhado a espada ou morto o dragão.
+	 * reaching the exit without killing the dragon .
 	 */
 	@Test
 	public void testReachingExitNotWinning() {
