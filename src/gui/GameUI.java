@@ -359,7 +359,7 @@ public class GameUI extends JPanel implements ActionListener, KeyListener {
 			playerCanMove = false;
 			menu.closePanel(this, menu);
 		}
-	}
+	} 
 
 	
 	public void analyzeEagleState(String state) {
