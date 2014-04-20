@@ -13,7 +13,6 @@ public class Character {
 	private int posX;
 	private int posY;
 	private boolean dead;
-
 	/**
 	 * Constructor that sets initial character position and makes it alive.
 	 * 

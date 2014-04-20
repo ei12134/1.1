@@ -8,7 +8,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
@@ -17,7 +16,6 @@ public class Settings extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private Menu menu;
 	private Play play;
-	private JFrame frame;
 	private JButton size;
 	private JButton counter;
 	private JButton strategy;
@@ -25,16 +23,16 @@ public class Settings extends JPanel {
 	private JButton close;
 	private Dimension dimension;
 
-	public Settings(final Menu menu, Dimension dimension) {
+	public Settings(final Menu menu) {
 		this.menu = menu;
+		this.dimension = menu.getDimension();
 		this.play = menu.getPlayPanel();
-		this.frame = menu.getFrame();
-		this.dimension = dimension;
 		size = new JButton("Maze size");
 		counter = new JButton("Number of Dragons");
 		strategy = new JButton("Dragon Strategy");
 		keyboard = new JButton("Keyboard Configuration");
 		close = new JButton("Close Settings");
+		setSettingsPanel();
 
 		// Settings ActionListeners
 		size.addActionListener(new ActionListener() {
@@ -130,20 +128,21 @@ public class Settings extends JPanel {
 		keyboard.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent ev) {
+				startKeyboardConfiguration();
 			}
 		});
 
 		close.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent ev) {
-				closeSettingsPanel();
+				menu.closePanel(menu.getSettingsPanel(), menu);
 			}
 		});
 	}
 
 	public void setSettingsPanel() {
-		this.setSize(dimension);
-		this.setLayout(new GridBagLayout());
+		setSize(dimension);
+		setLayout(new GridBagLayout());
 		GridBagConstraints style = new GridBagConstraints();
 		style.fill = GridBagConstraints.BOTH;
 		style.weightx = 0.5;
@@ -152,22 +151,19 @@ public class Settings extends JPanel {
 		style.gridwidth = 3;
 		style.gridx = 1;
 		style.insets = new Insets(32, 256, 32, 256);
-		this.add(size, style);
-		this.add(counter, style);
-		this.add(strategy, style);
-		this.add(keyboard, style);
-		this.add(close, style);
-		this.setVisible(true);
+		add(size, style);
+		add(counter, style);
+		add(strategy, style);
+		add(keyboard, style);
+		add(close, style);
+		setVisible(true);
 	}
 
-	public void closeSettingsPanel() {
+	public void startKeyboardConfiguration() {
 		this.setVisible(false);
 		menu.remove(this);
-		menu.showPanel(menu);
-		menu.setVisible(true);
-	}
-
-	public void closeMenuPanel() {
-		frame.remove(menu);
+		KeyboardConfiguration keyboardPanel = new KeyboardConfiguration(menu,
+				this);
+		menu.showPanel(keyboardPanel);
 	}
 }

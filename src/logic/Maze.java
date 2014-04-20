@@ -49,6 +49,36 @@ public class Maze {
 		startRandomMaze(mazeSize, dragonCounter);
 	}
 
+	public Maze(ArrayList<ArrayList<Piece>> maze) {
+		this.maze = maze;
+		hero = new Hero(0, 0);
+		eagle = new Eagle(0, 0);
+		dragons = new ArrayList<Dragon>();
+
+		setMazeData(maze, hero, eagle, dragons);
+	}
+
+	public void setMazeData(ArrayList<ArrayList<Piece>> maze, Hero hero,
+			Eagle eagle, ArrayList<Dragon> dragons) {
+		for (int i = 0; i < maze.size(); i++) {
+			for (int j = 0; j < maze.get(i).size(); j++) {
+				if (maze.get(i).get(j).getSymbol()
+						.equals(PieceType.HERO_UNARMED_EAGLE.asString())) {
+					hero.setPosition(j, i);
+					eagle.setPosition(j, i);
+				} else if (maze.get(i).get(j).getSymbol()
+						.equals(PieceType.DRAGON.asString()))
+					dragons.add(new Dragon(j, i));
+				else if (maze.get(i).get(j).getSymbol()
+						.equals(PieceType.SWORD.asString()))
+					sword = new Piece(j, i, PieceType.SWORD.asString());
+				else if (maze.get(i).get(j).getSymbol()
+						.equals(PieceType.EXIT.asString()))
+					exit = new Piece(j, i, PieceType.EXIT.asString());
+			}
+		}
+	}
+
 	private void startDefaultMaze() {
 		exit = new Piece(9, 5, PieceType.EXIT.asString());
 		sword = new Piece(1, 8, PieceType.SWORD.asString());
@@ -89,7 +119,6 @@ public class Maze {
 	}
 
 	private void startRandomMaze(int mazeSize, int dragonCounter) {
-
 		Algorithm algorithm = new Algorithm(mazeSize);
 		maze = algorithm.createMaze();
 
