@@ -12,10 +12,12 @@ public enum PieceType {
 
 	private final String asString;
 
+	//Return the type of the Piece as a string
 	public String asString() {
 		return asString;
 	}
 
+	
 	private PieceType(String asString) {
 		this.asString = asString;
 	}

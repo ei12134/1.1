@@ -1,5 +1,6 @@
 package logic;
 
+
 public enum Movement {
 	MOVE_UP(0), MOVE_DOWN(1), MOVE_RIGHT(2), MOVE_LEFT(3);
 
@@ -9,6 +10,8 @@ public enum Movement {
 		this.move = move;
 	}
 
+	
+	//Return the direction as an int
 	public int getDirection() {
 		return move;
 	}

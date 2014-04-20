@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 
+
 /**
  * Logic is the class involved in managing and validation of the movement by
  * different <code>Characters</code> and update the game <code>State</code>
