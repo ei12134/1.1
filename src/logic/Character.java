@@ -13,6 +13,8 @@ public class Character {
 	private int posX;
 	private int posY;
 	private boolean dead;
+	
+	
 	/**
 	 * Constructor that sets initial character position and makes it alive.
 	 * 
@@ -27,6 +29,7 @@ public class Character {
 		dead = false;
 	}
 
+	
 	/**
 	 * Gets integer position variable posX.
 	 * 
@@ -35,6 +38,7 @@ public class Character {
 	public int getPosX() {
 		return posX;
 	}
+	
 
 	/**
 	 * Gets integer position variable posY.
@@ -54,6 +58,7 @@ public class Character {
 		return dead;
 	}
 
+	
 	/**
 	 * Sets a new position for the character.
 	 * 
@@ -67,6 +72,7 @@ public class Character {
 		posY = y;
 	}
 
+	
 	/**
 	 * Sets a new alive status for the character.
 	 * 

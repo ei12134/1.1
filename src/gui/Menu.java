@@ -1,6 +1,7 @@
 package gui;
 
 import javax.swing.JButton;
+
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -19,6 +20,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import logic.Piece;
+
 
 public class Menu extends JPanel implements KeyListener {
 

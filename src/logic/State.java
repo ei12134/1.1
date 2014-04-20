@@ -1,5 +1,9 @@
 package logic;
 
+/**
+ * Contains the states of all characters
+ * (Hero, Dragon, Eagle)
+ */
 public enum State {
 
 	HERO_WON("Hero won :)"), HERO_DEAD("Hero died!"), DRAGON_DEAD("Dragon died"), EAGLE_DEAD(
@@ -12,7 +16,9 @@ public enum State {
 	private State(String state) {
 		this.state = state;
 	}
+	
 
+	//Returns the state as a String object
 	public String toString() {
 		return state;
 	}

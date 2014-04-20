@@ -12,6 +12,7 @@ public class Dragon extends Character {
 	private boolean guarding;
 	private boolean asleep;
 
+	
 	/**
 	 * Constructor that initializes its superclass <code>Character</code> and
 	 * sets dragon position and makes it alive
@@ -24,6 +25,7 @@ public class Dragon extends Character {
 	public Dragon(int posX, int posY) {
 		super(posX, posY);
 	}
+	
 
 	/**
 	 * Ciphers the appropriate method to display the dragon current status.
@@ -43,6 +45,7 @@ public class Dragon extends Character {
 		} else
 			return "   ";
 	}
+	
 
 	/**
 	 * Gets guarding status of the dragon.
@@ -53,6 +56,7 @@ public class Dragon extends Character {
 		return guarding;
 	}
 
+	
 	/**
 	 * Gets asleep status of the dragon.
 	 * 
@@ -62,6 +66,7 @@ public class Dragon extends Character {
 		return asleep;
 	}
 
+	
 	/**
 	 * Sets guarding status of the dragon.
 	 * 
@@ -72,6 +77,7 @@ public class Dragon extends Character {
 		this.guarding = guarding;
 	}
 
+	
 	/**
 	 * Sets asleep status of the dragon.
 	 * 
