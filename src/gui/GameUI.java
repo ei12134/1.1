@@ -18,7 +18,7 @@ public class GameUI extends JPanel implements ActionListener, KeyListener {
 
 	private static final long serialVersionUID = 1L;
 	private Logic logic;
-	private Menu menu;
+	private Menu menu; 
 	private Dimension dimension;
 	private int boardSize, widthPixelsPerTile, heightPixelsPerTile;
 	private Image wall, wall_red, wall_brown, wall_green, wall_black, path,
