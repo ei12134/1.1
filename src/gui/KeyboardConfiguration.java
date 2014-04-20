@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.swing.JButton;
@@ -16,7 +17,7 @@ public class KeyboardConfiguration extends JPanel implements KeyListener {
 	private static final long serialVersionUID = 1L;
 	private HashMap<String, Integer> keys;
 	private Menu menu;
-	private JTextField up, down, left, right;
+	private JTextField up, down, left, right, eagle;
 	private JButton submitData;
 	private Settings settings;
 	private KeyboardConfig keyConfig;
@@ -30,12 +31,14 @@ public class KeyboardConfiguration extends JPanel implements KeyListener {
 		down = new JTextField();
 		left = new JTextField();
 		right = new JTextField();
+		eagle = new JTextField();
 		submitData = new JButton("Guardar atalhos!");
 		keyConfig = new KeyboardConfig();
 		add(up);
 		add(down);
 		add(left);
 		add(right);
+		add(eagle);
 		add(submitData);
 		addKeyListener(this);
 		
@@ -70,11 +73,31 @@ public class KeyboardConfiguration extends JPanel implements KeyListener {
 
 	
 	public void saveData() {
-		if(up.getText().toUpperCase() == "E" || down.getText().toUpperCase() == "E" || 
-				left.getText().toUpperCase() == "E" || right.getText().toUpperCase() == "E")
-			JOptionPane.showMessageDialog(null, "As teclas escolhidas s‹o inv‡idas!");
+		ArrayList<String> options = new ArrayList<String>();
+		boolean valid = true;
+		options.add(up.getText().toUpperCase());
+		options.add(down.getText().toUpperCase());
+		options.add(left.getText().toUpperCase());
+		options.add(right.getText().toUpperCase());
+		options.add(eagle.getText().toUpperCase());
+		
+		for(int i = 0; i < options.size() - 1; i++) {
+			for(int j = i + 1; j < options.size(); j++) {
+				if(options.get(i) != options.get(j)) 
+					valid = false;
+				
+				if(!valid)
+					break;
+			}
+		}
+		
+		if(!valid)
+			JOptionPane.showMessageDialog(null, "Existem v‡rias teclas que correspondem ao mesmo comando!");
 		else
-			keyConfig.writeCustomConfig(up, down, left, right);
+			if(keyConfig.writeCustomConfig(up, down, left, right, eagle))
+				JOptionPane.showMessageDialog(null, "Os comandos do jogo foram atualizados com sucesso!");
+			else
+				JOptionPane.showMessageDialog(null, "N‹o foi poss’vel atualizar os comandos do jogo!");
 	}
 	
 	
@@ -85,6 +108,7 @@ public class KeyboardConfiguration extends JPanel implements KeyListener {
 		down.setText(String.valueOf((char)Integer.parseInt(keys.get("down").toString())));
 		left.setText(String.valueOf((char)Integer.parseInt(keys.get("left").toString())));
 		right.setText(String.valueOf((char)Integer.parseInt(keys.get("right").toString())));
+		eagle.setText(String.valueOf((char)Integer.parseInt(keys.get("eagle").toString())));
 	}
 	
 	

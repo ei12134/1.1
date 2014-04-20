@@ -3,6 +3,8 @@ package gui;
 import java.io.File;
 import java.util.HashMap;
 
+import javax.swing.JOptionPane;
+
 public class GameKeyboard {
 
 	private HashMap<String, Integer> keys;
@@ -21,7 +23,8 @@ public class GameKeyboard {
 		if(!f.exists()) {
 			try {
 				f.createNewFile();
-				keyConfig.writeDefaultConfig();
+				if(!keyConfig.writeDefaultConfig())
+					JOptionPane.showMessageDialog(null, "N‹o foi poss’vel escrever os comandos do jogo para um ficheiro!");
 			} catch(Exception e) {
 				e.printStackTrace();
 			}

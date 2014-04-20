@@ -48,7 +48,7 @@ public class KeyboardConfig {
 	}
 	
 	
-	public void writeDefaultConfig() {
+	public boolean writeDefaultConfig() {
 		ArrayList<KeyboardKey> listKeys = new ArrayList<KeyboardKey>();
 		FileOutputStream outStream = null;
 		ObjectOutputStream objStream = null;
@@ -71,13 +71,15 @@ public class KeyboardConfig {
 			objStream.writeObject(listKeys);
 			objStream.close();
 
+			return true;
 		} catch (Exception e) {
 			e.printStackTrace();
+			return false;
 		}
 	}
 	
 	
-	public void writeCustomConfig(JTextField up, JTextField down, JTextField left, JTextField right) {
+	public boolean writeCustomConfig(JTextField up, JTextField down, JTextField left, JTextField right, JTextField eagle) {
 		ArrayList<KeyboardKey> listKeys = new ArrayList<KeyboardKey>();
 		FileOutputStream outStream = null;
 		ObjectOutputStream objStream = null;
@@ -95,11 +97,14 @@ public class KeyboardConfig {
 			listKeys.add(new KeyboardKey("down", KeyStroke.getKeyStroke(down.getText()).getKeyCode()));
 			listKeys.add(new KeyboardKey("left", KeyStroke.getKeyStroke(left.getText()).getKeyCode()));
 			listKeys.add(new KeyboardKey("right", KeyStroke.getKeyStroke(right.getText()).getKeyCode()));
-			listKeys.add(new KeyboardKey("eagle", KeyEvent.VK_E));
+			listKeys.add(new KeyboardKey("eagle", KeyStroke.getKeyStroke(eagle.getText()).getKeyCode()));
 			objStream.writeObject(listKeys);
 			objStream.close();
+			
+			return true;
 		} catch (Exception e) {
 			e.printStackTrace();
+			return false;
 		}
 	}
 }
