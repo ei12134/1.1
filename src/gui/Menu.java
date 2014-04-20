@@ -52,7 +52,6 @@ public class Menu extends JPanel implements KeyListener {
 		// Keyboard Keys
 		keyboardKeys = new GameKeyboard();
 		keyboardKeys.initializeKeys();
-		keyboardKeys.readKeys();
 
 		// Button actions
 		play.addActionListener(new ActionListener() {
@@ -178,22 +177,27 @@ public class Menu extends JPanel implements KeyListener {
 
 	}
 
+	
 	public Play getPlayPanel() {
 		return playPanel;
 	}
 
+	
 	public Settings getSettingsPanel() {
 		return settingsPanel;
 	}
 
+	
 	public Dimension getDimension() {
 		return dimension;
 	}
 
+	
 	public HashMap<String, Integer> getKeyboardKeys() {
 		return keyboardKeys.getKeys();
 	}
 
+	
 	public void setMenuPanel() {
 		setSize(dimension);
 		setLayout(new GridBagLayout());
@@ -211,6 +215,7 @@ public class Menu extends JPanel implements KeyListener {
 		add(exit, style);
 		setVisible(true);
 	}
+	
 
 	public void showPanel(JPanel panel) {
 		frame.add(panel);
@@ -221,12 +226,14 @@ public class Menu extends JPanel implements KeyListener {
 		panel.requestFocusInWindow();
 	}
 
+	
 	public void closePanel(JPanel oldPanel, JPanel newPanel) {
 		oldPanel.setVisible(false);
 		frame.remove(oldPanel);
 		showPanel(newPanel);
 	}
 
+	
 	public void startPanel(JPanel panel) {
 		frame.remove(this);
 		showPanel(panel);
