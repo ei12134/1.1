@@ -98,6 +98,8 @@ public class Tests {
 		j1.getHero().setArmed(true);
 
 		assertTrue(dragons.get(0).getDead());
+		dragons.remove(0);
+		j1.setDragons(dragons);
 		j1.swapHero(Movement.MOVE_RIGHT.getDirection());
 		assertEquals(j1.checkGame(), State.HERO_WON);
 	}
@@ -108,20 +110,14 @@ public class Tests {
 	@Test
 	public void testReachingExitNotWinning() {
 		Logic j1 = new Logic();
-		ArrayList<Dragon> dragons = new ArrayList<Dragon>();
-		dragons.add(new Dragon(1, 3));
 		j1.setHero(new Hero(8, 5));
 		j1.getHero().setArmed(true);
-		dragons.get(0).setDead(false);
 
-		assertFalse(dragons.get(0).getDead());
 		HashMap<Integer, Boolean> movimentosPossiveis = j1.validHeroMoves();
-		assertTrue(movimentosPossiveis.containsKey(Movement.MOVE_RIGHT
+		assertFalse(movimentosPossiveis.containsKey(Movement.MOVE_RIGHT
 				.getDirection()));
 		j1.getHero().setArmed(true);
-		dragons.get(0).setDead(true);
-		assertTrue(movimentosPossiveis.containsKey(Movement.MOVE_RIGHT
+		assertFalse(movimentosPossiveis.containsKey(Movement.MOVE_RIGHT
 				.getDirection()));
-
 	}
 }

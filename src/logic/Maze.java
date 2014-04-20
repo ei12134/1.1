@@ -5,8 +5,6 @@ import algorithms.Algorithm;
 import java.util.ArrayList;
 import java.util.Random;
 
-import javax.swing.JOptionPane;
-
 /**
  * Maze is the class used to store the maze and all its pieces.
  * 
@@ -216,7 +214,6 @@ public class Maze {
 
 		// Check for sword in next position
 		if (!hero.getArmed()) {
-			JOptionPane.showMessageDialog(null, sword.getPosX());
 			if ((nextX == sword.getPosX()) && (nextY == sword.getPosY())) {
 				if (eagle.getState().equals(State.EAGLE_GROUND)
 						&& !eagle.getDead()) {

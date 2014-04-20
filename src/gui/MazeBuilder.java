@@ -39,8 +39,8 @@ public class MazeBuilder extends JPanel implements KeyListener {
 		heightPixelsPerTile = dimension.height / boardSize;
 
 		addKeyListener(this);
-
-		setLayout(new GridLayout(mazeSize, mazeSize));
+		setSize(dimension);
+		setLayout(new GridLayout(mazeSize, mazeSize, 0, 0));
 		populateTypes();
 		populateGameButtons();
 	}

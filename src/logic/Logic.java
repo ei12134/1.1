@@ -35,7 +35,6 @@ public class Logic extends Maze {
 		super(maze);
 		this.dragonStrategy = dragonStrategy;
 	}
-
 	
 	/**
 	 * Processes the moves related to the game according to the input and game
