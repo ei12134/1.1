@@ -43,13 +43,11 @@ public class KeyboardConfiguration extends JPanel implements KeyListener {
 		// Read the keyboard data
 		readKeyboardData();
 		save.addActionListener(new ActionListener() {
-			@Override
 			public void actionPerformed(ActionEvent e) {
 				saveData();
 			}
 		});
 		discard.addActionListener(new ActionListener() {
-			@Override
 			public void actionPerformed(ActionEvent e) {
 				closeThis();
 			}
@@ -98,7 +96,7 @@ public class KeyboardConfiguration extends JPanel implements KeyListener {
 		add(discard, style);
 	}
 
-	@Override
+	
 	public void keyPressed(KeyEvent event) {
 		if (event.getKeyCode() == KeyEvent.VK_ESCAPE) {
 			Object[] options = { "Yes", "No" };
@@ -170,11 +168,9 @@ public class KeyboardConfiguration extends JPanel implements KeyListener {
 		menu.closePanel(this, settings, "Settings");
 	}
 
-	@Override
 	public void keyReleased(KeyEvent arg0) {
 	}
 
-	@Override
 	public void keyTyped(KeyEvent arg0) {
 	}
 }

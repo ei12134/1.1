@@ -36,7 +36,6 @@ public class Settings extends JPanel {
 
 		// Settings ActionListeners
 		size.addActionListener(new ActionListener() {
-			@Override
 			public void actionPerformed(ActionEvent ev) {
 				String inputSize;
 				String beginSize = Integer.toString(play.getMazeSize());
@@ -65,7 +64,6 @@ public class Settings extends JPanel {
 		});
 
 		counter.addActionListener(new ActionListener() {
-			@Override
 			public void actionPerformed(ActionEvent ev) {
 				String inputSize;
 				String beginSize = Integer.toString(play.getDragonCounter());
@@ -94,8 +92,6 @@ public class Settings extends JPanel {
 		});
 
 		strategy.addActionListener(new ActionListener() {
-			@Override
-			// problem on cancel
 			public void actionPerformed(ActionEvent ev) {
 				Object[] DragonStrategies = { "Idle", "Random Movement",
 						"Random Movement and Sleeping" };
@@ -126,14 +122,12 @@ public class Settings extends JPanel {
 		});
 
 		keyboard.addActionListener(new ActionListener() {
-			@Override
 			public void actionPerformed(ActionEvent ev) {
 				startKeyboardConfiguration();
 			}
 		});
 
 		close.addActionListener(new ActionListener() {
-			@Override
 			public void actionPerformed(ActionEvent ev) {
 				menu.closePanel(menu.getSettingsPanel(), menu, "Maze Game");
 			}

@@ -194,15 +194,12 @@ public class GameUI extends JPanel implements ActionListener, KeyListener {
 			analyzeEagleState(state[2]);
 	}
 
-	@Override
 	public void keyReleased(KeyEvent e) {
 	}
 
-	@Override
 	public void keyTyped(KeyEvent e) {
 	}
 
-	@Override
 	public void actionPerformed(ActionEvent e) {
 		repaint();
 	}

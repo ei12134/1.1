@@ -96,27 +96,18 @@ public class MazeBuilder extends JPanel implements KeyListener {
 				add(maze.get(i).get(j));
 
 				maze.get(i).get(j).addMouseListener(new MouseListener() {
-					@Override
 					public void mouseReleased(MouseEvent arg0) {
-						// TODO Auto-generated method stub
 					}
 
-					@Override
 					public void mousePressed(MouseEvent arg0) {
-						// TODO Auto-generated method stub
 					}
 
-					@Override
 					public void mouseExited(MouseEvent arg0) {
-						// TODO Auto-generated method stub
 					}
 
-					@Override
 					public void mouseEntered(MouseEvent arg0) {
-						// TODO Auto-generated method stub
 					}
 
-					@Override
 					public void mouseClicked(MouseEvent arg0) {
 						Piece p = (Piece) arg0.getSource();
 						p = maze.get(p.getPosY()).get(p.getPosX());
@@ -148,7 +139,6 @@ public class MazeBuilder extends JPanel implements KeyListener {
 		popup.show(p, 0, 0);
 	}
 
-	@Override
 	public void keyPressed(KeyEvent e) {
 		int code = e.getKeyCode();
 
@@ -174,11 +164,9 @@ public class MazeBuilder extends JPanel implements KeyListener {
 		}
 	}
 
-	@Override
 	public void keyReleased(KeyEvent e) {
 	}
-
-	@Override
+	
 	public void keyTyped(KeyEvent e) {
 	}
 

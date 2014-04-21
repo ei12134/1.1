@@ -64,7 +64,6 @@ public class Play extends JPanel {
 
 		// Closes the play panel
 		close.addActionListener(new ActionListener() {
-			@Override
 			public void actionPerformed(ActionEvent ev) {
 				menu.closePanel(menu.getPlayPanel(), menu, "Maze Game");
 			}

@@ -57,7 +57,6 @@ public class Menu extends JPanel implements KeyListener {
 		});
 
 		settings.addActionListener(new ActionListener() {
-			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				startPanel(settingsPanel, "Game Settings");
 			}
@@ -65,7 +64,6 @@ public class Menu extends JPanel implements KeyListener {
 
 		exit.addActionListener(new ActionListener() {
 
-			@Override
 			public void actionPerformed(ActionEvent ev) {
 
 				Object[] options = { "Yes", "No" };
@@ -83,7 +81,6 @@ public class Menu extends JPanel implements KeyListener {
 
 		load.addActionListener(new ActionListener() {
 
-			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				final JFileChooser fileChooser = new JFileChooser();
 				fileChooser.addChoosableFileFilter(new FileNameExtensionFilter(
@@ -109,8 +106,7 @@ public class Menu extends JPanel implements KeyListener {
 			game.requestFocusInWindow();
 		} else {
 			JOptionPane.showMessageDialog(null,
-					"The file" + savedMaze.getName()
-							+ " doesn't exist!");
+					"The file" + savedMaze.getName() + " doesn't exist!");
 		}
 	}
 
@@ -141,7 +137,6 @@ public class Menu extends JPanel implements KeyListener {
 		return maze;
 	}
 
-	@Override
 	public void keyPressed(KeyEvent e) {
 		if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
 			Object[] options = { "Yes", "No" };
@@ -155,11 +150,9 @@ public class Menu extends JPanel implements KeyListener {
 		}
 	}
 
-	@Override
 	public void keyReleased(KeyEvent arg0) {
 	}
 
-	@Override
 	public void keyTyped(KeyEvent arg0) {
 	}
 
