@@ -31,7 +31,6 @@ public class Menu extends JPanel implements KeyListener {
 	private GameKeyboard keyboard;
 
 	public Menu(JFrame frame) {
-		// Menu Buttons
 		play = new JButton("Play Game");
 		exit = new JButton("Exit");
 		settings = new JButton("Settings");
@@ -100,18 +99,13 @@ public class Menu extends JPanel implements KeyListener {
 				}
 			}
 		});
-
 	}
 
 	public void startLoadedPuzzle(File savedMaze) {
 		if (savedMaze.exists()) {
 			ArrayList<ArrayList<Piece>> maze = new ArrayList<ArrayList<Piece>>();
 			maze = getPuzzleFile(savedMaze);
-
-			// gameKeys = new HashMap<String, Integer>();
-			// gameKeys = keyboardKeys.getKeys();
-			GameUI game = new GameUI(this, 1, dimension, maze, playPanel,
-					keyboard.getKeys());
+			GameUI game = new GameUI(this, 1, dimension, maze, playPanel);
 			frame.remove(this);
 			this.showPanel(game, "Loaded maze game");
 			game.requestFocusInWindow();
@@ -165,14 +159,10 @@ public class Menu extends JPanel implements KeyListener {
 
 	@Override
 	public void keyReleased(KeyEvent arg0) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void keyTyped(KeyEvent arg0) {
-		// TODO Auto-generated method stub
-
 	}
 
 	public Play getPlayPanel() {

@@ -121,15 +121,15 @@ public class GameKeyboard {
 			listKeys.add(new CommandKey("eagle_spacebar", KeyEvent.VK_SPACE));
 
 			listKeys.add(new CommandKey("up", KeyStroke.getKeyStroke(
-					up.getText()).getKeyCode()));
+					up.getText().substring(0, 1).toUpperCase()).getKeyCode()));
 			listKeys.add(new CommandKey("down", KeyStroke.getKeyStroke(
-					down.getText()).getKeyCode()));
+					down.getText().substring(0, 1).toUpperCase()).getKeyCode()));
 			listKeys.add(new CommandKey("left", KeyStroke.getKeyStroke(
-					left.getText()).getKeyCode()));
+					left.getText().substring(0, 1).toUpperCase()).getKeyCode()));
 			listKeys.add(new CommandKey("right", KeyStroke.getKeyStroke(
-					right.getText()).getKeyCode()));
+					right.getText().substring(0, 1).toUpperCase()).getKeyCode()));
 			listKeys.add(new CommandKey("eagle", KeyStroke.getKeyStroke(
-					eagle.getText()).getKeyCode()));
+					eagle.getText().substring(0, 1).toUpperCase()).getKeyCode()));
 			objStream.writeObject(listKeys);
 			objStream.close();
 			return true;

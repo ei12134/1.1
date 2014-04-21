@@ -71,11 +71,11 @@ public class GameUI extends JPanel implements ActionListener, KeyListener {
 	 * all the images before start playing it's a much better approach
 	 */
 	public GameUI(Menu menu, int dragonStrategy, Dimension dimension,
-			ArrayList<ArrayList<Piece>> maze, Play play, HashMap<String, Integer> gameKeys) {
+			ArrayList<ArrayList<Piece>> maze, Play play) {
 		this.boardSize = maze.size();
 		this.dimension = dimension;
 		this.menu = menu;
-		this.gameKeys = gameKeys;
+		this.gameKeys = menu.getGameKeyboard().getSavedKeys();
 		loadData();
 
 		widthPixelsPerTile = dimension.width / boardSize;

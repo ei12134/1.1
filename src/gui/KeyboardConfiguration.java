@@ -63,25 +63,36 @@ public class KeyboardConfiguration extends JPanel implements KeyListener {
 		left.setHorizontalAlignment(JTextField.CENTER);
 		right.setHorizontalAlignment(JTextField.CENTER);
 		eagle.setHorizontalAlignment(JTextField.CENTER);
-		save.setHorizontalAlignment(JTextField.CENTER);
+		// save.setHorizontalAlignment(JTextField.CENTER);
 
 		setLayout(new GridBagLayout());
 		GridBagConstraints style = new GridBagConstraints();
+
+		// JTextfield
 		style.fill = GridBagConstraints.BOTH;
+		style.insets = new Insets(16, 128, 16, 128);
+		style.gridwidth = 5;
 		style.weightx = 0.5;
 		style.weighty = 0.5;
-		style.gridheight = 3;
-		style.gridwidth = 3;
-		style.gridx = 1;
-		style.insets = new Insets(32, 256, 32, 256);
+		style.gridx = 3;
+		style.gridy = 0;
 		add(up, style);
+		style.gridy = 1;
 		add(down, style);
+		style.gridy = 2;
 		add(left, style);
+		style.gridy = 3;
 		add(right, style);
+		style.gridy = 4;
 		add(eagle, style);
+
+		// Buttons
+		style.fill = GridBagConstraints.VERTICAL;
+		style.gridx = 1;
+		style.gridy = 5;
 		add(save, style);
+		style.gridx = 4;
 		add(discard, style);
-		setVisible(true);
 	}
 
 	@Override
