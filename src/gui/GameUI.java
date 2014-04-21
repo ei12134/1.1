@@ -14,21 +14,20 @@ import javax.swing.JPanel;
 
 import logic.*;
 
-
 /**
- * Class <code>GameUI</code> represents the main class of the game
- * It's where all the elements of the game are drawn and where the player
- * can watch the visual effects of the game
+ * Class <code>GameUI</code> represents the main class of the game It's where
+ * all the elements of the game are drawn and where the player can watch the
+ * visual effects of the game
  * 
- * @author AndrŽ Pinheiro
- * @author JosŽ Peixoto
+ * @author André Pinheiro
+ * @author José Peixoto
  * @author Paulo Faria
  */
 public class GameUI extends JPanel implements ActionListener, KeyListener {
 
 	private static final long serialVersionUID = 1L;
 	private Logic logic;
-	private Menu menu; 
+	private Menu menu;
 	private Dimension dimension;
 	private int boardSize, widthPixelsPerTile, heightPixelsPerTile;
 	private Image wall, wall_red, wall_brown, wall_green, wall_black, path,
@@ -39,14 +38,24 @@ public class GameUI extends JPanel implements ActionListener, KeyListener {
 	private HashMap<String, Integer> gameKeys;
 	private int wallConfig = 0;
 
-	
 	/**
-	 * The main constructor of the this class. It loads all the data that is needed before start
-	 * playing the game. 
-	 * Based on the desired size of the board different constructors will be called in the Logic class
+	 * The main constructor of the this class. It loads all the data that is
+	 * needed before start playing the game. Based on the desired size of the
+	 * board different constructors will be called in the Logic class
+	 * 
+	 * @param boardSize
+	 *            maze size integer
+	 * @param menu
+	 *            Menu panel class object
+	 * @param dragonCounter
+	 *            dragon number integer
+	 * @param dragonStrategy
+	 *            dragon game strategy mode integer
+	 * @param dimension
+	 *            dimensions of the window
 	 */
-	public GameUI(int boardSize, Menu menu, int dragonCounter, int dragonStrategy, 
-			  	  Dimension dimension) {
+	public GameUI(int boardSize, Menu menu, int dragonCounter,
+			int dragonStrategy, Dimension dimension) {
 		this.menu = menu;
 		this.boardSize = boardSize;
 		this.dimension = dimension;
@@ -58,17 +67,31 @@ public class GameUI extends JPanel implements ActionListener, KeyListener {
 		addKeyListener(this);
 
 		if (boardSize == 10)
-			logic = new Logic(); //Load the predefined puzzle
+			logic = new Logic(); // Load the predefined puzzle
 		else
-			logic = new Logic(boardSize, dragonCounter, dragonStrategy); //Load a random maze
+			logic = new Logic(boardSize, dragonCounter, dragonStrategy); // Load
+																			// a
+																			// random
+																			// maze
 	}
-	
 
 	/**
-	 * This is the constructor where the player will be able to play a custom game
-	 * The elements of the maze are stored in the maze ArrayList<ArrayList<Piece>>
-	 * Note that it doesn't contain the actual images as it'd be quite CPU overhead. Loading 
-	 * all the images before start playing it's a much better approach
+	 * This is the constructor where the player will be able to play a custom
+	 * game The elements of the maze are stored in the maze
+	 * <code>ArrayList</code> Note that it doesn't contain the actual images as
+	 * it'd be quite CPU overhead. Loading all the images before start playing
+	 * it's a much better approach
+	 * 
+	 * @param menu
+	 *            Menu panel class object
+	 * @param dragonStrategy
+	 *            dragon game strategy mode integer
+	 * @param dimension
+	 *            dimensions of the window
+	 * @param maze
+	 *            ArrayList with game pieces
+	 * @param play
+	 *            Play panel class object
 	 */
 	public GameUI(Menu menu, int dragonStrategy, Dimension dimension,
 			ArrayList<ArrayList<Piece>> maze, Play play) {
@@ -83,9 +106,9 @@ public class GameUI extends JPanel implements ActionListener, KeyListener {
 		addKeyListener(this);
 		logic = new Logic(maze, dragonStrategy);
 	}
-	
 
-	//Load all the images so they'll be available during all the program execution
+	// Load all the images so they'll be available during all the program
+	// execution
 	public void loadData() {
 		playerCanMove = true;
 		wall = new ImageIcon("src//png//wall_red.png").getImage();
@@ -115,12 +138,11 @@ public class GameUI extends JPanel implements ActionListener, KeyListener {
 				"src//png/eagle_returning_sword.png").getImage();
 	}
 
-	
-	//This function is called when the player presses a keyboard key
+	// This function is called when the player presses a keyboard key
 	public void keyPressed(KeyEvent e) {
 		String state[] = new String[4];
-		
-		//Check if the player can move
+
+		// Check if the player can move
 		if (playerCanMove) {
 			if (e.getKeyCode() == gameKeys.get("up")
 					|| e.getKeyCode() == gameKeys.get("up_arrow")) {
@@ -150,8 +172,8 @@ public class GameUI extends JPanel implements ActionListener, KeyListener {
 				repaint();
 			}
 		}
-		
-		//Exit the game
+
+		// Exit the game
 		if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
 			Object[] options = { "Yes", "No" };
 			int confirm = JOptionPane.showOptionDialog(null,
@@ -172,23 +194,19 @@ public class GameUI extends JPanel implements ActionListener, KeyListener {
 			analyzeEagleState(state[2]);
 	}
 
-	
 	@Override
 	public void keyReleased(KeyEvent e) {
 	}
 
-	
 	@Override
 	public void keyTyped(KeyEvent e) {
 	}
 
-	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		repaint();
 	}
 
-	
 	public void paint(Graphics g) {
 		super.paint(g);
 		int linePixel = 0;
@@ -196,9 +214,9 @@ public class GameUI extends JPanel implements ActionListener, KeyListener {
 		g.drawImage(wall, 0, 0, dimension.width, dimension.height, 0, 0,
 				dimension.width, dimension.height, null);
 
-		//Draw the maze
-		for (int x = 0; x < boardSize; x++, linePixel++) { //Lines
-			for (int y = 0; y < boardSize; y++) { //Columns
+		// Draw the maze
+		for (int x = 0; x < boardSize; x++, linePixel++) { // Lines
+			for (int y = 0; y < boardSize; y++) { // Columns
 				if (getPiece(y, x).getSymbol()
 						.equals(PieceType.FREE.asString()))
 					g.drawImage(path, widthPixelsPerTile * y,
@@ -210,54 +228,53 @@ public class GameUI extends JPanel implements ActionListener, KeyListener {
 							widthPixelsPerTile * y + widthPixelsPerTile,
 							heightPixelsPerTile * linePixel
 									+ heightPixelsPerTile, null);
-				//Hero
+				// Hero
 				else if (getPiece(y, x).getSymbol().equals(
 						PieceType.HERO_UNARMED_EAGLE.asString())) {
 					drawWithTransparency(g, hero_unarmed_eagle, y, linePixel);
-				} //Hero unarmed
+				} // Hero unarmed
 				else if (getPiece(y, x).getSymbol().equals(
 						PieceType.HERO_UNARMED.asString())) {
 					drawWithTransparency(g, hero_unarmed, y, linePixel);
-				} //Hero armed
+				} // Hero armed
 				else if (getPiece(y, x).getSymbol().equals(
 						PieceType.HERO_ARMED.asString())) {
 					drawWithTransparency(g, hero_armed, y, linePixel);
-				} //Hero armed with eagle
+				} // Hero armed with eagle
 				else if (getPiece(y, x).getSymbol().equals(
 						PieceType.HERO_ARMED_EAGLE.asString())) {
 					drawWithTransparency(g, hero_armed_eagle, y, linePixel);
-				} //Dragon
+				} // Dragon
 				else if (getPiece(y, x).getSymbol().equals(
 						PieceType.DRAGON.asString())) {
 					drawWithTransparency(g, dragon, y, linePixel);
-				} //Dragon is sleeping
+				} // Dragon is sleeping
 				else if (getPiece(y, x).getSymbol().equals(
 						PieceType.DRAGON_ASLEEP.asString())) {
 					drawWithTransparency(g, dragon_asleep, y, linePixel);
-				} //Dragon is guarding
+				} // Dragon is guarding
 				else if (getPiece(y, x).getSymbol().equals(
 						PieceType.DRAGON_GUARDING.asString())) {
 					drawWithTransparency(g, dragon_guarding, y, linePixel);
-				} //The dragon is guarding and sleeping 
+				} // The dragon is guarding and sleeping
 				else if (getPiece(y, x).getSymbol().equals(
 						PieceType.DRAGON_GUARDING_ASLEEP.asString())) {
 					drawWithTransparency(g, dragon_guarding_asleep, y,
 							linePixel);
-				} //Sword 
+				} // Sword
 				else if (getPiece(y, x).getSymbol().equals(
 						PieceType.SWORD.asString())) {
 					drawWithTransparency(g, sword, y, linePixel);
-				} //Exit
+				} // Exit
 				else if (getPiece(y, x).getSymbol().equals(
 						PieceType.EXIT.asString())
 						&& y == 0) {
 					drawWithTransparency(g, exit, y, linePixel);
-				} 
-				else if (getPiece(y, x).getSymbol().equals(
+				} else if (getPiece(y, x).getSymbol().equals(
 						PieceType.EXIT.asString())
 						&& y != 0) {
 					drawWithTransparency(g, exit_symmetrical, y, linePixel);
-				} //Eagle
+				} // Eagle
 				else if (getPiece(y, x).getSymbol().equals(
 						PieceType.PURSUING_EAGLE.asString())
 						|| getPiece(y, x).getSymbol().equals(
@@ -266,16 +283,13 @@ public class GameUI extends JPanel implements ActionListener, KeyListener {
 								PieceType.PURSUING_DRAGON_ASLEEP_EAGLE
 										.asString())) {
 					drawWithTransparency(g, eagle, y, linePixel);
-				} 
-				else if (getPiece(y, x).getSymbol().equals(
+				} else if (getPiece(y, x).getSymbol().equals(
 						PieceType.PURSUING_WALL_EAGLE.asString())) {
 					drawSimple(g, eagle, y, linePixel);
-				} 
-				else if (getPiece(y, x).getSymbol().equals(
+				} else if (getPiece(y, x).getSymbol().equals(
 						PieceType.RETURNING_WALL_EAGLE.asString())) {
 					drawSimple(g, eagle_returning_sword, y, linePixel);
-				} 
-				else if (getPiece(y, x).getSymbol().equals(
+				} else if (getPiece(y, x).getSymbol().equals(
 						PieceType.GROUND_EAGLE.asString())
 						|| getPiece(y, x).getSymbol().equals(
 								PieceType.RETURNING_DRAGON_ASLEEP_EAGLE
@@ -287,7 +301,6 @@ public class GameUI extends JPanel implements ActionListener, KeyListener {
 			}
 		}
 	}
-	
 
 	public void drawSimple(Graphics g, Image image, int y, int linePixel) {
 		g.drawImage(image, widthPixelsPerTile * y, heightPixelsPerTile
@@ -296,7 +309,6 @@ public class GameUI extends JPanel implements ActionListener, KeyListener {
 				720, 720, null);
 	}
 
-	
 	public void drawWithTransparency(Graphics g, Image image, int y,
 			int linePixel) {
 		g.drawImage(path, widthPixelsPerTile * y, heightPixelsPerTile
@@ -311,12 +323,11 @@ public class GameUI extends JPanel implements ActionListener, KeyListener {
 				720, 720, null);
 	}
 
-	//Returns a Piece object of the maze
+	// Returns a Piece object of the maze
 	public Piece getPiece(int x, int y) {
 		return logic.getMaze().get(y).get(x);
 	}
 
-	
 	public void changeWallColor(boolean next) {
 		if (next) {
 			if (wallConfig >= 3)
@@ -347,8 +358,7 @@ public class GameUI extends JPanel implements ActionListener, KeyListener {
 		}
 	}
 
-	
-	//Shows a dialog based on the game state
+	// Shows a dialog based on the game state
 	public void analyzeGeneralState(String state) {
 		if (state.equals(State.HERO_DEAD.toString())) {
 			JOptionPane.showMessageDialog(null, "Hero died!");
@@ -359,9 +369,8 @@ public class GameUI extends JPanel implements ActionListener, KeyListener {
 			playerCanMove = false;
 			menu.closePanel(this, menu, "Maze Game");
 		}
-	} 
+	}
 
-	
 	public void analyzeEagleState(String state) {
 		if (state
 				.equals("Dragon killed the eagle!\n * Dragon is now guarding the sword")) {
@@ -371,7 +380,6 @@ public class GameUI extends JPanel implements ActionListener, KeyListener {
 		}
 	}
 
-	
 	public void analyzeDragonState(String state) {
 		if (state
 				.equals("Dragon killed the eagle!\n * Dragon is now guarding the sword")) {

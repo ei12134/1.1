@@ -14,8 +14,8 @@ import javax.swing.JPanel;
  * This <code>Play</code> represents the panel where the player is able to
  * select which game mode he/she wants to play
  * 
- * @author AndrŽ Pinheiro
- * @author JosŽ Peixoto
+ * @author André Pinheiro
+ * @author José Peixoto
  * @author Paulo Faria
  */
 public class Play extends JPanel {

@@ -31,6 +31,7 @@ public class Algorithm {
 	 * builds a maze with a odd size
 	 * 
 	 * @param mazeSize
+	 *            maze size integer
 	 * 
 	 */
 	public Algorithm(int mazeSize) {
@@ -210,18 +211,19 @@ public class Algorithm {
 	}
 
 	/**
-	 *
+	 * 
 	 * This function checks all its neighbor´s pieces in all 4 directions
 	 * possibles And also checks if that piece was visited or not yet. If it has
 	 * been visited we ignore her and move to the next piece
 	 * 
-	 * @return A ArrayList of object Piece that are neighbors of the actual pieace
+	 * @return A ArrayList of object Piece that are neighbors of the actual
+	 *         pieace
 	 * 
 	 */
 	public ArrayList<Piece> getneighborPieces() {
 		ArrayList<Piece> neighbor = new ArrayList<Piece>();
 
-		//Checks if the piece that is above can be analize
+		// Checks if the piece that is above can be analize
 		if (currentPiece.getPosY() - 2 > 0 && currentPiece.getPosX() != 0
 				&& currentPiece.getPosX() != mazeSize - 1) {
 			if (!visitedPieces[currentPiece.getPosY() - 2][currentPiece
@@ -230,7 +232,7 @@ public class Algorithm {
 						currentPiece.getPosX()));
 			}
 		}
-		//Checks if the piece that is below can be analize
+		// Checks if the piece that is below can be analize
 		if (currentPiece.getPosY() + 2 < mazeSize - 1
 				&& currentPiece.getPosX() != 0
 				&& currentPiece.getPosX() != mazeSize - 1) {
@@ -241,7 +243,7 @@ public class Algorithm {
 			}
 		}
 
-		//Checks if the piece that is at the right can be analize
+		// Checks if the piece that is at the right can be analize
 		if (currentPiece.getPosX() + 2 < mazeSize - 1) {
 			if (!visitedPieces[currentPiece.getPosY()][currentPiece.getPosX() + 2]) {
 				neighbor.add(maze.get(currentPiece.getPosY()).get(
@@ -249,7 +251,7 @@ public class Algorithm {
 			}
 		}
 
-		//Checks if the piece that is at the left can be analize
+		// Checks if the piece that is at the left can be analize
 		if (currentPiece.getPosX() - 2 > 0) {
 			if (!visitedPieces[currentPiece.getPosY()][currentPiece.getPosX() - 2]) {
 				neighbor.add(maze.get(currentPiece.getPosY()).get(

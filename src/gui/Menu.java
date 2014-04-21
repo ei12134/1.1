@@ -39,23 +39,21 @@ public class Menu extends JPanel implements KeyListener {
 		this.frame = frame;
 		addKeyListener(this);
 
-		playPanel = new Play(this);
-		settingsPanel = new Settings(this);
+		// Keyboard Keys
+		keyboard = new GameKeyboard();
+		keyboard.initializeKeys();
 
 		// Set up menu and settings panels
 		setMenuPanel();
 		showPanel(this, "Maze Game");
-
-		// Keyboard Keys
-		keyboard = new GameKeyboard();
-		keyboard.initializeKeys();
+		playPanel = new Play(this);
+		settingsPanel = new Settings(this);
 
 		// Button actions
 		play.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ev) {
 				startPanel(playPanel, "Game mode");
 			}
-
 		});
 
 		settings.addActionListener(new ActionListener() {
@@ -111,8 +109,8 @@ public class Menu extends JPanel implements KeyListener {
 			game.requestFocusInWindow();
 		} else {
 			JOptionPane.showMessageDialog(null,
-					"O ficheiro " + savedMaze.getName()
-							+ " n‹o existe no sistema!");
+					"The file" + savedMaze.getName()
+							+ " doesn't exist!");
 		}
 	}
 
@@ -178,6 +176,7 @@ public class Menu extends JPanel implements KeyListener {
 	}
 
 	public GameKeyboard getGameKeyboard() {
+		keyboard.initializeKeys();
 		return keyboard;
 	}
 

@@ -45,7 +45,6 @@ public class MazeBuilder extends JPanel implements KeyListener {
 		populateGameButtons();
 	}
 
-	
 	/**
 	 * The JPanel does not have the keyboard focus. We need to requestFocus when
 	 * the panel is added to the screen
@@ -55,7 +54,6 @@ public class MazeBuilder extends JPanel implements KeyListener {
 		requestFocus();
 	}
 
-	
 	public void populateTypes() {
 		types.add(PieceType.FREE);
 		types.add(PieceType.WALL);
@@ -122,8 +120,6 @@ public class MazeBuilder extends JPanel implements KeyListener {
 					public void mouseClicked(MouseEvent arg0) {
 						Piece p = (Piece) arg0.getSource();
 						p = maze.get(p.getPosY()).get(p.getPosX());
-						// JOptionPane.showConfirmDialog(null, p.getPosY() +
-						// " - " + p.getPosX());
 						if ((p.getPosX() == 0 && p.getPosY() == 0)
 								|| (p.getPosX() == mazeSize - 1 && p.getPosY() == 0)
 								|| (p.getPosX() == 0 && p.getPosY() == mazeSize - 1)
@@ -290,7 +286,8 @@ class PopupListener extends MouseAdapter {
 							PieceType.FREE.asString());
 				}
 			} else if (tmp.equals(PieceType.EXIT.asString())) {
-				if (p.getPosX() != 0 || p.getPosX() == mazeSize - 1) {
+				if (p.getPosX() > 0 && p.getPosX() < mazeSize - 1
+						&& p.getPosY() > 0 && p.getPosY() < mazeSize - 1) {
 					JOptionPane.showMessageDialog(null,
 							"Can't set this piece to be an exit");
 				} else {

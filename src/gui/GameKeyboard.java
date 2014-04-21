@@ -69,8 +69,9 @@ public class GameKeyboard {
 			}
 			objInStream.close();
 		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
+			// e.printStackTrace();
+			writeDefaultConfig();
+			initializeKeys();
 		}
 
 		return keys;
