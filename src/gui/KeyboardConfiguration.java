@@ -146,6 +146,7 @@ public class KeyboardConfiguration extends JPanel implements KeyListener {
 		} else
 			JOptionPane.showMessageDialog(null,
 					"Error while changing keyboard configuration!");
+			gameKeyboard.initializeKeys();
 
 		closeThis();
 	}
