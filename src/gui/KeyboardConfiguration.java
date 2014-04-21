@@ -152,7 +152,7 @@ public class KeyboardConfiguration extends JPanel implements KeyListener {
 	}
 
 	void closeThis() {
-		menu.closePanel(this, settings);
+		menu.closePanel(this, settings, "Settings");
 	}
 
 	@Override

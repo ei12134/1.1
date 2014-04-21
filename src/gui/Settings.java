@@ -135,7 +135,7 @@ public class Settings extends JPanel {
 		close.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent ev) {
-				menu.closePanel(menu.getSettingsPanel(), menu);
+				menu.closePanel(menu.getSettingsPanel(), menu, "Maze Game");
 			}
 		});
 	}
@@ -164,6 +164,6 @@ public class Settings extends JPanel {
 		menu.remove(this);
 		KeyboardConfiguration keyboardPanel = new KeyboardConfiguration(menu,
 				this);
-		menu.showPanel(keyboardPanel);
+		menu.showPanel(keyboardPanel, "Keyboard Configuration");
 	}
 }

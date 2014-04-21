@@ -66,7 +66,7 @@ public class Play extends JPanel {
 		close.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent ev) {
-				menu.closePanel(menu.getPlayPanel(), menu);
+				menu.closePanel(menu.getPlayPanel(), menu, "Maze Game");
 			}
 		});
 	}
@@ -98,13 +98,13 @@ public class Play extends JPanel {
 	public void startMaze(int boardSize, int dragonCounter, int dragonStrategy) {
 		maze = new GameUI(boardSize, menu, dragonCounter, dragonStrategy,
 				dimension);
-		menu.closePanel(this, maze);
+		menu.closePanel(this, maze, "Maze Game");
 	}
 
 	public void startMazeBuilder(int boardSize, int dragonCounter,
 			int dragonStrategy) {
 		mazeBuilder = new MazeBuilder(menu, boardSize, dimension);
-		menu.closePanel(this, mazeBuilder);
+		menu.closePanel(this, mazeBuilder, "Maze Builder");
 		mazeBuilder.startMazeBuilder();
 	}
 

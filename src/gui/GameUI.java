@@ -160,7 +160,7 @@ public class GameUI extends JPanel implements ActionListener, KeyListener {
 					null, options, options[1]);
 
 			if (confirm == 0)
-				menu.closePanel(this, menu);
+				menu.closePanel(this, menu, "Maze Game");
 		}
 
 		if (state[0] != null)
@@ -353,11 +353,11 @@ public class GameUI extends JPanel implements ActionListener, KeyListener {
 		if (state.equals(State.HERO_DEAD.toString())) {
 			JOptionPane.showMessageDialog(null, "Hero died!");
 			playerCanMove = false;
-			menu.closePanel(this, menu);
+			menu.closePanel(this, menu, "Maze Game");
 		} else if (state.equals(State.HERO_WON.toString())) {
 			JOptionPane.showMessageDialog(null, "Hero won!");
 			playerCanMove = false;
-			menu.closePanel(this, menu);
+			menu.closePanel(this, menu, "Maze Game");
 		}
 	} 
 

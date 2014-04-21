@@ -45,7 +45,7 @@ public class Menu extends JPanel implements KeyListener {
 
 		// Set up menu and settings panels
 		setMenuPanel();
-		showPanel(this);
+		showPanel(this, "Maze Game");
 
 		// Keyboard Keys
 		keyboard = new GameKeyboard();
@@ -54,7 +54,7 @@ public class Menu extends JPanel implements KeyListener {
 		// Button actions
 		play.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ev) {
-				startPanel(playPanel);
+				startPanel(playPanel, "Game mode");
 			}
 
 		});
@@ -62,7 +62,7 @@ public class Menu extends JPanel implements KeyListener {
 		settings.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				startPanel(settingsPanel);
+				startPanel(settingsPanel, "Game Settings");
 			}
 		});
 
@@ -113,7 +113,7 @@ public class Menu extends JPanel implements KeyListener {
 			GameUI game = new GameUI(this, 1, dimension, maze, playPanel,
 					keyboard.getKeys());
 			frame.remove(this);
-			this.showPanel(game);
+			this.showPanel(game, "Loaded maze game");
 			game.requestFocusInWindow();
 		} else {
 			JOptionPane.showMessageDialog(null,
@@ -209,23 +209,24 @@ public class Menu extends JPanel implements KeyListener {
 		setVisible(true);
 	}
 
-	public void showPanel(JPanel panel) {
+	public void showPanel(JPanel panel, String title) {
 		frame.add(panel);
 		frame.setSize(dimension);
 		frame.setLocationRelativeTo(null);
+		frame.setTitle(title);
 		frame.setVisible(true);
 		panel.setVisible(true);
 		panel.requestFocusInWindow();
 	}
 
-	public void closePanel(JPanel oldPanel, JPanel newPanel) {
+	public void closePanel(JPanel oldPanel, JPanel newPanel, String title) {
 		oldPanel.setVisible(false);
 		frame.remove(oldPanel);
-		showPanel(newPanel);
+		showPanel(newPanel, title);
 	}
 
-	public void startPanel(JPanel panel) {
+	public void startPanel(JPanel panel, String title) {
 		frame.remove(this);
-		showPanel(panel);
+		showPanel(panel, title);
 	}
 }

@@ -174,7 +174,7 @@ public class MazeBuilder extends JPanel implements KeyListener {
 					"Cancel maze customization", JOptionPane.YES_NO_OPTION,
 					JOptionPane.QUESTION_MESSAGE, null, options, options[1]);
 			if (confirm == 0)
-				menu.closePanel(this, menu);
+				menu.closePanel(this, menu, "Maze Game");
 		}
 	}
 
