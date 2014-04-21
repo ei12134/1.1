@@ -3,12 +3,12 @@ package gui;
 import java.io.Serializable;
 
 @SuppressWarnings("serial")
-public class KeyboardKey implements Serializable {
+public class CommandKey implements Serializable {
 
 	private String command;
 	private int commandInt;
 
-	public KeyboardKey(String command, int commandInt) {
+	public CommandKey(String command, int commandInt) {
 		this.command = command;
 		this.commandInt = commandInt;
 	}

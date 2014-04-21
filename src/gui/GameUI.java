@@ -46,11 +46,11 @@ public class GameUI extends JPanel implements ActionListener, KeyListener {
 	 * Based on the desired size of the board different constructors will be called in the Logic class
 	 */
 	public GameUI(int boardSize, Menu menu, int dragonCounter, int dragonStrategy, 
-			  	  Dimension dimension, HashMap<String, Integer> gameKeys) {
+			  	  Dimension dimension) {
 		this.menu = menu;
 		this.boardSize = boardSize;
 		this.dimension = dimension;
-		this.gameKeys = gameKeys;
+		gameKeys = menu.getGameKeyboard().getSavedKeys();
 		loadData();
 
 		widthPixelsPerTile = dimension.width / boardSize;

@@ -17,10 +17,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.ObjectInputStream;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import logic.Piece;
-
 
 public class Menu extends JPanel implements KeyListener {
 
@@ -30,7 +28,7 @@ public class Menu extends JPanel implements KeyListener {
 	private Play playPanel;
 	private JButton play, exit, settings, load;
 	private Dimension dimension;
-	private GameKeyboard keyboardKeys;
+	private GameKeyboard keyboard;
 
 	public Menu(JFrame frame) {
 		// Menu Buttons
@@ -50,8 +48,8 @@ public class Menu extends JPanel implements KeyListener {
 		showPanel(this);
 
 		// Keyboard Keys
-		keyboardKeys = new GameKeyboard();
-		keyboardKeys.initializeKeys();
+		keyboard = new GameKeyboard();
+		keyboard.initializeKeys();
 
 		// Button actions
 		play.addActionListener(new ActionListener() {
@@ -113,7 +111,7 @@ public class Menu extends JPanel implements KeyListener {
 			// gameKeys = new HashMap<String, Integer>();
 			// gameKeys = keyboardKeys.getKeys();
 			GameUI game = new GameUI(this, 1, dimension, maze, playPanel,
-					keyboardKeys.getKeys());
+					keyboard.getKeys());
 			frame.remove(this);
 			this.showPanel(game);
 			game.requestFocusInWindow();
@@ -177,27 +175,22 @@ public class Menu extends JPanel implements KeyListener {
 
 	}
 
-	
 	public Play getPlayPanel() {
 		return playPanel;
 	}
 
-	
 	public Settings getSettingsPanel() {
 		return settingsPanel;
 	}
 
-	
 	public Dimension getDimension() {
 		return dimension;
 	}
 
-	
-	public HashMap<String, Integer> getKeyboardKeys() {
-		return keyboardKeys.getKeys();
+	public GameKeyboard getGameKeyboard() {
+		return keyboard;
 	}
 
-	
 	public void setMenuPanel() {
 		setSize(dimension);
 		setLayout(new GridBagLayout());
@@ -215,7 +208,6 @@ public class Menu extends JPanel implements KeyListener {
 		add(exit, style);
 		setVisible(true);
 	}
-	
 
 	public void showPanel(JPanel panel) {
 		frame.add(panel);
@@ -226,14 +218,12 @@ public class Menu extends JPanel implements KeyListener {
 		panel.requestFocusInWindow();
 	}
 
-	
 	public void closePanel(JPanel oldPanel, JPanel newPanel) {
 		oldPanel.setVisible(false);
 		frame.remove(oldPanel);
 		showPanel(newPanel);
 	}
 
-	
 	public void startPanel(JPanel panel) {
 		frame.remove(this);
 		showPanel(panel);
