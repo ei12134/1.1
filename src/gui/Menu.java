@@ -90,9 +90,9 @@ public class Menu extends JPanel implements KeyListener {
 			public void actionPerformed(ActionEvent arg0) {
 				final JFileChooser fileChooser = new JFileChooser();
 				fileChooser.addChoosableFileFilter(new FileNameExtensionFilter(
-						"Ficheiros de puzzle...", "puzzle"));
+						"Maze files...", "maze"));
 				int i = fileChooser.showDialog(Menu.this,
-						"Escolher o ficheiro do puzzle...");
+						"Select saved maze file");
 
 				if (i == JFileChooser.APPROVE_OPTION) {
 					File puzzle = fileChooser.getSelectedFile();

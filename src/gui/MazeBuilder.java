@@ -249,7 +249,7 @@ public class MazeBuilder extends JPanel implements KeyListener {
 		ObjectOutputStream objStream = null;
 
 		try {
-			outStream = new FileOutputStream(filename + ".puzzle");
+			outStream = new FileOutputStream(filename + ".maze");
 			objStream = new ObjectOutputStream(outStream);
 
 			objStream.writeObject(tmp);
