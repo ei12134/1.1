@@ -1,11 +1,12 @@
 # maze #
 
-## MIEIC – Laboratório de Programação Orientada por Objectos – 2013/14 ##
+### MIEIC – Laboratório de Programação Orientada por Objectos – 2013/14 ###
 
-### Projecto Guiado - Jogo do labirinto / Guided Project - Maze Game ###
+#### Projecto Guiado - Jogo do labirinto / Guided Project - Maze Game ####
 
-* Jogo do labirinto em que um herói tem que matar os dragões existentes armado e encontrar a saída. /
- Maze Game where an hero must kill all existing dragons while armed and find the exit.
+Jogo do labirinto em que um herói, depois de armado, tem que matar os dragões existentes e encontrar a saída.
+
+Maze Game where an hero must kill all existing dragons while armed and find the exit.
 
 Elementos do grupo / Group elements
 * André Pinheiro
